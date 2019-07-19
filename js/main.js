@@ -37,9 +37,9 @@ function getDataSheetJSON(name){
         request.send();
     })
 }
-
+/*
 getDataSheetJSON('profesores').then((response) =>{
     console.log(response.feed.entry);
 }, (error) =>{
     console.log(error);
-})
+})*/
