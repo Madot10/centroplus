@@ -3,6 +3,7 @@ const imgDefault = 'https://image.flaticon.com/icons/png/512/23/23140.png';
 
 window.onload = ()=>{
     //loadProfesores();
+    loadSalones();
 }
 
 
@@ -119,3 +120,99 @@ function genCardProf(jdata){
     });
 }
 
+//SALONES
+let salonesData = [];
+
+function loadSalones(){
+    //Obtenemos la data json
+    getDataSheetJSON('salones').then((response) =>{
+        console.log(response.feed.entry);
+        buildData(response.feed.entry);
+        genSalone();
+
+    }, (error) =>{
+        console.log(error);
+    })
+}
+
+function ordeByKey(arr, campo){
+    arr.sort((a,b)=>(a[campo] > b[campo]) ? 1 : -1);
+}
+
+function buildData(datos){
+    datos.forEach(d =>{
+        //Chequeamos si existe la materia
+        let ref = d['gsx$materia']['$t'];
+        if(salonesData[ref] == null){
+            //no existe
+            salonesData[ref] = [];
+        }
+        salonesData[ref].push({'prof': d['gsx$profesor']['$t'],
+                                'dia': d['gsx$dia']['$t'],
+                                'hora': d['gsx$hora']['$t'],
+                                'salon': d['gsx$salon']['$t']});
+    });
+    console.log("salonesData: ", salonesData);
+}
+
+function genSalone(){
+    //Iteramos sobre cada materia
+    let lTab = document.getElementById("list-tab");
+    let navCont = document.getElementById("nav-tabContent");
+
+    
+    for (let mat in salonesData) {
+        //Ordenar alfabeticamente por nombre de prof
+        ordeByKey(salonesData[mat], 'prof');
+        //var horarios = salonesData[mat];
+        //console.log(mat, horarios);
+    
+        //Creamos opcion en barra lateral
+        let a = document.createElement('a');
+        a.setAttribute('class', 'list-group-item list-group-item-action');
+        a.setAttribute('id', 'list-' + mat.replace(/ /g,'') + '-list');
+        a.setAttribute('data-toggle', 'list');
+        a.setAttribute('href', '#list-' + mat.replace(/ /g,''));
+        a.setAttribute('role', 'tab');
+        a.innerText = mat;
+        lTab.appendChild(a);
+
+        //Creamos contenedor de horarios
+        let divM = document.createElement('div');
+        divM.setAttribute('class', 'tab-pane fade');
+        divM.setAttribute('id', 'list-' + mat.replace(/ /g,''));
+        divM.setAttribute('role', 'tabpanel');
+
+        //Contenedor de lista
+        let divList = document.createElement('div');
+        divList.setAttribute('class', 'list-group list-group-horizontal-md cardSalones');
+
+        //Iteramos por cada materia
+        salonesData[mat].forEach(hor => {
+            let li = document.createElement('li');
+            li.setAttribute('class', 'list-group-item shadow-sm');
+
+            let dTitle = document.createElement('div');
+            dTitle.setAttribute('class', 'd-flex w-100 justify-content-between');
+
+            let title = document.createElement('h5');
+            title.setAttribute('class', 'mb-1');
+            title.innerText = hor['prof'];
+            dTitle.appendChild(title);
+
+            li.appendChild(dTitle);
+
+            let text = document.createElement('p');
+            text.setAttribute('class', 'mb-1');
+            text.innerHTML = `<b>Dia: </b> ${hor['dia']} <br> <b>Hora: </b> ${hor['hora']} <br> <b>Salón: </b> ${hor['salon']}`;
+            
+            li.appendChild(text);
+            divList.appendChild(li);
+
+        });
+
+        divM.appendChild(divList);
+        navCont.appendChild(divM);
+    }
+   
+}
