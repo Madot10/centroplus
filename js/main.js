@@ -3,7 +3,8 @@ const imgDefault = 'https://image.flaticon.com/icons/png/512/23/23140.png';
 
 window.onload = ()=>{
     //loadProfesores();
-    loadSalones();
+    //loadSalones();
+    loadArchivos();
 }
 
 
@@ -128,7 +129,7 @@ function loadSalones(){
     getDataSheetJSON('salones').then((response) =>{
         console.log(response.feed.entry);
         buildData(response.feed.entry);
-        genSalone();
+        genSalones();
 
     }, (error) =>{
         console.log(error);
@@ -155,7 +156,7 @@ function buildData(datos){
     console.log("salonesData: ", salonesData);
 }
 
-function genSalone(){
+function genSalones(){
     //Iteramos sobre cada materia
     let lTab = document.getElementById("list-tab");
     let navCont = document.getElementById("nav-tabContent");
@@ -215,4 +216,81 @@ function genSalone(){
         navCont.appendChild(divM);
     }
    
+}
+
+//ARCHIVOS
+function loadArchivos(){
+    getDataSheetJSON('archivos').then((response) =>{
+        console.log(response.feed.entry);
+        genCardFile(response.feed.entry);
+
+    }, (error) =>{
+        console.log(error);
+    })
+}
+
+function iconByUrl(url){
+    let icon = document.createElement('i');
+
+    if(url.includes("drive")){
+        icon.setAttribute('class', 'fab fa-google-drive');
+
+    }else if(url.includes("google")){
+        icon.setAttribute('class', 'fab fa-google');
+
+    }else if(url.includes("pdf")){
+        icon.setAttribute('class', 'fas fa-file-pdf');
+
+    }else if(url.includes("wordpress")){
+        icon.setAttribute('class', 'fab fa-wordpress');
+
+    }else if(url.includes("pinterest")){
+        icon.setAttribute('class', 'fab fa-pinterest');
+
+    }else{
+        icon.setAttribute('class', 'fas fa-globe');
+    }
+
+    return icon;
+}
+
+function genCardFile(jfiles){
+    let divM = document.getElementById("cardFile");
+
+    jfiles.forEach(f => {
+        let divCard = document.createElement('div');
+        divCard.setAttribute('class', 'card');
+
+        let cBody = document.createElement('div');
+        cBody.setAttribute('class', 'card-body');
+
+        let title = document.createElement('h5');
+        title.setAttribute('class', 'card-title');
+        title.innerText = f['gsx$titulodematerial']['$t'] + ' ';
+        title.appendChild(iconByUrl(f['gsx$linkmaterial']['$t']));
+        cBody.appendChild(title);
+
+        let txt = document.createElement('p');  
+        txt.setAttribute('class', 'card-text');
+        txt.innerText = f['gsx$brevedescripcion']['$t'] + ' ';
+
+            if(f['gsx$destacado']['$t'] != ""){
+                let newAv = document.createElement('span');
+                newAv.setAttribute('class', 'badge badge-success');
+                newAv.innerText = f['gsx$destacado']['$t'];
+                txt.appendChild(newAv);
+            }
+
+        cBody.appendChild(txt);
+
+        let a = document.createElement('a');
+        a.setAttribute('class', 'card-link stretched-link');
+        a.setAttribute('href', f['gsx$linkmaterial']['$t']);
+        a.innerText = "Link";
+        cBody.appendChild(a);
+
+        divCard.appendChild(cBody);
+        divM.appendChild(divCard);
+
+    });
 }
