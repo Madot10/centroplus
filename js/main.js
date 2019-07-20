@@ -2,7 +2,7 @@ const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = 'https://image.flaticon.com/icons/png/512/23/23140.png';
 
 window.onload = ()=>{
-    loadProfesores();
+    //loadProfesores();
 }
 
 
@@ -62,7 +62,7 @@ function genCardProf(jdata){
     jdata.forEach(e => {
         console.log(e);
         let dCard = document.createElement('div');
-        dCard.setAttribute('class', 'card');
+        dCard.setAttribute('class', 'card shadow');
 
         let foto = document.createElement('img');
         //En caso de no tener foto
