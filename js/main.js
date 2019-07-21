@@ -2,9 +2,9 @@ const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = 'https://image.flaticon.com/icons/png/512/23/23140.png';
 
 window.onload = ()=>{
-    //loadProfesores();
+    loadProfesores();
     //loadSalones();
-    loadArchivos();
+    //loadArchivos();
 }
 
 
@@ -59,6 +59,17 @@ function loadProfesores(){
    
 }
 
+function linkSrcDrive(urlshare){
+    if(urlshare.includes("drive.google.com/file/d/")){
+        //Drive img => obtener src
+        let nurl = urlshare.replace('https://',' ');
+        let aurl = nurl.split('/');
+        console.log('aurl', aurl);
+        return "https://docs.google.com/uc?id=" + aurl[3];
+    }
+    return urlshare
+}
+
 function genCardProf(jdata){
   
     jdata.forEach(e => {
@@ -69,7 +80,7 @@ function genCardProf(jdata){
         let foto = document.createElement('img');
         //En caso de no tener foto
         if(e['gsx$linkfoto']['$t'] != ""){
-            foto.setAttribute('src', e['gsx$linkfoto']['$t']);
+            foto.setAttribute('src', linkSrcDrive(e['gsx$linkfoto']['$t']));
         }else{
             foto.setAttribute('src', imgDefault);
         }
