@@ -254,6 +254,22 @@ function iconByUrl(url){
     return icon;
 }
 
+function getColor(text){
+    switch (text.toLowerCase()) {
+        case "nuevo":
+            return "badge-success";
+
+        case "importante":
+            return "badge-danger";
+
+        case "destacado":
+            return "badge-warning";
+
+        default:
+            return "badge-info";
+    }
+}
+
 function genCardFile(jfiles){
     let divM = document.getElementById("cardFile");
 
@@ -270,17 +286,19 @@ function genCardFile(jfiles){
         title.appendChild(iconByUrl(f['gsx$linkmaterial']['$t']));
         cBody.appendChild(title);
 
+        let sub = document.createElement('h6');
+        sub.setAttribute('class', 'card-subtitle mb-2 text-muted');
+            if(f['gsx$mensaje']['$t'] != ""){
+                let newAv = document.createElement('span');
+                newAv.setAttribute('class', 'badge ' + getColor(f['gsx$mensaje']['$t']));
+                newAv.innerText = f['gsx$mensaje']['$t'];
+                sub.appendChild(newAv);
+            }
+        cBody.appendChild(sub);
+
         let txt = document.createElement('p');  
         txt.setAttribute('class', 'card-text');
-        txt.innerText = f['gsx$brevedescripcion']['$t'] + ' ';
-
-            if(f['gsx$destacado']['$t'] != ""){
-                let newAv = document.createElement('span');
-                newAv.setAttribute('class', 'badge badge-success');
-                newAv.innerText = f['gsx$destacado']['$t'];
-                txt.appendChild(newAv);
-            }
-
+        txt.innerText = f['gsx$brevedescripcion']['$t'];
         cBody.appendChild(txt);
 
         let a = document.createElement('a');
