@@ -1,3 +1,161 @@
 .cardSalones{
     flex-wrap: wrap !important;
 }
+
+/** FONDO **/
+body{
+    /*background-color: #2E9CC1;*/
+    /*background-image: linear-gradient(to bottom, #2E9CC1 0%, #154859 200%); 
+	background-repeat: no-repeat;
+    background-attachment: fixed;*/
+    margin-top: 45px;
+}
+
+@media (max-width: 768px) { 
+    .forma{
+       /* height: 70px !important;*/
+    }
+}
+
+/* NAV */
+.navbar-toggler i{
+    color: white !important;
+}
+
+button.navbar-toggler{
+    border: 0;
+}
+
+.navbar{
+    background-color: #154859 !important;
+}
+
+.animate {
+    animation-duration: 0.3s;
+    -webkit-animation-duration: 0.3s;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+}
+  
+@keyframes slideIn {
+    0% {
+      transform: translateY(1rem);
+      opacity: 0;
+    }
+    100% {
+      transform:translateY(0rem);
+      opacity: 1;
+    }
+    0% {
+      transform: translateY(1rem);
+      opacity: 0;
+    }
+}
+  
+@-webkit-keyframes slideIn {
+    0% {
+      -webkit-transform: transform;
+      -webkit-opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+      -webkit-opacity: 1;
+    }
+    0% {
+      -webkit-transform: translateY(1rem);
+      -webkit-opacity: 0;
+    }
+}
+  
+.slideIn {
+    -webkit-animation-name: slideIn;
+    animation-name: slideIn;
+}
+
+.forma{	
+    
+    background-color: #154859;
+    position: absolute;
+	top: 0;
+	bottom: 0; 
+	right: 0; 
+    left: 0;
+    
+
+	width: 100%;
+	height: 140px;
+	/* background-image: linear-gradient(#ff9d2f, #ff6126); */
+	transform: skewY(-6deg);
+    transform-origin: top left;
+
+    filter: blur(0px);
+}
+
+h1.text-center{
+    position: relative;
+	color: white;
+}
+
+/** MENU **/
+i.fas.fa-bars{
+    font-size: 1.5em;
+}
+
+.card-title{
+    overflow-wrap: normal;
+}
+
+@media (max-width: 460px) { 
+    .card-title{
+       font-size: 1.1em;
+    }
+    .card-body{
+        padding: 10% !important;
+    }
+}
+
+.bg-dark {
+    /*background-color: rgb(52, 58, 64, 0.8)!important;*/
+    background-color: rgb(46, 156, 193, 0.8) !important;
+}
+
+.bg-dark:hover {
+    /*background-color: rgb(52, 58, 64, 1)!important;*/
+    background-color: rgb(46, 156, 193, 1) !important;
+}
+
+.nav-link i::before{
+    font-size: large !important;
+}
+
+/**LOGUITO **/
+hr.hrwo{
+    margin: 0 !important;
+    border-top: 1px solid rgba(0,0,0,.1) !important; 
+}
+
+.hlogo{
+    font-size: medium;
+}
+
+.card{
+    display: inline-block;
+	width: 100%;
+}
+
+.card-columns{
+    column-count: 2;
+}
+
+@media (min-width: 768px) { 
+    .card-columns{
+        column-count: 3;
+    }
+}
+
+
+@media (min-width: 1200px) { 
+    .card-columns{
+        column-count: 5;
+    }
+}
