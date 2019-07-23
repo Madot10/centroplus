@@ -10,6 +10,11 @@ window.onload = ()=>{
     fetch('nav.html')
         .then(data => data.text())
         .then(html => document.getElementById('nav').innerHTML = html);
+    
+    //Footer
+    fetch('footer.html')
+        .then(data => data.text())
+        .then(html => document.getElementsByTagName('footer')[0].innerHTML = html);
 }
 
 

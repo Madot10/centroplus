@@ -2,22 +2,31 @@
     flex-wrap: wrap !important;
 }
 
-/** FONDO **/
-body{
-    /*background-color: #2E9CC1;*/
-    /*background-image: linear-gradient(to bottom, #2E9CC1 0%, #154859 200%); 
-	background-repeat: no-repeat;
-    background-attachment: fixed;*/
-    margin-top: 45px;
-}
-
-@media (max-width: 768px) { 
-    .forma{
-       /* height: 70px !important;*/
+/*#region FONDO*/
+    body{
+        /*background-color: #2E9CC1;*/
+        /*background-image: linear-gradient(to bottom, #2E9CC1 0%, #154859 200%); 
+        background-repeat: no-repeat;
+        background-attachment: fixed;*/
+        margin-top: 45px;
     }
+
+    @media (max-width: 768px) { 
+        .forma{
+        /* height: 70px !important;*/
+        }
+    }
+/*#endregion */
+
+/*#region NAV*/
+.forma{
+    position: fixed !important;
+	top: 0 !important;
+	right: 0 !important;
+	left: 0 !important;
+	z-index: -1;
 }
 
-/* NAV */
 .navbar-toggler i{
     color: white !important;
 }
@@ -95,8 +104,9 @@ h1.text-center{
     position: relative;
 	color: white;
 }
+/*#endregion */
 
-/** MENU **/
+/*#region MENU */
 i.lgmenu{
     font-size: 1.5em;
 }
@@ -131,8 +141,9 @@ i.fas.fa-bars{
 .nav-link i::before{
     font-size: large !important;
 }
+/*#endregion */
 
-/**LOGUITO **/
+/*#region LOGOBRAND*/
 hr.hrwo{
     margin: 0 !important;
     border-top: 1px solid rgba(0,0,0,.1) !important; 
@@ -163,3 +174,11 @@ hr.hrwo{
         column-count: 5;
     }
 }
+/*#endregion */
+
+/*#region FOOTER */
+footer{
+    padding: 0.5em 0;
+    background-color: #154859;
+}
+/*#endregion */
