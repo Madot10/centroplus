@@ -97,6 +97,10 @@ h1.text-center{
 }
 
 /** MENU **/
+i.lgmenu{
+    font-size: 1.5em;
+}
+
 i.fas.fa-bars{
     font-size: 1.5em;
 }
