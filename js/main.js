@@ -1,5 +1,6 @@
 const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = 'https://image.flaticon.com/icons/png/512/23/23140.png';
+const appName = '/centroplus/';
 
 window.onload = ()=>{
     //loadProfesores();
@@ -7,16 +8,27 @@ window.onload = ()=>{
     //loadArchivos();
 
     //Carga de nav
-    fetch('nav.html')
+    /*fetch(document.location.origin + appName + 'nav.html')
         .then(data => data.text())
-        .then(html => document.getElementById('nav').innerHTML = html);
+        .then(html => document.getElementById('nav').innerHTML = html);*/
     
     //Footer
-    fetch('footer.html')
+    fetch(document.location.origin + appName + 'footer.html')
         .then(data => data.text())
         .then(html => document.getElementsByTagName('footer')[0].innerHTML = html);
 }
 
+
+function loadview(scname){
+    switch(scname){
+        case 'profesores':
+            loadProfesores();
+            break;
+
+        default:
+            break;
+    }
+}
 
 //Devuelve JSON de la hoja pedida
 function getDataSheetJSON(name){
@@ -56,7 +68,7 @@ function getDataSheetJSON(name){
     })
 }
 
-// PROFESORES 
+//#region PROFESORES 
 function loadProfesores(){
     //Obtenemos la data json
     getDataSheetJSON('profesores').then((response) =>{
@@ -141,8 +153,9 @@ function genCardProf(jdata){
         document.getElementById('cardProf').appendChild(dCard);
     });
 }
+//#endregion
 
-//SALONES
+//#region SALONES
 let salonesData = [];
 
 function loadSalones(){
@@ -238,8 +251,9 @@ function genSalones(){
     }
    
 }
+//#endregion
 
-//ARCHIVOS
+//#region ARCHIVOS
 function loadArchivos(){
     getDataSheetJSON('archivos').then((response) =>{
         console.log(response.feed.entry);
@@ -333,3 +347,4 @@ function genCardFile(jfiles){
 
     });
 }
+//#endregion
