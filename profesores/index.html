@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
     <link rel="stylesheet" href="../css/prof.css">
+
+    <link rel="stylesheet" href="../css/place-holder.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../src/css/all.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -21,26 +24,30 @@
 </head>
 
 <body>  
+    <!--PROFESORES-->
+    <script>
+        loadview("profesores");
+    </script>
     <!--NAVBAR-->
     <m-import src="/centroplus/nav.html"></m-import>
 
-    <h1 class="text-center">PROFESORES</h1>
+    <h1 class="text-center text-white">PROFESORES</h1>
     <hr>
     <div class="container">
         <div class="card-columns" id="cardProf">
-            <!-- <div class="card">
-                <img src="https://image.flaticon.com/icons/png/512/23/23140.png" class="card-img-top" alt="foto de profesor">
-                <div class="card-body">
-                    <h5 class="card-title">Nombre Profesor</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Materia</h6>   
-                    <p class="card-text">Actualmente politcos</p>
-                    <p class="card-text">Estudios:</p>
+            <div class="card">
+                <img src="https://image.flaticon.com/icons/png/512/23/23140.png" class="card-img-top content-placeholder" alt="foto de profesor">
+                <div class="card-body ">
+                    <h5 class="card-title content-placeholder">Nombre Profesor</h5>
+                    <h6 class="card-subtitle mb-2 text-muted content-placeholder">Materia</h6>   
+                    <p class="card-text content-placeholder">Actualmente politcos</p>
+                    <p class="card-text content-placeholder">Estudios:</p>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Matematica UCV</li>
-                    <li class="list-group-item">Economia UCAB</li>
+                <ul class="list-group list-group-flush ">
+                    <li class="list-group-item content-placeholder">Matematica UCV</li>
+                    <li class="list-group-item content-placeholder">Economia UCAB</li>
                 </ul>
-            </div> -->
+            </div> 
         </div>
     </div>
 

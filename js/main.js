@@ -21,6 +21,7 @@ window.onload = ()=>{
 
 
 function loadview(scname){
+    console.log("Cargando view: ", scname);
     switch(scname){
         case 'profesores':
             loadProfesores();
