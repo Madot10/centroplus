@@ -173,7 +173,7 @@ hr.hrwo{
 /*#endregion */
 
 /*#region FOOTER */
-footer{
+.footer{
     padding: 0.5em 0;
     background-color: #154859;
 }

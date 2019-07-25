@@ -13,9 +13,10 @@ window.onload = ()=>{
         .then(html => document.getElementById('nav').innerHTML = html);*/
     
     //Footer
-    fetch(document.location.origin + appName + 'footer.html')
+    /*fetch(document.location.origin + appName + 'footer.html')
         .then(data => data.text())
         .then(html => document.getElementsByTagName('footer')[0].innerHTML = html);
+    */
 }
 
 
