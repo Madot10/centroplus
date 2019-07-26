@@ -10,6 +10,8 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../src/css/all.css">
+    <link rel="stylesheet" href="../css/place-holder.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -21,31 +23,46 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+    <script src="../js/element.js"></script>
     <script src="../js/main.js"></script>
 
     <title>Centro+ | Salones</title>
 </head>
 
 <body>
-    <h1 class="text-center">SALONES</h1>
+    <!--SALONES-->
+    <script>
+        loadview("salones");
+    </script>
+
+    <!--NAVBAR-->
+    <m-import src="/centroplus/nav.html"></m-import>
+
+    <h1 class="text-center text-white fondo">SALONES</h1>
     <hr>
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
                 <div class="list-group" id="list-tab" role="tablist">
+                        <a href="#" class="list-group-item list-group-item-action loading "><span class="content-placeholder text"></span></a>
+                        <a href="#" class="list-group-item list-group-item-action loading "><span class="content-placeholder text"></span></a>
+                        <a href="#" class="list-group-item list-group-item-action loading"><span class="content-placeholder text"></span></a>
+                        <a href="#" class="list-group-item list-group-item-action loading"><span class="content-placeholder text"></span></a>
                 </div>
                 <br>
             </div>
 
             <div class="col-sm-8">
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel">
-                        Explicamos
+                    <div class="tab-pane fade show active align-middle" id="home" role="tabpanel">
+                       
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <m-import src="/centroplus/footer.html"></m-import>
 </body>
 
 </html>

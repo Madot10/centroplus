@@ -2,7 +2,7 @@ const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = 'https://image.flaticon.com/icons/png/512/23/23140.png';
 const appName = '/centroplus/';
 
-window.onload = ()=>{
+window.onload = () => {
     //loadProfesores();
     //loadSalones();
     //loadArchivos();
@@ -11,7 +11,7 @@ window.onload = ()=>{
     /*fetch(document.location.origin + appName + 'nav.html')
         .then(data => data.text())
         .then(html => document.getElementById('nav').innerHTML = html);*/
-    
+
     //Footer
     /*fetch(document.location.origin + appName + 'footer.html')
         .then(data => data.text())
@@ -20,9 +20,9 @@ window.onload = ()=>{
 }
 
 
-function loadview(scname){
+function loadview(scname) {
     console.log("Cargando view: ", scname);
-    switch(scname){
+    switch (scname) {
         case 'profesores':
             loadProfesores();
             break;
@@ -31,75 +31,81 @@ function loadview(scname){
             loadArchivos();
             break;
 
+        case 'salones':
+            loadSalones();
+            break;
+
         default:
             break;
     }
 }
 
 //Devuelve JSON de la hoja pedida
-function getDataSheetJSON(name){
+function getDataSheetJSON(name) {
     let pg;
 
     //HORRIBLE -> ARREGLAR
-    if(name == "profesores"){
+    if (name == "profesores") {
         pg = 1;
-    }else if(name == "salones"){
+    } else if (name == "salones") {
         pg = 2;
-    }else if(name == "archivos"){
+    } else if (name == "archivos") {
         pg = 3;
     }
 
-    let url = "https://spreadsheets.google.com/feeds/list/" + dbId +"/"+ pg +"/public/full?alt=json";
+    let url = "https://spreadsheets.google.com/feeds/list/" + dbId + "/" + pg + "/public/full?alt=json";
 
     return new Promise((resolve, reject) => {
-        let request  = new XMLHttpRequest();
+        let request = new XMLHttpRequest();
         let result;
 
-        request.onload = function(){
+        request.onload = function () {
             if (this.readyState == 4 && this.status == 200) {
                 // Typical action to be performed when the document is ready:
                 result = JSON.parse(request.responseText);
                 //console.log(result);
                 resolve(result);
-            }else{
+            } else {
                 reject(Error('Ha ocurrido un error \n Error code:' + request.statusText));
             }
         };
-        
-        request.onerror = function() {
-                reject(Error('Error! \n No se ha podido conectar'));
+
+        request.onerror = function () {
+            reject(Error('Error! \n No se ha podido conectar'));
         };
         request.open("GET", url, true);
         request.send();
     })
 }
 
-function hideLoadingCard(){
+function hideLoadingCard() {
     let cards = document.getElementsByClassName("loading");
     for (let c in cards) {
         console.log(c, cards[c]);
-        cards[c].classList.add('hide')
+        if(c){
+            cards[c].classList.add('hide');   
+        }
     }
 }
 
 //#region PROFESORES 
-function loadProfesores(){
+function loadProfesores() {
     //Obtenemos la data json
-    getDataSheetJSON('profesores').then((response) =>{
+    getDataSheetJSON('profesores').then((response) => {
         //console.log(response.feed.entry);
         genCardProf(response.feed.entry);
         hideLoadingCard();
 
-    }, (error) =>{
+    }, (error) => {
         console.log(error);
     })
-   
+
 }
 
-function linkSrcDrive(urlshare){
-    if(urlshare.includes("drive.google.com/file/d/")){
+function linkSrcDrive(urlshare) {
+    if (urlshare.includes("drive.google.com/file/d/")) {
         //Drive img => obtener src
-        let nurl = urlshare.replace('https://',' ');
+        let nurl = urlshare.replace('https://', ' ');
         let aurl = nurl.split('/');
         console.log('aurl', aurl);
         return "https://docs.google.com/uc?id=" + aurl[3];
@@ -107,8 +113,8 @@ function linkSrcDrive(urlshare){
     return urlshare
 }
 
-function genCardProf(jdata){
-  
+function genCardProf(jdata) {
+
     jdata.forEach(e => {
         console.log(e);
         let dCard = document.createElement('div');
@@ -116,13 +122,13 @@ function genCardProf(jdata){
 
         let foto = document.createElement('img');
         //En caso de no tener foto
-        if(e['gsx$linkfoto']['$t'] != ""){
+        if (e['gsx$linkfoto']['$t'] != "") {
             foto.setAttribute('src', linkSrcDrive(e['gsx$linkfoto']['$t']));
-        }else{
+        } else {
             foto.setAttribute('src', imgDefault);
         }
         foto.setAttribute('class', 'card-img-top');
-        foto.setAttribute('alt', 'Foto de '+e['gsx$nombre']['$t']);
+        foto.setAttribute('alt', 'Foto de ' + e['gsx$nombre']['$t']);
 
         dCard.appendChild(foto);
 
@@ -139,7 +145,7 @@ function genCardProf(jdata){
         cSub.innerText = e['gsx$materia']['$t'];
         dBody.appendChild(cSub);
 
-        if(e['gsx$quehace']['$t'] != ""){
+        if (e['gsx$quehace']['$t'] != "") {
             cDo = document.createElement('p');
             cDo.setAttribute('class', 'card-text');
             cDo.innerText = e['gsx$quehace']['$t'];
@@ -156,75 +162,78 @@ function genCardProf(jdata){
         let ul = document.createElement('ul');
         ul.setAttribute('class', 'list-group list-group-flush');
 
-        e['gsx$estudios']['$t'].split(',').forEach(est =>{
+        e['gsx$estudios']['$t'].split(',').forEach(est => {
             let li = document.createElement('li');
             li.setAttribute('class', 'list-group-item');
             li.innerText = est;
             ul.append(li);
         });
         dCard.append(ul);
-        
+
         //Agregamos al DOM
         document.getElementById('cardProf').appendChild(dCard);
     });
 
-    
+
 }
 //#endregion
 
 //#region SALONES
 let salonesData = [];
 
-function loadSalones(){
+function loadSalones() {
     //Obtenemos la data json
-    getDataSheetJSON('salones').then((response) =>{
+    getDataSheetJSON('salones').then((response) => {
         console.log(response.feed.entry);
         buildData(response.feed.entry);
         genSalones();
+        hideLoadingCard();
 
-    }, (error) =>{
+    }, (error) => {
         console.log(error);
     })
 }
 
-function ordeByKey(arr, campo){
-    arr.sort((a,b)=>(a[campo] > b[campo]) ? 1 : -1);
+function ordeByKey(arr, campo) {
+    arr.sort((a, b) => (a[campo] > b[campo]) ? 1 : -1);
 }
 
-function buildData(datos){
-    datos.forEach(d =>{
+function buildData(datos) {
+    datos.forEach(d => {
         //Chequeamos si existe la materia
         let ref = d['gsx$materia']['$t'];
-        if(salonesData[ref] == null){
+        if (salonesData[ref] == null) {
             //no existe
             salonesData[ref] = [];
         }
-        salonesData[ref].push({'prof': d['gsx$profesor']['$t'],
-                                'dia': d['gsx$dia']['$t'],
-                                'hora': d['gsx$hora']['$t'],
-                                'salon': d['gsx$salon']['$t']});
+        salonesData[ref].push({
+            'prof': d['gsx$profesor']['$t'],
+            'dia': d['gsx$dia']['$t'],
+            'hora': d['gsx$hora']['$t'],
+            'salon': d['gsx$salon']['$t']
+        });
     });
     console.log("salonesData: ", salonesData);
 }
 
-function genSalones(){
+function genSalones() {
     //Iteramos sobre cada materia
     let lTab = document.getElementById("list-tab");
     let navCont = document.getElementById("nav-tabContent");
 
-    
+
     for (let mat in salonesData) {
         //Ordenar alfabeticamente por nombre de prof
         ordeByKey(salonesData[mat], 'prof');
         //var horarios = salonesData[mat];
         //console.log(mat, horarios);
-    
+
         //Creamos opcion en barra lateral
         let a = document.createElement('a');
         a.setAttribute('class', 'list-group-item list-group-item-action');
-        a.setAttribute('id', 'list-' + mat.replace(/ /g,'') + '-list');
+        a.setAttribute('id', 'list-' + mat.replace(/ /g, '') + '-list');
         a.setAttribute('data-toggle', 'list');
-        a.setAttribute('href', '#list-' + mat.replace(/ /g,''));
+        a.setAttribute('href', '#list-' + mat.replace(/ /g, ''));
         a.setAttribute('role', 'tab');
         a.innerText = mat;
         lTab.appendChild(a);
@@ -232,7 +241,7 @@ function genSalones(){
         //Creamos contenedor de horarios
         let divM = document.createElement('div');
         divM.setAttribute('class', 'tab-pane fade');
-        divM.setAttribute('id', 'list-' + mat.replace(/ /g,''));
+        divM.setAttribute('id', 'list-' + mat.replace(/ /g, ''));
         divM.setAttribute('role', 'tabpanel');
 
         //Contenedor de lista
@@ -257,7 +266,7 @@ function genSalones(){
             let text = document.createElement('p');
             text.setAttribute('class', 'mb-1');
             text.innerHTML = `<b>Dia: </b> ${hor['dia']} <br> <b>Hora: </b> ${hor['hora']} <br> <b>Salón: </b> ${hor['salon']}`;
-            
+
             li.appendChild(text);
             divList.appendChild(li);
 
@@ -266,48 +275,48 @@ function genSalones(){
         divM.appendChild(divList);
         navCont.appendChild(divM);
     }
-   
+
 }
 //#endregion
 
 //#region ARCHIVOS
-function loadArchivos(){
-    getDataSheetJSON('archivos').then((response) =>{
+function loadArchivos() {
+    getDataSheetJSON('archivos').then((response) => {
         console.log(response.feed.entry);
         genCardFile(response.feed.entry);
         hideLoadingCard();
-        
-    }, (error) =>{
+
+    }, (error) => {
         console.log(error);
     })
 }
 
-function iconByUrl(url){
+function iconByUrl(url) {
     let icon = document.createElement('i');
 
-    if(url.includes("drive")){
+    if (url.includes("drive")) {
         icon.setAttribute('class', 'fab fa-google-drive');
 
-    }else if(url.includes("google")){
+    } else if (url.includes("google")) {
         icon.setAttribute('class', 'fab fa-google');
 
-    }else if(url.includes("pdf")){
+    } else if (url.includes("pdf")) {
         icon.setAttribute('class', 'fas fa-file-pdf');
 
-    }else if(url.includes("wordpress")){
+    } else if (url.includes("wordpress")) {
         icon.setAttribute('class', 'fab fa-wordpress');
 
-    }else if(url.includes("pinterest")){
+    } else if (url.includes("pinterest")) {
         icon.setAttribute('class', 'fab fa-pinterest');
 
-    }else{
+    } else {
         icon.setAttribute('class', 'fas fa-globe');
     }
 
     return icon;
 }
 
-function getColor(text){
+function getColor(text) {
     switch (text.toLowerCase()) {
         case "nuevo":
             return "badge-success";
@@ -323,7 +332,7 @@ function getColor(text){
     }
 }
 
-function genCardFile(jfiles){
+function genCardFile(jfiles) {
     let divM = document.getElementById("cardFile");
 
     jfiles.forEach(f => {
@@ -341,15 +350,15 @@ function genCardFile(jfiles){
 
         let sub = document.createElement('h6');
         sub.setAttribute('class', 'card-subtitle mb-2 text-muted');
-            if(f['gsx$mensaje']['$t'] != ""){
-                let newAv = document.createElement('span');
-                newAv.setAttribute('class', 'badge ' + getColor(f['gsx$mensaje']['$t']));
-                newAv.innerText = f['gsx$mensaje']['$t'];
-                sub.appendChild(newAv);
-            }
+        if (f['gsx$mensaje']['$t'] != "") {
+            let newAv = document.createElement('span');
+            newAv.setAttribute('class', 'badge ' + getColor(f['gsx$mensaje']['$t']));
+            newAv.innerText = f['gsx$mensaje']['$t'];
+            sub.appendChild(newAv);
+        }
         cBody.appendChild(sub);
 
-        let txt = document.createElement('p');  
+        let txt = document.createElement('p');
         txt.setAttribute('class', 'card-text');
         txt.innerText = f['gsx$brevedescripcion']['$t'];
         cBody.appendChild(txt);
