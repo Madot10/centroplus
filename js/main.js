@@ -27,6 +27,10 @@ function loadview(scname){
             loadProfesores();
             break;
 
+        case 'archivos':
+            loadArchivos();
+            break;
+
         default:
             break;
     }
@@ -70,7 +74,6 @@ function getDataSheetJSON(name){
     })
 }
 
-//#region PROFESORES 
 function hideLoadingCard(){
     let cards = document.getElementsByClassName("loading");
     for (let c in cards) {
@@ -79,6 +82,7 @@ function hideLoadingCard(){
     }
 }
 
+//#region PROFESORES 
 function loadProfesores(){
     //Obtenemos la data json
     getDataSheetJSON('profesores').then((response) =>{
@@ -271,7 +275,8 @@ function loadArchivos(){
     getDataSheetJSON('archivos').then((response) =>{
         console.log(response.feed.entry);
         genCardFile(response.feed.entry);
-
+        hideLoadingCard();
+        
     }, (error) =>{
         console.log(error);
     })

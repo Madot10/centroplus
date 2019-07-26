@@ -10,6 +10,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="../src/css/all.css">
+    <link rel="stylesheet" href="../css/place-holder.css">
     <link rel="stylesheet" href="../css/style.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -22,13 +23,22 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+    <script src="../js/element.js"></script>
     <script src="../js/main.js"></script>
 
     <title>Centro+ | Archivos</title>
 </head>
 
 <body>
-    <h1 class="text-center">ARCHIVOS</h1>
+    <!--ARCHIVOS-->
+    <script>
+        loadview("archivos");
+    </script>
+
+    <!--NAVBAR-->
+    <m-import src="/centroplus/nav.html"></m-import>
+
+    <h1 class="text-center text-white fondo">ARCHIVOS</h1>
     <hr>
     <div class="container">
         <div class="card-columns" id="cardFile">
@@ -40,10 +50,35 @@
                         card's content.</p>
                     <a href="#" class="card-link stretched-link">Card link </a>
                 </div>
-            </div> -->
+            </div>  -->
+            <div class="card loading">
+                <div class="card-body">
+                    <h5 class="card-title content-placeholder text"> </h5>
+                    <h6 class="card-subtitle mb-2 text-muted content-placeholder text-lg"></h6>
+                    <p class="card-text content-placeholder text"></p>
+                    <p class="card-link content-placeholder text"></p>
+                </div>
+            </div>
+            <div class="card loading">
+                <div class="card-body">
+                    <h5 class="card-title content-placeholder text"> </h5>
+                    <h6 class="card-subtitle mb-2 text-muted content-placeholder text-lg"></h6>
+                    <p class="card-text content-placeholder text"></p>
+                    <p class="card-link content-placeholder text"></p>
+                </div>
+            </div>
+            <div class="card loading">
+                <div class="card-body">
+                    <h5 class="card-title content-placeholder text"> </h5>
+                    <h6 class="card-subtitle mb-2 text-muted content-placeholder text-lg"></h6>
+                    <p class="card-text content-placeholder text"></p>
+                    <p class="card-link content-placeholder text"></p>
+                </div>
+            </div>
         </div>
     </div>
 
+    <m-import src="/centroplus/footer.html"></m-import>
 </body>
 
 </html>
