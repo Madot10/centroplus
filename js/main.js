@@ -71,11 +71,20 @@ function getDataSheetJSON(name){
 }
 
 //#region PROFESORES 
+function hideLoadingCard(){
+    let cards = document.getElementsByClassName("loading");
+    for (let c in cards) {
+        console.log(c, cards[c]);
+        cards[c].classList.add('hide')
+    }
+}
+
 function loadProfesores(){
     //Obtenemos la data json
     getDataSheetJSON('profesores').then((response) =>{
         //console.log(response.feed.entry);
         genCardProf(response.feed.entry);
+        hideLoadingCard();
 
     }, (error) =>{
         console.log(error);
@@ -154,6 +163,8 @@ function genCardProf(jdata){
         //Agregamos al DOM
         document.getElementById('cardProf').appendChild(dCard);
     });
+
+    
 }
 //#endregion
 

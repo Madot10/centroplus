@@ -2,6 +2,10 @@
     flex-wrap: wrap !important;
 }
 
+.fondo{
+    background-color: #154859;
+}
+
 /*#region FONDO*/
     body{
         /*background-color: #2E9CC1;*/

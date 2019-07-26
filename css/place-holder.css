@@ -37,3 +37,17 @@
     height: inherit;
     position: relative;
   }
+
+  .content-placeholder.img{
+    width: 100%;
+    height: 10em;
+  }
+
+  .content-placeholder.text{
+    width: 100%;
+    height: 20px;
+  }
+  
+  .loading.hide{
+    display: none;
+  }
