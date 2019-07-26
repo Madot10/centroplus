@@ -81,8 +81,9 @@ function getDataSheetJSON(name) {
 function hideLoadingCard() {
     let cards = document.getElementsByClassName("loading");
     for (let c in cards) {
-        console.log(c, cards[c]);
-        if(c){
+        //console.log("C:", c, cards[c]);
+        
+        if(!isNaN(c)){
             cards[c].classList.add('hide');   
         }
     }
