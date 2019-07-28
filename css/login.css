@@ -1,0 +1,44 @@
+body{
+    background-repeat: no-repeat;
+	background-position: center;
+    background-size: cover;
+    background-image: url(/centroplus/media/originalBlur10.jpg) ;
+
+    margin: 0 !important; 
+}
+
+#login-form{
+    padding: 1em;
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 1em;
+}
+
+.login-container{
+    min-height: 100%;
+    min-height: 100vh;
+}
+
+.btn-eco{
+    color: #fff !important;
+	background-color: var(--main) !important;
+	border-color:var(--main) !important;
+}
+
+.slide-top {
+    opacity:0;  /* make things invisible upon start */
+  -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+  -moz-animation:fadeIn ease-in 1;
+  animation:fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:0.5s;
+  -moz-animation-duration:0.5s;
+  animation-duration:0.5s;
+}
+
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }

@@ -2,11 +2,9 @@ const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = 'https://image.flaticon.com/icons/png/512/23/23140.png';
 const appName = '/centroplus/';
 
-window.onload = () => {
-    //loadProfesores();
-    //loadSalones();
-    //loadArchivos();
+checkAccess();
 
+window.onload = () => {
     //Carga de nav
     /*fetch(document.location.origin + appName + 'nav.html')
         .then(data => data.text())
@@ -17,27 +15,50 @@ window.onload = () => {
         .then(data => data.text())
         .then(html => document.getElementsByTagName('footer')[0].innerHTML = html);
     */
+    
 }
 
 
+
 function loadview(scname) {
-    console.log("Cargando view: ", scname);
-    switch (scname) {
-        case 'profesores':
-            loadProfesores();
-            break;
+    checkAccess().then((rest)=>{
+        if(rest){
+            console.log("Cargando view: ", scname);
+            switch (scname) {
+                case 'profesores':
+                    loadProfesores();
+                    break;
+    
+                case 'archivos':
+                    loadArchivos();
+                    break;
+    
+                case 'salones':
+                    loadSalones();
+                    break;
+    
+                default:
+                    break;
+            }
+        }else{
+            //Rebotamos a login
+            console.log("redirect loadView");
+            window.location.replace('/centroplus/login/');
+        }
+    });
+    
+}
 
-        case 'archivos':
-            loadArchivos();
-            break;
+function msgSnack(mesg) {
+    // Get the snackbar DIV
+    let x = document.getElementById("snackbar");
 
-        case 'salones':
-            loadSalones();
-            break;
+    x.innerHTML = mesg;
+    // Add the "show" class to DIV
+    x.className = "show";
 
-        default:
-            break;
-    }
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 }
 
 //Devuelve JSON de la hoja pedida
