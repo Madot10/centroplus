@@ -19,7 +19,6 @@ const FB_DB = firebase.firestore();
 const FB_CM = firebase.messaging();
 
 
-
 //#region msg
 function suscribirse() {
     FB_CM.requestPermission().then(function () {

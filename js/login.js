@@ -27,7 +27,7 @@ function logIn() {
     });
 }
 
-function LogOut() {
+function logOut() {
     FB_AUTH.signOut().then(function () {
         // Sign-out successful.
         console.log("BYE BYE OK");
@@ -36,17 +36,6 @@ function LogOut() {
         // An error happened.
         console.log("NOT TODAY", error);
     });
-}
-
-
-function isLogIn() {
-    let user = FB_AUTH.currentUser;
-
-    if (user) {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 function checkAccess() {
@@ -69,11 +58,11 @@ function checkAccess() {
 }
 
 FB_AUTH.onAuthStateChanged(function (user) {
-    if (!user && !window.location.pathname.includes('/login/')) {
+    if (!user && !window.location.pathname.includes('/inicio/')) {
         //No => Rechazar
         //Rebotamos a login
         console.log("No LOgin", false, user);
-        window.location.replace('/centroplus/login/');
+        window.location.replace('/centroplus/inicio/');
         return false;
 
     } else if (user && !user.email.includes('ucab.edu.ve')) {
@@ -82,7 +71,7 @@ FB_AUTH.onAuthStateChanged(function (user) {
         LogOut();
         return false;
 
-    } else if (user && window.location.pathname.includes('/login/')) {
+    } else if (user && window.location.pathname.includes('/inicio/')) {
         //Si login ucab in /login
         console.log("User Ucab in /login", true, user);
         window.location.replace('/centroplus/');

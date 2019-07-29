@@ -43,7 +43,7 @@ function loadview(scname) {
         }else{
             //Rebotamos a login
             console.log("redirect loadView");
-            window.location.replace('/centroplus/login/');
+            window.location.replace('/centroplus/inicio/');
         }
     });
     
