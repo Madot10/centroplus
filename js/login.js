@@ -6,13 +6,23 @@ function logIn() {
         if (user.email.includes('ucab.edu.ve')) {
             //yes
             console.log("LogIn UCAB", user);
-            window.location.replace('/centroplus/');
+            isRegister().then(resp =>{
+                if(resp){
+                    //Hay registro
+                    window.location.replace('/centroplus/');
+        
+                 }else{
+                    console.log("Need registro");
+                    window.location.replace('/centroplus/configuracion');
+                }
+            });
+           
 
         } else {
             //no 
             console.log("NoUCAB => desLogin");
             msgSnack("¡Debe utlizar correo UCAB! <br> Plataforma <b>SOLO</b> para Ucabistas")
-            LogOut();
+            logOut();
         }
 
     }).catch(function (error) {
@@ -41,22 +51,74 @@ function logOut() {
 function checkAccess() {
     return new Promise((resolve, reject) =>{
         FB_AUTH.onAuthStateChanged(function (user) {
-            console.log('checking');
-            
-            if (user && user.email.includes('ucab.edu.ve')) {
-                //User y UCab
-                resolve(true);
-            } else if (user) {
-                //User NOucab
+
+            if (!user && !window.location.pathname.includes('/inicio/')) {
+                //No => Rechazar
+                //Rebotamos a login
+                console.log("No LOgin", false, user);
+                window.location.replace('/centroplus/inicio/');
                 resolve(false);
-            } else {
-                //NoUser
+        
+            } else if (user && !user.email.includes('ucab.edu.ve')) {
+                //Si login => No ucab
+                console.log("User No-Ucab", false, user);
+                logOut();
+                resolve(false);
+        
+            } else if (user && window.location.pathname.includes('/inicio/')) {
+                //Si login ucab in /login
+                console.log("User Ucab in /login", true, user);
+                isRegister().then(resp =>{
+                    if(resp){
+                        //Hay registro => TODO OK
+
+                        window.location.replace('/centroplus/');
+                        resolve(true);
+                    }else{
+                        console.log("Need registro");
+                        window.location.replace('/centroplus/configuracion');
+                        resolve(false);
+                    }
+                });
+               
+                resolve(true);
+        
+            } else if (user && !window.location.pathname.includes('/configuracion')) {
+                //Si login ucab
+                console.log("User Ucab", true, user);
+                isRegister().then(resp =>{
+                    if(resp){
+                        //Hay registro => TODO OK
+                        setVisibility(true);
+                        setLoader(false);
+
+                        resolve(true);
+                    }else{
+                        console.log("Need registro");
+                        window.location.replace('/centroplus/configuracion');
+                        resolve(false);
+                    }
+                });
+        
+            } else if(window.location.pathname.includes('/configuracion')){
+                //Login but NoReg in /conf
+                console.log("Login, NoReg in /conf", false, user);
+                setVisibility(true);
+                setLoader(false);
+
+                resolve(false);
+            }else{
+                //No login and in /login
+                console.log("NoUser in /login", true, user);
+                setVisibility(true);
+                setLoader(false);
+
                 resolve(false);
             }
         });
     })
 }
-
+/*
 FB_AUTH.onAuthStateChanged(function (user) {
     if (!user && !window.location.pathname.includes('/inicio/')) {
         //No => Rechazar
@@ -86,6 +148,26 @@ FB_AUTH.onAuthStateChanged(function (user) {
         //No login and in /login
         console.log("NoUser in /login", true, user);
     }
-});
+});*/
+
+function isRegister(){
+    console.log("Current ", FB_AUTH.currentUser);
+
+    return new Promise((resolve, reject) =>{
+        FB_DB.collection("users").doc(FB_AUTH.currentUser.email).get()
+            .then(doc =>{
+                if(doc.exists){
+                    resolve(true);
+                    //Hay registro
+                }else{
+                    resolve(false);
+                    //No hay
+                }
+            }).catch(function(error) {
+                console.log("Error getting document:", error);
+                reject(false);
+            });
+    });
+}
 
 //#endregion AUTH

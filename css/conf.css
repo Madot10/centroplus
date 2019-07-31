@@ -183,3 +183,41 @@ li.list-group-item {
 	color: white;
 	font-weight: bold;
 }
+
+.save{
+    /*background-color: green;*/
+    width: 100%;
+    border-radius: 0;
+    font-size: 1.2em;
+    padding: 0.5em;
+}
+
+.btsave{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.btn-outline {
+	color: var(--mainDark);
+    border-color: var(--mainDark);
+    background-color: white;
+	border: 1px solid;
+}
+
+.btn-outline:hover {
+	color: #fff;
+	background-color: var(--mainDark);
+	border-color: var(--mainDark);
+}
+
+.btn-outline:active {
+	color: #fff;
+	background-color: var(--main);
+	border-color: var(--main);
+}
+
+.card-header.h5{
+	background-color: var(--main);
+	color: white;
+}

@@ -106,7 +106,7 @@ button.navbar-toggler{
 	transform: skewY(-6deg);
     transform-origin: top left;
 
-    filter: blur(0px);
+    filter: blur(0.3px);
 }
 
 /*#endregion */
@@ -250,3 +250,39 @@ hr.hrwo{
 p.indent{
     text-indent: 1em;
 }
+
+.container{
+    visibility: hidden;
+}
+
+/*#region LOADER*/
+/* Center the loader */
+#loader {
+    visibility: visible !important;
+    position: absolute;
+    left: 54%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid var(--mainDark);
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+/*#endregion LOADER*/

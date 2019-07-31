@@ -43,23 +43,29 @@
 
 <body>
     <!--Config-->
-
     <!--NAVBAR-->
     <m-import src="/centroplus/nav.html"></m-import>
 
     <h1 class="text-center text-white fondo">CONFIGURACIÓN</h1>
     <br>
+
+    <div id="loader"></div>
+
     <div class="container">
+        <div class=".btsave">
+            <button class="btn btn-outline save"><i class="fas fa-check"></i> Guardar cambios</button>
+        </div>
+        <br>
         <li class="list-group-item main">
             Notificaciones
             <label class="switch ">
-                <input type="checkbox" class="default">
+                <input type="checkbox" class="default" checked>
                 <span class="slider round"></span>
             </label>
         </li>
         <br>
         <div class="card">
-            <div class="card-header text-center h5"><b>Configuración general</b></div>
+            <div class="card-header h5"><b>Configuración general</b></div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     Avisos UCAB
@@ -79,7 +85,7 @@
         </div>
         <br><br>
         <div class="card">
-            <div class="card-header text-center h5"><b>Coordinaciones</b></div>
+            <div class="card-header h5"><b>Coordinaciones</b></div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     Académico
@@ -114,6 +120,8 @@
         </div>
 
     </div>
+
+
 
     <br>
 

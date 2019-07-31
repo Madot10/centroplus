@@ -40,14 +40,11 @@ function loadview(scname) {
                 default:
                     break;
             }
-        }else{
-            //Rebotamos a login
-            console.log("redirect loadView");
-            window.location.replace('/centroplus/inicio/');
         }
     });
-    
 }
+
+
 
 function msgSnack(mesg) {
     // Get the snackbar DIV
@@ -59,6 +56,28 @@ function msgSnack(mesg) {
 
     // After 3 seconds, remove the show class from DIV
     setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+}
+
+function setLoader(stato){
+    if(stato){
+        //mostrar
+        document.getElementById('loader').style.display = 'inline-block';
+    }else{
+        //ocultar
+        document.getElementById('loader').style.display = 'none';
+    }
+}
+
+function setVisibility(turnto){
+    if(turnto){
+        //Volvemos visible
+        document.getElementsByClassName('container')[0].style.visibility = 'visible';
+        //document.body
+    }else{
+        //Hidden
+        //document.body.style.visibility = 'hidden';
+        document.getElementsByClassName('container')[0].style.visibility = 'hidden';
+    }
 }
 
 //Devuelve JSON de la hoja pedida
