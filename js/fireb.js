@@ -31,8 +31,8 @@ function suscribirse() {
             navigator.serviceWorker.register('/centroplus/firebase-messaging-sw.js', { scope: '/centroplus/firebase-cloud-messaging-push-scope' })
                 .then(function (swReg) {
                     console.log("swreg", swReg);
-                    swRegistration = swReg;
-                    FB_CM.useServiceWorker(swReg);
+                    //FB_CM.useServiceWorker(swReg);
+                    SaveRegToDB();
                 });
         } else {
             //msgSnack('Navegador no compatible!');
@@ -46,17 +46,42 @@ function suscribirse() {
 }
 
 function getTokenUser() {
-    FB_CM.getToken()
-        .then(function (refreshedToken) {
-            console.log('Token', refreshedToken);
-            return refreshedToken;
+    return new Promise((resolve, reject) => {
+        FB_CM.requestPermission().then(function () {
+            FB_CM.getToken()
+            .then(function (refreshedToken) {
+                console.log('Token', refreshedToken);
+                resolve(refreshedToken);
 
-        }).catch(function (err) {
-            console.log('Unable to retrieve refreshed token ', err);
-            return false;
-            //showToken('Unable to retrieve refreshed token ', err);
-        });
+            }).catch(function (err) {
+                console.log('Unable to retrieve refreshed token ', err);
+                reject(false)
+                //showToken('Unable to retrieve refreshed token ', err);
+            });
+        })
+    });
+   
 }
+
+function updateSW() {
+    FB_CM.requestPermission().then(function () {
+        //console.log('Notification permission granted.');
+        if ('serviceWorker' in navigator) {
+            //console.log("Updating");
+            navigator.serviceWorker.register('/centroplus/firebase-messaging-sw.js', { scope: '/centroplus/firebase-cloud-messaging-push-scope' })
+                .then(function (swReg) {
+                    console.log('registrado')
+                    swReg.update();
+                    FB_CM.useServiceWorker(swReg);
+                });
+        } else {
+            console.log("SW Dont support");
+        }
+    }).catch(function (err) {
+        console.log('Unable to get permission to notify.', err);
+    });
+}
+
 
 //A la escucha en focus app
 FB_CM.onMessage(function (payload) {
@@ -77,27 +102,46 @@ FB_CM.onMessage(function (payload) {
 });
 
 //Generamos doc para guardar en DB
-function SaveRegToDB(uid, tokU) {
-    var dat = {
-        susState: true,
-        susDate: new Date(),
-        email: FB_AUTH.currentUser.email,
-        uid: uid,
-        token: tokU
-    };
+function SaveRegToDB() {
+    getTokenUser().then(resp => {
+        if(resp){
+            let dat = {
+                susState: true,
+                susDate: new Date(),
+                email: FB_AUTH.currentUser.email,
+                uid: FB_AUTH.currentUser.uid,
+                token: resp,
+                topics: getFormTopic()
+            };
+        
+            console.log("DataToSave", dat);
+        
+            FB_DB.collection('users')
+                .doc(FB_AUTH.currentUser.email).set(dat, {merge: true})
+                .then(function (docRef) {
+                    console.log("Document written with ID: ", docRef);   
+                })
+                .catch(function (error) {
+                    console.error("Error adding document: ", error);
+                    msgSnack('Error de red, vuelva a intentar');
+                })
+        }
+    });
 
-    //No hay reg => create
-    FB_DB.collection('users').add(dat)
-        .then(function (docRef) {
-            console.log("Document written with ID: ", docRef.id);   
-        })
-        .catch(function (error) {
-            console.error("Error adding document: ", error);
-            msgSnack('Error de red, vuelva a intentar');
-        })
+  
 }
 
-function saveUser(){
-    SaveRegToDB(FB_AUTH.currentUser.uid,  getTokenUser());
+function getFormTopic(){
+    return topic ={
+        'avisosU': document.getElementById('avisosU').checked,
+        'eventosU': document.getElementById('eventosU').checked,
+        'acadCoor': document.getElementById('acadCoor').checked,
+        'finCoor': document.getElementById('finCoor').checked,
+        'socialCoor': document.getElementById('socialCoor').checked,
+        'depCoor': document.getElementById('depCoor').checked
+    }
 }
 //#endregion msg
+
+
+updateSW();

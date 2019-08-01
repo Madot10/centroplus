@@ -3,7 +3,7 @@ function logIn() {
     FB_AUTH.signInWithPopup(provider).then(function (result) {
         let user = result.user;
 
-        if (user.email.includes('ucab.edu.ve')) {
+        if (true ||user.email.includes('ucab.edu.ve')) {
             //yes
             console.log("LogIn UCAB", user);
             isRegister().then(resp =>{
@@ -59,12 +59,12 @@ function checkAccess() {
                 window.location.replace('/centroplus/inicio/');
                 resolve(false);
         
-            } else if (user && !user.email.includes('ucab.edu.ve')) {
+           /* } else if (user && !user.email.includes('ucab.edu.ve')) {
                 //Si login => No ucab
                 console.log("User No-Ucab", false, user);
                 logOut();
                 resolve(false);
-        
+        */
             } else if (user && window.location.pathname.includes('/inicio/')) {
                 //Si login ucab in /login
                 console.log("User Ucab in /login", true, user);

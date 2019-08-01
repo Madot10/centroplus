@@ -48,9 +48,19 @@
                 </div>
             </li>
 
-            <li class="nav-item active">
-                <a class="nav-link" href="#" onclick="logOut(); return false;">
-                    <i class="fas fa-sign-out-alt"></i> Salir</a>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-cogs"></i> Más
+                </a>
+                <div class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/centroplus/configuracion"><i class="fas fa-user-cog"></i>
+                        Configuración</a>
+                    <a class="dropdown-item" href="/centroplus/"><i class="fas fa-question-circle"></i>
+                        Información</a>
+                    <a class="dropdown-item" href="#" onclick="logOut(); return false;">
+                        <i class="fas fa-sign-out-alt"></i> Salir</a>
+                </div>
             </li>
 
         </ul>
