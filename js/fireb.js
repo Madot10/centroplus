@@ -28,11 +28,12 @@ function suscribirse() {
         //INstalamos SW
         if ('serviceWorker' in navigator) {
             //console.log("Installing");
-            navigator.serviceWorker.register('/centroplus/firebase-messaging-sw.js', { scope: '/centroplus/firebase-cloud-messaging-push-scope' })
+            navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
                 .then(function (swReg) {
                     console.log("swreg", swReg);
-                    //FB_CM.useServiceWorker(swReg);
                     SaveRegToDB();
+                    FB_CM.useServiceWorker(swReg);
+                    
                 });
         } else {
             //msgSnack('Navegador no compatible!');
@@ -49,18 +50,18 @@ function getTokenUser() {
     return new Promise((resolve, reject) => {
         FB_CM.requestPermission().then(function () {
             FB_CM.getToken()
-            .then(function (refreshedToken) {
-                console.log('Token', refreshedToken);
-                resolve(refreshedToken);
+                .then(function (refreshedToken) {
+                    console.log('Token', refreshedToken);
+                    resolve(refreshedToken);
 
-            }).catch(function (err) {
-                console.log('Unable to retrieve refreshed token ', err);
-                reject(false)
-                //showToken('Unable to retrieve refreshed token ', err);
-            });
+                }).catch(function (err) {
+                    console.log('Unable to retrieve refreshed token ', err);
+                    reject(false)
+                    //showToken('Unable to retrieve refreshed token ', err);
+                });
         })
     });
-   
+
 }
 
 function updateSW() {
@@ -68,9 +69,9 @@ function updateSW() {
         //console.log('Notification permission granted.');
         if ('serviceWorker' in navigator) {
             //console.log("Updating");
-            navigator.serviceWorker.register('/centroplus/firebase-messaging-sw.js', { scope: '/centroplus/firebase-cloud-messaging-push-scope' })
+            navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
                 .then(function (swReg) {
-                    console.log('registrado')
+                    console.log('Updating')
                     swReg.update();
                     FB_CM.useServiceWorker(swReg);
                 });
@@ -90,7 +91,7 @@ FB_CM.onMessage(function (payload) {
 
     if ('serviceWorker' in navigator) {
         //console.log("Installing");
-        navigator.serviceWorker.register('/centroplus/firebase-messaging-sw.js', { scope: '/centroplus/firebase-cloud-messaging-push-scope' })
+        navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
             .then(function (swReg) {
                 swReg.showNotification(noti.title, noti);
                 FB_CM.useServiceWorker(swReg);
@@ -101,10 +102,31 @@ FB_CM.onMessage(function (payload) {
 
 });
 
+FB_CM.onTokenRefresh(() => {
+    FB_CM.getToken().then((refreshedToken) => {
+        console.log('Token refreshed.');
+
+        let dat = { token: refreshedToken};
+        
+        FB_DB.collection('users')
+            .doc(FB_AUTH.currentUser.email).set(dat, { merge: true })
+            .then(function (docRef) {
+                console.log("Document written with ID: ", docRef);
+            })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+                msgSnack('Error de red, vuelva a intentar');
+            })
+    }).catch((err) => {
+        console.log('Unable to retrieve refreshed token ', err);
+    });
+});
+
+
 //Generamos doc para guardar en DB
 function SaveRegToDB() {
     getTokenUser().then(resp => {
-        if(resp){
+        if (resp) {
             let dat = {
                 susState: true,
                 susDate: new Date(),
@@ -113,13 +135,14 @@ function SaveRegToDB() {
                 token: resp,
                 topics: getFormTopic()
             };
-        
+
             console.log("DataToSave", dat);
-        
+
             FB_DB.collection('users')
-                .doc(FB_AUTH.currentUser.email).set(dat, {merge: true})
+                .doc(FB_AUTH.currentUser.email).set(dat, { merge: true })
                 .then(function (docRef) {
-                    console.log("Document written with ID: ", docRef);   
+                    console.log("Document written with ID: ", docRef);
+                    window.location.replace('/');
                 })
                 .catch(function (error) {
                     console.error("Error adding document: ", error);
@@ -128,11 +151,11 @@ function SaveRegToDB() {
         }
     });
 
-  
+
 }
 
-function getFormTopic(){
-    return topic ={
+function getFormTopic() {
+    return topic = {
         'avisosU': document.getElementById('avisosU').checked,
         'eventosU': document.getElementById('eventosU').checked,
         'acadCoor': document.getElementById('acadCoor').checked,
@@ -144,4 +167,4 @@ function getFormTopic(){
 //#endregion msg
 
 
-updateSW();
+//updateSW();

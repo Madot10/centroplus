@@ -253,6 +253,11 @@ p.indent{
 
 .container{
     visibility: hidden;
+    min-height: calc(100vh - 140px);
+}
+
+.container.wheader{
+    min-height: calc(100vh - 200px);
 }
 
 /*#region LOADER*/

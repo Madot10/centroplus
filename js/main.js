@@ -20,7 +20,7 @@ window.onload = () => {
 
 
 
-function loadview(scname) {
+function loadview(scname = '') {
     checkAccess().then((rest)=>{
         if(rest){
             console.log("Cargando view: ", scname);
@@ -35,6 +35,9 @@ function loadview(scname) {
     
                 case 'salones':
                     loadSalones();
+                    break;
+
+                case 'configuracion':
                     break;
     
                 default:

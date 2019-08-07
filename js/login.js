@@ -9,11 +9,11 @@ function logIn() {
             isRegister().then(resp =>{
                 if(resp){
                     //Hay registro
-                    window.location.replace('/centroplus/');
+                    window.location.replace('/');
         
                  }else{
                     console.log("Need registro");
-                    window.location.replace('/centroplus/configuracion');
+                    window.location.replace('/configuracion');
                 }
             });
            
@@ -56,7 +56,7 @@ function checkAccess() {
                 //No => Rechazar
                 //Rebotamos a login
                 console.log("No LOgin", false, user);
-                window.location.replace('/centroplus/inicio/');
+                window.location.replace('/inicio/');
                 resolve(false);
         
            /* } else if (user && !user.email.includes('ucab.edu.ve')) {
@@ -72,11 +72,11 @@ function checkAccess() {
                     if(resp){
                         //Hay registro => TODO OK
 
-                        window.location.replace('/centroplus/');
+                        window.location.replace('/');
                         resolve(true);
                     }else{
                         console.log("Need registro");
-                        window.location.replace('/centroplus/configuracion');
+                        window.location.replace('/configuracion');
                         resolve(false);
                     }
                 });
@@ -95,7 +95,7 @@ function checkAccess() {
                         resolve(true);
                     }else{
                         console.log("Need registro");
-                        window.location.replace('/centroplus/configuracion');
+                        window.location.replace('/configuracion');
                         resolve(false);
                     }
                 });
@@ -124,7 +124,7 @@ FB_AUTH.onAuthStateChanged(function (user) {
         //No => Rechazar
         //Rebotamos a login
         console.log("No LOgin", false, user);
-        window.location.replace('/centroplus/inicio/');
+        window.location.replace('/inicio/');
         return false;
 
     } else if (user && !user.email.includes('ucab.edu.ve')) {
@@ -136,7 +136,7 @@ FB_AUTH.onAuthStateChanged(function (user) {
     } else if (user && window.location.pathname.includes('/inicio/')) {
         //Si login ucab in /login
         console.log("User Ucab in /login", true, user);
-        window.location.replace('/centroplus/');
+        window.location.replace('/');
         return true;
 
     } else if (user) {
