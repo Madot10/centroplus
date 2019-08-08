@@ -31,8 +31,13 @@ function suscribirse() {
             navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
                 .then(function (swReg) {
                     console.log("swreg", swReg);
-                    SaveRegToDB();
-                    $('#notiModal').modal('hide');
+
+                    if(window.location.pathname.includes('/configuracion/')){
+                        SaveRegToDB('form');
+                    }else{
+                        SaveRegToDB();
+                        $('#notiModal').modal('hide');
+                    }
                     FB_CM.useServiceWorker(swReg);
 
                 });
@@ -153,8 +158,7 @@ function SaveRegToDB(mode = '') {
         if (resp) {
             if (mode == 'form') {
                 dat = {
-                    susState: true,
-                    susDate: new Date(),
+                    susState:  document.getElementById('notiState').checked,
                     email: FB_AUTH.currentUser.email,
                     uid: FB_AUTH.currentUser.uid,
                     token: resp,
@@ -197,7 +201,7 @@ function SaveRegToDB(mode = '') {
             .doc(FB_AUTH.currentUser.email).set(dat, { merge: true })
             .then(function (docRef) {
                 console.log("Document written with ID: ", docRef);
-
+                msgSnack('¡Guardado! <i class="fas fa-check"></i>');
             })
             .catch(function (error) {
                 console.error("Error adding document: ", error);
@@ -218,7 +222,39 @@ function getFormTopic() {
         'depCoor': document.getElementById('depCoor').checked
     }
 }
+
+function setFormTopic(){
+    FB_DB.collection('users').doc(FB_AUTH.currentUser.email)
+        .get().then(doc=>{
+            let userData = doc.data();
+            let topics = userData.topics;
+
+            for(let ntopic in topics){
+                document.getElementById(ntopic).checked = topics[ntopic];
+            }
+
+            //SusState
+            document.getElementById('notiState').checked = userData.susState;
+            setLoader(false);
+            setVisibility(true);
+        });
+}
+
+function toggleNoti(){
+    let opCheck = document.getElementsByClassName('opt');
+    if(document.getElementById('notiState').checked){
+        //Activada noti
+        for(let check in opCheck){
+            opCheck[check].checked = true;
+        }
+    }else{
+        //desactivadas
+        for(let check in opCheck){
+            opCheck[check].checked = false;
+        }
+    }
+}
 //#endregion msg
 
 
-//updateSW();
+

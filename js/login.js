@@ -58,7 +58,7 @@ function checkAccess() {
                 //Hay login
                 isRegister().then((status)=>{
                     if(status){
-                        //Registrado en DB ucab
+                        //Registrado en DB ucab => TODO OK
                         setVisibility(true);
                         setLoader(false);
                         resolve(true);

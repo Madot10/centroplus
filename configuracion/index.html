@@ -53,13 +53,13 @@
 
     <div class="container">
         <div class=".btsave">
-            <button class="btn btn-outline save" onclick=" suscribirse()"><i class="fas fa-check"></i> Guardar cambios</button>
+            <button class="btn btn-outline save" onclick="SaveRegToDB('form')"><i class="fas fa-check"></i> Guardar cambios</button>
         </div>
         <br>
         <li class="list-group-item main">
             Notificaciones
             <label class="switch ">
-                <input type="checkbox" class="default" checked id="notiState">
+                <input type="checkbox" class="default"  id="notiState" onclick="toggleNoti()">
                 <span class="slider round"></span>
             </label>
         </li>
@@ -70,14 +70,14 @@
                 <li class="list-group-item">
                     Avisos UCAB
                     <label class="switch ">
-                        <input type="checkbox" class="default" checked id="avisosU">
+                        <input type="checkbox" class="default opt"  id="avisosU">
                         <span class="slider round"></span>
                     </label>
                 </li>
                 <li class="list-group-item">
                     Eventos
                     <label class="switch ">
-                        <input type="checkbox" class="default" checked id="eventosU">
+                        <input type="checkbox" class="default opt"  id="eventosU" >
                         <span class="slider round"></span>
                     </label>
                 </li>
@@ -90,28 +90,28 @@
                 <li class="list-group-item">
                     Académico
                     <label class="switch ">
-                        <input type="checkbox" class="default" checked id="acadCoor">
+                        <input type="checkbox" class="default opt"  id="acadCoor">
                         <span class="slider round"></span>
                     </label>
                 </li>
                 <li class="list-group-item">
                     Finanzas
                     <label class="switch ">
-                        <input type="checkbox" class="default" checked id="finCoor">
+                        <input type="checkbox" class="default opt"  id="finCoor">
                         <span class="slider round"></span>
                     </label>
                 </li>
                 <li class="list-group-item">
                     Social
                     <label class="switch">
-                        <input type="checkbox" class="default" checked id="socialCoor">
+                        <input type="checkbox" class="default opt"  id="socialCoor">
                         <span class="slider round"></span>
                     </label>
                 </li>
                 <li class="list-group-item">
                     Deportes
                     <label class="switch">
-                        <input type="checkbox" class="default" checked id="depCoor">
+                        <input type="checkbox" class="default opt"  id="depCoor">
                         <span class="slider round"></span>
                     </label>
                 </li>

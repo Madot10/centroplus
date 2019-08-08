@@ -1,5 +1,5 @@
 const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
-const imgDefault = 'https://image.flaticon.com/icons/png/512/23/23140.png';
+const imgDefault = '';
 
 //checkAccess();
 loadview();
@@ -37,14 +37,17 @@ function loadview() {
                     break;
 
                 case 'configuracion':
+                    setVisibility(false);
+                    setLoader(true);
+
+                    setFormTopic();
                     break;
 
                 case '':
                     if (rest == 'first') {
                         console.log("Menu 1er vez");
                         SaveRegToDB();
-                        $('#notiModal').modal('show');
-                        
+                        $('#notiModal').modal('show');       
                     }
                     break;
 
@@ -59,13 +62,14 @@ function loadview() {
 function msgSnack(mesg) {
     // Get the snackbar DIV
     let x = document.getElementById("snackbar");
-
-    x.innerHTML = mesg;
-    // Add the "show" class to DIV
-    x.className = "show";
-
-    // After 3 seconds, remove the show class from DIV
-    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    if(x){
+        x.innerHTML = mesg;
+        // Add the "show" class to DIV
+        x.className = "show";
+    
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
 }
 
 function setLoader(stato) {
