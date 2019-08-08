@@ -3,17 +3,20 @@ function logIn() {
     FB_AUTH.signInWithPopup(provider).then(function (result) {
         let user = result.user;
 
-        if (true ||user.email.includes('ucab.edu.ve')) {
+        if (true || user.email.includes('ucab.edu.ve')) {
             //yes
             console.log("LogIn UCAB", user);
             isRegister().then(resp =>{
                 if(resp){
                     //Hay registro
-                    window.location.replace('/');
-        
+                    //updateSW
+                    updateSW().finally((r)=>{
+                        window.location.replace('/');
+                    })
+                   
                  }else{
                     console.log("Need registro");
-                    window.location.replace('/configuracion');
+                    window.location.replace('/');
                 }
             });
            
@@ -51,73 +54,50 @@ function logOut() {
 function checkAccess() {
     return new Promise((resolve, reject) =>{
         FB_AUTH.onAuthStateChanged(function (user) {
-
-            if (!user && !window.location.pathname.includes('/inicio/')) {
-                //No => Rechazar
-                //Rebotamos a login
-                console.log("No LOgin", false, user);
-                window.location.replace('/inicio/');
-                resolve(false);
-        
-           /* } else if (user && !user.email.includes('ucab.edu.ve')) {
-                //Si login => No ucab
-                console.log("User No-Ucab", false, user);
-                logOut();
-                resolve(false);
-        */
-            } else if (user && window.location.pathname.includes('/inicio/')) {
-                //Si login ucab in /login
-                console.log("User Ucab in /login", true, user);
-                isRegister().then(resp =>{
-                    if(resp){
-                        //Hay registro => TODO OK
-
-                        window.location.replace('/');
-                        resolve(true);
-                    }else{
-                        console.log("Need registro");
-                        window.location.replace('/configuracion');
-                        resolve(false);
-                    }
-                });
-               
-                resolve(true);
-        
-            } else if (user && !window.location.pathname.includes('/configuracion')) {
-                //Si login ucab
-                console.log("User Ucab", true, user);
-                isRegister().then(resp =>{
-                    if(resp){
-                        //Hay registro => TODO OK
+            if(user){
+                //Hay login
+                isRegister().then((status)=>{
+                    if(status){
+                        //Registrado en DB ucab
                         setVisibility(true);
                         setLoader(false);
-
                         resolve(true);
+
+                    }else if(user.email.includes('ucab.edu.ve')){
+                        //NoDB por noUCAB
+                        //Rebotar/Pedir login
+                        console.log("NoDB NoUCab", false, user);
+                        logOut();
+                        //window.location.replace('/inicio/');
                     }else{
-                        console.log("Need registro");
-                        window.location.replace('/configuracion');
-                        resolve(false);
+                        //NoDB por 1er vez
+                        if(window.location.pathname.includes('/')){
+                            //Estamos en menu
+                            setVisibility(true);
+                            setLoader(false);
+                            resolve('first');
+                        }else{
+                            //Mandamos a menu
+                            window.location.replace('/');
+                        }    
                     }
-                });
-        
-            } else if(window.location.pathname.includes('/configuracion')){
-                //Login but NoReg in /conf
-                console.log("Login, NoReg in /conf", false, user);
-                setVisibility(true);
-                setLoader(false);
-
-                resolve(false);
+                })
             }else{
-                //No login and in /login
-                console.log("NoUser in /login", true, user);
-                setVisibility(true);
-                setLoader(false);
-
-                resolve(false);
-            }
+                //No login => Rebotar/Pedir login
+                console.log("No LOgin", false, user);
+                if(window.location.pathname.includes('/inicio/')){
+                    //Estamos en inicio => logeate por favooor boludo
+                    setVisibility(true);
+                    resolve(true);
+                }else{
+                    //Mandamos a login
+                    window.location.replace('/inicio/');
+                }
+            }      
         });
     })
 }
+
 /*
 FB_AUTH.onAuthStateChanged(function (user) {
     if (!user && !window.location.pathname.includes('/inicio/')) {
@@ -154,12 +134,17 @@ function isRegister(){
     console.log("Current ", FB_AUTH.currentUser);
 
     return new Promise((resolve, reject) =>{
-        FB_DB.collection("users").doc(FB_AUTH.currentUser.email).get()
+        let uemail = FB_AUTH.currentUser.email;
+        if(true || uemail.includes('ucab.edu.ve')){
+            //CorreUCAB
+            FB_DB.collection("users").doc(uemail).get()
             .then(doc =>{
                 if(doc.exists){
+                    console.log('Have Reg');
                     resolve(true);
                     //Hay registro
                 }else{
+                    console.log('havent Reg');
                     resolve(false);
                     //No hay
                 }
@@ -167,6 +152,9 @@ function isRegister(){
                 console.log("Error getting document:", error);
                 reject(false);
             });
+        }else{
+            resolve(false);
+        }
     });
 }
 

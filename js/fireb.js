@@ -32,8 +32,9 @@ function suscribirse() {
                 .then(function (swReg) {
                     console.log("swreg", swReg);
                     SaveRegToDB();
+                    $('#notiModal').modal('hide');
                     FB_CM.useServiceWorker(swReg);
-                    
+
                 });
         } else {
             //msgSnack('Navegador no compatible!');
@@ -41,6 +42,7 @@ function suscribirse() {
 
         }
     }).catch(function (err) {
+        SaveRegToDB();
         console.log('Unable to get permission to notify.', err);
 
     });
@@ -48,39 +50,58 @@ function suscribirse() {
 
 function getTokenUser() {
     return new Promise((resolve, reject) => {
-        FB_CM.requestPermission().then(function () {
-            FB_CM.getToken()
-                .then(function (refreshedToken) {
-                    console.log('Token', refreshedToken);
-                    resolve(refreshedToken);
+        if (Notification.permission === "granted") {
+            FB_CM.requestPermission().then(function () {
+                FB_CM.getToken()
+                    .then(function (refreshedToken) {
+                        console.log('Token', refreshedToken);
+                        resolve(refreshedToken);
 
-                }).catch(function (err) {
-                    console.log('Unable to retrieve refreshed token ', err);
-                    reject(false)
-                    //showToken('Unable to retrieve refreshed token ', err);
-                });
-        })
+                    }).catch(function (err) {
+                        console.log('Unable to retrieve refreshed token ', err);
+                        reject(false)
+                        //showToken('Unable to retrieve refreshed token ', err);
+                    });
+            })
+        } else if (Notification.permission === "denied") {
+            reject(false);
+        } else {
+            //No se ha preguntado
+            reject(false);
+        }
+
     });
 
 }
 
 function updateSW() {
-    FB_CM.requestPermission().then(function () {
-        //console.log('Notification permission granted.');
-        if ('serviceWorker' in navigator) {
-            //console.log("Updating");
-            navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
-                .then(function (swReg) {
-                    console.log('Updating')
-                    swReg.update();
-                    FB_CM.useServiceWorker(swReg);
-                });
-        } else {
-            console.log("SW Dont support");
+    return new Promise((resolve, reject) => {
+        if (Notification.permission === "granted") {
+            //Se tiene permiso
+            FB_CM.requestPermission().then(function () {
+                //console.log('Notification permission granted.');
+                if ('serviceWorker' in navigator) {
+                    //console.log("Updating");
+                    navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
+                        .then(function (swReg) {
+                            console.log('Updating')
+                            swReg.update();
+                            FB_CM.useServiceWorker(swReg);
+                            resolve();
+                        });
+                } else {
+                    reject('support');
+                    console.log("SW Dont support");
+                }
+            }).catch(function (err) {
+                reject('permission');
+                console.log('Unable to get permission to notify.', err);
+            });
+        }else{
+            reject('permission def/den');
         }
-    }).catch(function (err) {
-        console.log('Unable to get permission to notify.', err);
-    });
+    })
+
 }
 
 
@@ -106,8 +127,8 @@ FB_CM.onTokenRefresh(() => {
     FB_CM.getToken().then((refreshedToken) => {
         console.log('Token refreshed.');
 
-        let dat = { token: refreshedToken};
-        
+        let dat = { token: refreshedToken };
+
         FB_DB.collection('users')
             .doc(FB_AUTH.currentUser.email).set(dat, { merge: true })
             .then(function (docRef) {
@@ -124,31 +145,64 @@ FB_CM.onTokenRefresh(() => {
 
 
 //Generamos doc para guardar en DB
-function SaveRegToDB() {
+function SaveRegToDB(mode = '') {
+    let dat = {};
     getTokenUser().then(resp => {
+        //Noti aceptadaas
+        console.log("RUN SAVE-REG ACEPT");
         if (resp) {
-            let dat = {
-                susState: true,
-                susDate: new Date(),
-                email: FB_AUTH.currentUser.email,
-                uid: FB_AUTH.currentUser.uid,
-                token: resp,
-                topics: getFormTopic()
-            };
+            if (mode == 'form') {
+                dat = {
+                    susState: true,
+                    susDate: new Date(),
+                    email: FB_AUTH.currentUser.email,
+                    uid: FB_AUTH.currentUser.uid,
+                    token: resp,
+                    topics: getFormTopic()
+                };
+            } else {
+                dat = {
+                    susState: true,
+                    susDate: new Date(),
+                    email: FB_AUTH.currentUser.email,
+                    uid: FB_AUTH.currentUser.uid,
+                    token: resp,
+                    topics: {
+                        'avisosU': true,
+                        'eventosU': true,
+                        'acadCoor': true,
+                        'finCoor': true,
+                        'socialCoor': true,
+                        'depCoor': true
+                    }
+                };
+            }
 
-            console.log("DataToSave", dat);
 
-            FB_DB.collection('users')
-                .doc(FB_AUTH.currentUser.email).set(dat, { merge: true })
-                .then(function (docRef) {
-                    console.log("Document written with ID: ", docRef);
-                    window.location.replace('/');
-                })
-                .catch(function (error) {
-                    console.error("Error adding document: ", error);
-                    msgSnack('Error de red, vuelva a intentar');
-                })
         }
+    }).catch(rejec => {
+        //Notificaciones rechazadas
+        console.log("RUN SAVE-REG RECH/1er");
+        dat = {
+            susState: false,
+            susDate: new Date(),
+            email: FB_AUTH.currentUser.email,
+            uid: FB_AUTH.currentUser.uid
+        };
+
+    }).finally(() => {
+        console.log("DataToSave", dat);
+
+        FB_DB.collection('users')
+            .doc(FB_AUTH.currentUser.email).set(dat, { merge: true })
+            .then(function (docRef) {
+                console.log("Document written with ID: ", docRef);
+
+            })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+                msgSnack('Error de red, vuelva a intentar');
+            })
     });
 
 

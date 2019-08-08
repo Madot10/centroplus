@@ -11,6 +11,14 @@
     background-color: #154859;
 }
 
+.maincolor{
+    color:  var(--main) !important;
+}
+
+.maindcolor{
+    color:  var(--mainDark) !important;
+}
+
 /*#region FONDO*/
     body{
         /*background-color: #2E9CC1;*/

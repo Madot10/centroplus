@@ -1,8 +1,8 @@
 const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = 'https://image.flaticon.com/icons/png/512/23/23140.png';
-const appName = '/centroplus/';
 
-checkAccess();
+//checkAccess();
+loadview();
 
 window.onload = () => {
     //Carga de nav
@@ -15,38 +15,45 @@ window.onload = () => {
         .then(data => data.text())
         .then(html => document.getElementsByTagName('footer')[0].innerHTML = html);
     */
-    
+
 }
 
-
-
-function loadview(scname = '') {
-    checkAccess().then((rest)=>{
-        if(rest){
+function loadview() {
+    checkAccess().then((rest) => {
+        if (rest) {
+            let scname = location.pathname.replace('/', '').replace('/', '');
             console.log("Cargando view: ", scname);
             switch (scname) {
                 case 'profesores':
                     loadProfesores();
                     break;
-    
+
                 case 'archivos':
                     loadArchivos();
                     break;
-    
+
                 case 'salones':
                     loadSalones();
                     break;
 
                 case 'configuracion':
                     break;
-    
+
+                case '':
+                    if (rest == 'first') {
+                        console.log("Menu 1er vez");
+                        SaveRegToDB();
+                        $('#notiModal').modal('show');
+                        
+                    }
+                    break;
+
                 default:
                     break;
             }
         }
     });
 }
-
 
 
 function msgSnack(mesg) {
@@ -61,22 +68,22 @@ function msgSnack(mesg) {
     setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 }
 
-function setLoader(stato){
-    if(stato){
+function setLoader(stato) {
+    if (stato) {
         //mostrar
         document.getElementById('loader').style.display = 'inline-block';
-    }else{
+    } else {
         //ocultar
         document.getElementById('loader').style.display = 'none';
     }
 }
 
-function setVisibility(turnto){
-    if(turnto){
+function setVisibility(turnto) {
+    if (turnto) {
         //Volvemos visible
         document.getElementsByClassName('container')[0].style.visibility = 'visible';
         //document.body
-    }else{
+    } else {
         //Hidden
         //document.body.style.visibility = 'hidden';
         document.getElementsByClassName('container')[0].style.visibility = 'hidden';
@@ -125,9 +132,9 @@ function hideLoadingCard() {
     let cards = document.getElementsByClassName("loading");
     for (let c in cards) {
         //console.log("C:", c, cards[c]);
-        
-        if(!isNaN(c)){
-            cards[c].classList.add('hide');   
+
+        if (!isNaN(c)) {
+            cards[c].classList.add('hide');
         }
     }
 }
