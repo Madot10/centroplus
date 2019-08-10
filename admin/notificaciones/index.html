@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-messaging.js"></script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -23,6 +30,9 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+    <script src="/js/fireb.js"></script>
+    <script src="/js/notifications.js"></script>
+
     <title>Centro+ | Admin</title>
 </head>
 
@@ -33,11 +43,70 @@
                 <div class="text-center">
                     <img src="/media/logoOrin.png" width="auto" height="75px">
                 </div>
-                <h3 class="text-center">NOTIFICACIONES</h3>
+                <h3 class="text-center">PANEL DE NOTIFICACIONES</h3>
                 <br>
 
-               
-        
+                <div class="form">
+                    <h5 class="womr">Notificación</h5>
+                    <hr class="womr">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Titulo</label>
+                        <input type="text" class="form-control" id="titleInput" aria-describedby="emailHelp"
+                            placeholder="Introduce el titulo">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Cuerpo </label>
+                        <textarea maxlength="160s" class="form-control" id="cuerpoInput" rows="3"
+                            placeholder="Introduce el texto de la notificacion" oninput="textCount()"></textarea>
+                        <small class="text-muted">
+                            <span id="countChar"></span>
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Link (opcional)</label>
+                        <input type="text" class="form-control" id="urlActInput" aria-describedby="emailHelp"
+                            placeholder="Ejecuta al accionar">
+                        <small class="text-muted">
+                            Por defecto llevará a la página del centro+
+                        </small>
+                    </div>
+
+                    <h5 class="womr">Interacción</h5>
+                    <hr class="womr">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Link de imagen (opcional)</label>
+                        <input type="text" class="form-control" id="ulrImgInput" aria-describedby="emailHelp"
+                            placeholder="Ej: www.pagina.com/image.png">
+                    </div>
+
+                    <h5 class="womr">Destino</h5>
+                    <hr class="womr">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Grupos </label>
+                        <select multiple class="form-control" id="targetTopics">
+                            <option value="all">Todos</option>
+                            <option value="avisosU">Avisos UCAB</option>
+                            <option value="eventosU">Eventos UCAB</option>
+                            <option value="acadCoor">Coor. Academica</option>
+                            <option value="finCoor">Coor. Finanzas</option>
+                            <option value="socialCoor">Coor. Social</option>
+                            <option value="depCoor">Coor. Deportes</option>
+                        </select>
+                        <small class="text-muted">
+                                PC: Para seleccionar varios manten presionado control ("CTRL")
+                            </small>
+                    </div>
+
+                    <br>
+                    <h5 class="womr">Acciones</h5>
+                    <hr class="womr">
+                    <button type="button" class="btn btn-success btn-block btn-lg" onclick="testNotificacion()"><i
+                            class="fas fa-comment-dots"></i> Previsualizar notificación</button>
+                    <button type="button" class="btn btn-outline-primary btn-block btn-lg"><i
+                            class="fas fa-share-square"></i> Enviar</button>
+                </div>
+
+
             </div>
         </div>
     </div>

@@ -19,6 +19,15 @@
     color:  var(--mainDark) !important;
 }
 
+hr.womr{
+    margin: 0;
+    margin-bottom: 0.5em;
+}
+
+h5.womr{
+    margin-bottom: 0.2em !important;
+}
+
 /*#region FONDO*/
     body{
         /*background-color: #2E9CC1;*/
