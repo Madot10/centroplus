@@ -1,5 +1,5 @@
 const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
-const imgDefault = '';
+const imgDefault = '/media/default.png';
 
 //checkAccess();
 loadview();
@@ -83,14 +83,21 @@ function setLoader(stato) {
 }
 
 function setVisibility(turnto) {
+    let eMport = document.getElementsByTagName("m-import");
     if (turnto) {
         //Volvemos visible
         document.getElementsByClassName('container')[0].style.visibility = 'visible';
+        for(let i = 0; i < eMport.length; i++){
+            eMport[i].style.visibility = 'visible';
+        }
         //document.body
     } else {
         //Hidden
         //document.body.style.visibility = 'hidden';
         document.getElementsByClassName('container')[0].style.visibility = 'hidden';
+       /* for(let i = 0; i < eMport.length; i++){
+            eMport[i].style.visibility = 'hidden';
+        }*/
     }
 }
 

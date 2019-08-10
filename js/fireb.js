@@ -120,6 +120,7 @@ FB_CM.onMessage(function (payload) {
         navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
             .then(function (swReg) {
                 swReg.showNotification(noti.title, noti);
+                console.log(noti.title, options, noti);
                 FB_CM.useServiceWorker(swReg);
             });
     }
