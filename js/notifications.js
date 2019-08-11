@@ -10,14 +10,16 @@ function getTargetTopics(){
 
     for(let i = 0; i < options.length; i++){
         if(values != ""){
-            values += `, ${options[i].value}`;
+            values += " || '" + options[i].value + "' in topics";
+            //values += ` || '${options[i].value}' in topics`;
         }else{
             //1er vez
-            values = options[i].value;
+            values = "'prueba' in topics && ('" + options[i].value + "' in topics";
+            //values = `'${options[i].value}' in topics`;
         }
     }
-    //console.log(values);
-    return values;
+    console.log(values);
+    return values + ")";
 }
 
 function genObjNoti(){
@@ -44,7 +46,7 @@ function genObjNoti(){
                 badge: logoUrl
             }
         },
-        token: getTargetTopics()
+        condition: getTargetTopics()
     }
 }
 
@@ -62,4 +64,16 @@ function testNotificacion(){
         }
     })
     
+}
+
+function sendNotification(){
+    FB_DB.collection('notification')
+        .add(genObjNoti())
+    .then(function (docRef) {
+        console.log(genObjNoti());
+        console.log("Notificacion enviada: ", docRef.id);
+    })
+    .catch(function (error) {
+        console.error("Error adding document: ", error);
+    });
 }
