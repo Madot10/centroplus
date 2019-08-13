@@ -330,7 +330,7 @@ a.taboption:hover, a.taboption:active, a.taboption:link{
   overflow: hidden;
 }
 
-.button::after,
+.button:hover::after,
 .ripple {
   content: ' ';
   background: rgba(0, 0, 0, 0.3);
@@ -462,9 +462,10 @@ p.indent{
       animation: fadein 1s cubic-bezier(.89, .05, .8, .9) forwards;
   }
 
+  /*
   m-import{
         visibility: hidden;
-  }
+  }*/
 
   @keyframes fadein{
       0%{

@@ -19,8 +19,8 @@ window.onload = () => {
 }
 
 function loadview() {
-    /*checkAccess().then((rest) => {
-        if (rest) {*/
+    checkAccess().then((rest) => {
+        if (rest) {
             let scname = location.pathname.replace('/', '').replace('/', '');
             console.log("Cargando view: ", scname);
             switch (scname) {
@@ -43,21 +43,19 @@ function loadview() {
                     setFormTopic();
                     break;
 
-                case '':
-                        setVisibility(true);
-                        setLoader(false);
-                    /*if (rest == 'first') {
+                case '':     
+                    if (rest == 'first') {
                         console.log("Menu 1er vez");
                         SaveRegToDB();
                         $('#notiModal').modal('show');       
-                    }*/
+                    }
                     break;
 
                 default:
                     break;
             }
-     /*   }
-    });*/
+       }
+    });
 }
 
 
@@ -89,9 +87,9 @@ function setVisibility(turnto) {
     if (turnto) {
         //Volvemos visible
         document.getElementsByClassName('container')[0].style.visibility = 'visible';
-        for(let i = 0; i < eMport.length; i++){
+       /* for(let i = 0; i < eMport.length; i++){
             eMport[i].style.visibility = 'visible';
-        }
+        }*/
         //document.body
     } else {
         //Hidden
