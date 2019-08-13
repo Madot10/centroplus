@@ -2,7 +2,7 @@ const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = '/media/default.png';
 
 //checkAccess();
-loadview();
+
 
 window.onload = () => {
     //Carga de nav
@@ -15,12 +15,12 @@ window.onload = () => {
         .then(data => data.text())
         .then(html => document.getElementsByTagName('footer')[0].innerHTML = html);
     */
-
+   loadview();
 }
 
 function loadview() {
-    checkAccess().then((rest) => {
-        if (rest) {
+    /*checkAccess().then((rest) => {
+        if (rest) {*/
             let scname = location.pathname.replace('/', '').replace('/', '');
             console.log("Cargando view: ", scname);
             switch (scname) {
@@ -44,18 +44,20 @@ function loadview() {
                     break;
 
                 case '':
-                    if (rest == 'first') {
+                        setVisibility(true);
+                        setLoader(false);
+                    /*if (rest == 'first') {
                         console.log("Menu 1er vez");
                         SaveRegToDB();
                         $('#notiModal').modal('show');       
-                    }
+                    }*/
                     break;
 
                 default:
                     break;
             }
-        }
-    });
+     /*   }
+    });*/
 }
 
 
@@ -100,6 +102,43 @@ function setVisibility(turnto) {
         }*/
     }
 }
+
+//#region NAV
+function descheckNavOption(){
+    let navs = document.getElementsByClassName("main-nav");
+    for(let i = 0; i < navs.length; i++){
+        navs[i].classList.remove("active-opt");
+    }
+}
+
+
+function hideAllNav(){
+    descheckNavOption();
+    let navs = document.getElementsByClassName("nav-op");
+    for(let i = 0; i < navs.length; i++){
+        if(!navs[i].classList.contains("hide-elem"))
+            navs[i].classList.add("hide-elem");
+    }
+}
+
+function openSubMenu(name, ebutton){
+    //hideAllNav();
+    descheckNavOption();
+
+    if(document.getElementById(name).classList.contains("hide-elem")){
+        //Mostramos
+        hideAllNav();
+        ebutton.classList.add("active-opt");
+        document.getElementById(name).classList.remove("hide-elem");
+    }else{
+        //Ocultamos
+        hideAllNav();
+        document.getElementById(name).classList.add("hide-elem");
+    }
+    
+    
+}
+//#endregion NAV
 
 //Devuelve JSON de la hoja pedida
 function getDataSheetJSON(name) {
