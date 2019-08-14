@@ -32,6 +32,10 @@ h5.womr{
     margin-bottom: 0.2em !important;
 }
 
+.womargin{
+    margin: 0 !important;
+}
+
 /*#region FONDO*/
     body{
         /*background-color: #2E9CC1;*/
@@ -134,7 +138,37 @@ button.navbar-toggler{
 
 /*#region MENU */
 i.lgmenu{
-    font-size: 1.5em;
+    font-size: 3em;
+}
+
+.c-menu{
+    background-color: white;
+
+    border-radius: 0 !important;
+    border: 1px solid rgba(171, 171, 171, 0.2);
+
+    color: var(--main);
+}
+
+.c-menu:active{
+    background-color: var(--main);
+    color: white;
+}
+
+.c-menu:hover{
+    background-color: rgba(50, 155, 201, 0.7);
+    color: white;
+}
+
+.r-main{
+    margin: 0;
+}
+
+@media (max-width: 350px){
+    .r-main{
+        margin-left: -15px;
+        margin-right: -15px;
+    }
 }
 
 i.fas.fa-bars{
@@ -156,12 +190,12 @@ i.fas.fa-bars{
 
 .bg-dark {
     /*background-color: rgb(52, 58, 64, 0.8)!important;*/
-    background-color: rgb(46, 156, 193, 0.8) !important;
+    /*background-color: rgb(46, 156, 193, 0.8) !important;*/
 }
 
 .bg-dark:hover {
     /*background-color: rgb(52, 58, 64, 1)!important;*/
-    background-color: rgb(46, 156, 193, 1) !important;
+    /*background-color: rgb(46, 156, 193, 1) !important;*/
 }
 
 .nav-link i::before{
@@ -301,7 +335,9 @@ a.taboption:hover, a.taboption:active, a.taboption:link{
 
 .nav .taboption{
     font-size: 1.3em;
-    padding: 0 10% 0 10%;
+    /*padding: 0 10% 0 10%;*/
+    text-align: center;
+    min-width: 42px;
 }
 
 .nav .taboption i{
