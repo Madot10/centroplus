@@ -1,10 +1,31 @@
 <!--NAVBAR-->
 <nav class="navbar  navbar-expand-lg navbar navbar-dark .fixed-top">
     <a class="navbar-brand text-wrap text-center" href="/">
-        <!-- <img src="/media/logoCEDEC.png" width="35" height="35" alt="Logo de Centro de Estudiante"> -->
+        <img src="/media/logoCEDEC.png" width="35" height="35" alt="Logo de Centro de Estudiante">
         <span class="">Economía<b>+</b></span>
-     
     </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+        aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-cogs button"></i>
+    </button>
+
+    <div class="collapse navbar-collapse text-center d-lg-none hide-on-lg" id="navbarTogglerDemo01">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link active" href="/configuracion"><i class="fas fa-user-cog"></i>
+                    Configuración</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/"><i class="fas fa-question-circle"></i>
+                    Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="logOut(); return false;">
+                    <i class="fas fa-sign-out-alt"></i> Salir</a>
+            </li>
+        </ul>
+    </div>
 
     <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto justify-content-center ">

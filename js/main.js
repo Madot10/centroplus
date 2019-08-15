@@ -43,7 +43,8 @@ function loadview() {
                     setFormTopic();
                     break;
 
-                case '':     
+                case '':
+                    document.getElementById("mainbtn").classList.add("active-opt");     
                     if (rest == 'first') {
                         console.log("Menu 1er vez");
                         SaveRegToDB();
