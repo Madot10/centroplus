@@ -11,6 +11,14 @@
     background-color: #154859;
 }
 
+h3.fondo{
+    font-weight: normal !important;
+}
+
+img.w100{
+    width: 100%
+}
+
 .hide-elem{
     display: none !important;
 }
@@ -213,6 +221,26 @@ i.fas.fa-bars{
 hr.hrwo{
     margin: 0 !important;
     border-top: 1px solid rgba(0,0,0,.1) !important; 
+}
+
+.cont-brand{
+    display: inline-grid;
+	padding-left: 5px;
+}
+
+.lb-centro{
+    border-bottom: 1px solid;
+	padding: 0 2px;
+}
+
+.lb-me{
+    font-weight: lighter;
+	font-size: 0.8em;
+}
+
+.cont-lb{
+    display: flex;
+	align-items: center;
 }
 
 .hlogo{

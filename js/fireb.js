@@ -178,7 +178,8 @@ function SaveRegToDB(mode = '') {
                         'acadCoor': true,
                         'finCoor': true,
                         'socialCoor': true,
-                        'depCoor': true
+                        'depCoor': true,
+                        'centroEst': true
                     }
                 };
             }
@@ -220,7 +221,8 @@ function getFormTopic() {
         'acadCoor': document.getElementById('acadCoor').checked,
         'finCoor': document.getElementById('finCoor').checked,
         'socialCoor': document.getElementById('socialCoor').checked,
-        'depCoor': document.getElementById('depCoor').checked
+        'depCoor': document.getElementById('depCoor').checked,
+        'centroEst': document.getElementById('centroEst').checked
     }
 }
 
