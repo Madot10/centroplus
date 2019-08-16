@@ -15,7 +15,7 @@ window.onload = () => {
         .then(data => data.text())
         .then(html => document.getElementsByTagName('footer')[0].innerHTML = html);
     */
-   loadview();
+    loadview();
 }
 
 function loadview() {
@@ -35,6 +35,10 @@ function loadview() {
                 case 'salones':
                     loadSalones();
                     break;
+                
+                case 'eventos':
+                    loadNotificacion();
+                    break;
 
                 case 'configuracion':
                     setVisibility(false);
@@ -44,18 +48,18 @@ function loadview() {
                     break;
 
                 case '':
-                    document.getElementById("mainbtn").classList.add("active-opt");     
+                    document.getElementById("mainbtn").classList.add("active-opt");
                     if (rest == 'first') {
                         console.log("Menu 1er vez");
                         SaveRegToDB();
-                        $('#notiModal').modal('show');       
+                        $('#notiModal').modal('show');
                     }
                     break;
 
                 default:
                     break;
             }
-       }
+        }
     });
 }
 
@@ -63,11 +67,11 @@ function loadview() {
 function msgSnack(mesg) {
     // Get the snackbar DIV
     let x = document.getElementById("snackbar");
-    if(x){
+    if (x) {
         x.innerHTML = mesg;
         // Add the "show" class to DIV
         x.className = "show";
-    
+
         // After 3 seconds, remove the show class from DIV
         setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
     }
@@ -88,54 +92,54 @@ function setVisibility(turnto) {
     if (turnto) {
         //Volvemos visible
         document.getElementsByClassName('container')[0].style.visibility = 'visible';
-       /* for(let i = 0; i < eMport.length; i++){
-            eMport[i].style.visibility = 'visible';
-        }*/
+        /* for(let i = 0; i < eMport.length; i++){
+             eMport[i].style.visibility = 'visible';
+         }*/
         //document.body
     } else {
         //Hidden
         //document.body.style.visibility = 'hidden';
         document.getElementsByClassName('container')[0].style.visibility = 'hidden';
-       /* for(let i = 0; i < eMport.length; i++){
-            eMport[i].style.visibility = 'hidden';
-        }*/
+        /* for(let i = 0; i < eMport.length; i++){
+             eMport[i].style.visibility = 'hidden';
+         }*/
     }
 }
 
 //#region NAV
-function descheckNavOption(){
+function descheckNavOption() {
     let navs = document.getElementsByClassName("main-nav");
-    for(let i = 0; i < navs.length; i++){
+    for (let i = 0; i < navs.length; i++) {
         navs[i].classList.remove("active-opt");
     }
 }
 
 
-function hideAllNav(){
+function hideAllNav() {
     descheckNavOption();
     let navs = document.getElementsByClassName("nav-op");
-    for(let i = 0; i < navs.length; i++){
-        if(!navs[i].classList.contains("hide-elem"))
+    for (let i = 0; i < navs.length; i++) {
+        if (!navs[i].classList.contains("hide-elem"))
             navs[i].classList.add("hide-elem");
     }
 }
 
-function openSubMenu(name, ebutton){
+function openSubMenu(name, ebutton) {
     //hideAllNav();
     descheckNavOption();
 
-    if(document.getElementById(name).classList.contains("hide-elem")){
+    if (document.getElementById(name).classList.contains("hide-elem")) {
         //Mostramos
         hideAllNav();
         ebutton.classList.add("active-opt");
         document.getElementById(name).classList.remove("hide-elem");
-    }else{
+    } else {
         //Ocultamos
         hideAllNav();
         document.getElementById(name).classList.add("hide-elem");
     }
-    
-    
+
+
 }
 //#endregion NAV
 
@@ -474,4 +478,114 @@ function genCardFile(jfiles) {
 
     });
 }
+//#endregion
+
+
+//#region NOTIFICACIONES
+let docsNotiReq = null;
+const limitNoti = 10;
+
+function loadNotificacion(){
+    genCardNotis();
+}
+
+function getNotificaciones() {
+    //TO-DO orderBy
+    return new Promise((resolve, reject) => {
+        if (!docsNotiReq) {
+            docsNotiReq = FB_DB.collection("notification").limit(limitNoti);
+        }
+        docsNotiReq.get().then(function (documentSnapshots) {
+            // Get the last visible document
+            let lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+            //console.log("last", lastVisible);
+
+
+            // Construct a new query starting at this document,
+            if (lastVisible) {
+                //Hay mas doc
+                docsNotiReq = FB_DB.collection("notification")
+                    .startAfter(lastVisible)
+                    .limit(limitNoti);
+
+                resolve(documentSnapshots);
+            } else {
+                resolve(false);
+                console.log("No mas docs!")
+            }
+        })
+
+
+    })
+
+}
+
+function genCardNotis() {
+    getNotificaciones().then(docs => {
+        if (docs)
+            docs.forEach(doc => {
+                let noti = doc.data();
+                console.log("DOC: ", doc.data());
+
+                let divMain = document.createElement("div");
+                divMain.setAttribute("class", "card");
+
+                //Hay imagen?
+                if (noti.webpush.notification.image) {
+                    let imgCard = document.createElement("img");
+                    imgCard.setAttribute("class", "card-img-top");
+                    imgCard.setAttribute("src", noti.webpush.notification.image);
+
+                    divMain.appendChild(imgCard);
+                }
+
+                let divBody = document.createElement("div");
+                divBody.setAttribute("class", "card-body");
+
+                let hTitle = document.createElement("h5");
+                hTitle.setAttribute("class", "card-title");
+                hTitle.innerText = noti.webpush.notification.title;
+                divBody.appendChild(hTitle);
+
+                let pText = document.createElement("p");
+                pText.setAttribute("class", "card-text");
+                pText.innerText = noti.webpush.notification.body;
+                divBody.appendChild(pText);
+
+                //link action
+                if (noti.webpush.notification.click_action) {
+                    let divLink = document.createElement("div");
+                    divLink.setAttribute("class", "text-center");
+
+                    let aLink = document.createElement("a");
+                    aLink.setAttribute("class", "btn btn-block btn-outline-info stretched-link");
+                    aLink.setAttribute("href", noti.webpush.notification.click_action);
+                    aLink.innerHTML = '<i class="fas fa-angle-double-right"></i>';
+
+                    divLink.appendChild(aLink);
+                    divBody.appendChild(divLink);
+                }
+
+                //Time TO-DO
+                /*
+                let pTime = document.createElement("p");
+                pTime.setAttribute("class", "card-text time-update");
+                
+                let spTime = document.createElement("span");
+                spTime.setAttribute("class", "text-muted"); 
+                spTime.innerText = "";
+
+                pTime.appendChild(spTime);
+                divBody.appendChild(pTime);
+               */
+
+                divMain.appendChild(divBody);
+
+                document.getElementById("notis").appendChild(divMain);
+            })
+
+            hideLoadingCard();
+    })
+}
+
 //#endregion

@@ -1,6 +1,10 @@
-:root{
+*{
     --main: #329BC9;
     --mainDark: #154859;
+}
+
+iframe{
+    width: inherit;
 }
 
 .cardSalones{
@@ -257,15 +261,15 @@ hr.hrwo{
 }
 
 @media (min-width: 768px) { 
-    .card-columns{
-        column-count: 3;
+    .card-columns, .noti-card{
+        column-count: 3 !important;
     }
 }
 
 
 @media (min-width: 1200px) { 
-    .card-columns{
-        column-count: 5;
+    .card-columns, .noti-card{
+        column-count: 5 !important;
     }
 }
 /*#endregion */
@@ -277,7 +281,6 @@ hr.hrwo{
     width: 100%;
 }
 /*#endregion */
-
 
 /*#region SNACKNOTI */
 /* The snackbar - position it at the bottom and in the middle of the screen */
@@ -483,16 +486,8 @@ p.indent{
     text-indent: 1em;
 }
 
-.container{
-    visibility: hidden;
-    min-height: calc(100vh - 143px);
-}
-
-.container.wheader{
-    min-height: calc(100vh - 200px);
-}
-
 /*#region LOADER*/
+
 /* Center the loader */
 #loader {
     visibility: visible !important;
@@ -540,3 +535,12 @@ p.indent{
       }
   }
 /*#endregion LOADER*/
+
+.time-update{
+    margin-top: 0.5em;
+    text-align: right;  
+}
+
+.card-columns.noti-card{
+    column-count: 1 ;
+}
