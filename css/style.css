@@ -545,3 +545,18 @@ p.indent{
 .card-columns.noti-card{
     column-count: 1 ;
 }
+
+
+/*#region ADMIN */
+.womr.t-sec{
+    color: var(--mainDark);
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.w-noti{
+    width: 95%;
+}
+
+
+/*#endregion */

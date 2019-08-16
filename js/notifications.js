@@ -14,7 +14,7 @@ function getTargetTopics(){
             //values += ` || '${options[i].value}' in topics`;
         }else{
             //1er vez
-            values = "'prueba' in topics && ('" + options[i].value + "' in topics";
+            values = "'ucab' in topics && ('" + options[i].value + "' in topics";
             //values = `'${options[i].value}' in topics`;
         }
     }
@@ -46,7 +46,8 @@ function genObjNoti(){
                 badge: logoUrl
             }
         },
-        condition: getTargetTopics()
+        condition: getTargetTopics(),
+        fecha: new Date()
     }
 }
 
@@ -76,4 +77,12 @@ function sendNotification(){
     .catch(function (error) {
         console.error("Error adding document: ", error);
     });
+}
+
+function limitTopic(){
+    if(document.getElementById("targetTopics").selectedOptions.length > 4){
+        alert("¡Hasta 4 grupos puedes enviar! Vuelve a seleccionar por favor.");
+        document.getElementById("targetTopics").selectedIndex = -1;
+    }
+    document.getElementById("groupCount").innerText = document.getElementById("targetTopics").selectedOptions.length;
 }

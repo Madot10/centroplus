@@ -37,17 +37,37 @@
 </head>
 
 <body>
+    <br><br>
     <div class="container" style="visibility: visible">
         <div class="row justify-content-center d-flex align-items-center login-container slide-top">
-            <div id="login-form" class="shadow">
+            <div id="login-form" class="shadow w-noti">
                 <div class="text-center">
                     <img src="/media/logoOrin.png" width="auto" height="75px">
                 </div>
                 <h3 class="text-center">PANEL DE NOTIFICACIONES</h3>
                 <br>
+                <!-- <div>
+                    <button class="btn btn-outline-success btn-block" type="button" data-toggle="collapse"
+                        data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fas fa-copy"></i> PLANTILLAS
+                    </button>
+
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            <button type="button" class="btn btn-outline-info btn-block">Nuevo archivo/recurso <i
+                                    class="fas fa-file-alt"></i> </button>
+                            <button type="button" class="btn btn-outline-info btn-block">RRSS <i
+                                    class="fas fa-thumbs-up"></i></button>
+                            <button type="button" class="btn btn-outline-info btn-block">Aviso <i
+                                    class="fas fa-newspaper"></i> </button>
+                        </div>
+                    </div>
+                </div>
+
+                <br><br> -->
 
                 <div class="form">
-                    <h5 class="womr">Notificación</h5>
+                    <h5 class="womr t-sec">Notificación</h5>
                     <hr class="womr">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Titulo</label>
@@ -63,6 +83,15 @@
                         </small>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Imagen (opcional)</label>
+                        <input type="text" class="form-control" id="ulrImgInput" aria-describedby="emailHelp"
+                            placeholder="Ej: www.pagina.com/image.png">
+                    </div>
+
+                    <br>
+                    <h5 class="womr t-sec">Interacción</h5>
+                    <hr class="womr">
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Link (opcional)</label>
                         <input type="text" class="form-control" id="urlActInput" aria-describedby="emailHelp"
                             placeholder="Ejecuta al accionar">
@@ -71,46 +100,40 @@
                         </small>
                     </div>
 
-                    <h5 class="womr">Interacción</h5>
+                    <br>
+                    <h5 class="womr t-sec">Destino</h5>
                     <hr class="womr">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Link de imagen (opcional)</label>
-                        <input type="text" class="form-control" id="ulrImgInput" aria-describedby="emailHelp"
-                            placeholder="Ej: www.pagina.com/image.png">
-                    </div>
-
-                    <h5 class="womr">Destino</h5>
-                    <hr class="womr">
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Grupos </label>
-                        <select multiple class="form-control" id="targetTopics">
-                            <option value="all">Todos</option>
+                        <label for="exampleFormControlSelect1">Grupos (<span id="groupCount">0</span>/4)</label>
+                        <select multiple class="form-control" id="targetTopics" oninput="limitTopic()">
+                            <option value="ucab">Todos</option>
+                            <option value="centroEst">Centro</option>
                             <option value="avisosU">Avisos UCAB</option>
                             <option value="eventosU">Eventos UCAB</option>
-                            <option value="centroEst">Centro</option>
                             <option value="acadCoor">Coor. Academica</option>
                             <option value="finCoor">Coor. Finanzas</option>
                             <option value="socialCoor">Coor. Social</option>
                             <option value="depCoor">Coor. Deportes</option>
                         </select>
                         <small class="text-muted">
-                                PC: Para seleccionar varios manten presionado control ("CTRL")
-                            </small>
+                            PC: Para seleccionar varios manten presionado control ("CTRL")
+                        </small>
                     </div>
 
                     <br>
-                    <h5 class="womr">Acciones</h5>
+                    <h5 class="womr t-sec">Acciones</h5>
                     <hr class="womr">
                     <button type="button" class="btn btn-success btn-block btn-lg" onclick="testNotificacion()"><i
                             class="fas fa-comment-dots"></i> Previsualizar notificación</button>
-                    <button type="button" class="btn btn-outline-primary btn-block btn-lg" onclick=" sendNotification()"><i
-                            class="fas fa-share-square"></i> Enviar</button>
+                    <button type="button" class="btn btn-outline-primary btn-block btn-lg"
+                        onclick=" sendNotification()"><i class="fas fa-share-square"></i> Enviar</button>
                 </div>
 
 
             </div>
         </div>
     </div>
+    <br><br>
 </body>
 
 </html>

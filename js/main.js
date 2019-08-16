@@ -493,7 +493,7 @@ function getNotificaciones() {
     //TO-DO orderBy
     return new Promise((resolve, reject) => {
         if (!docsNotiReq) {
-            docsNotiReq = FB_DB.collection("notification").limit(limitNoti);
+            docsNotiReq = FB_DB.collection("notification").orderBy("fecha", "desc").limit(limitNoti);
         }
         docsNotiReq.get().then(function (documentSnapshots) {
             // Get the last visible document
@@ -505,6 +505,7 @@ function getNotificaciones() {
             if (lastVisible) {
                 //Hay mas doc
                 docsNotiReq = FB_DB.collection("notification")
+                    .orderBy("fecha", "desc")
                     .startAfter(lastVisible)
                     .limit(limitNoti);
 
@@ -520,12 +521,91 @@ function getNotificaciones() {
 
 }
 
+function timeAgoGen(sgOld){
+    let sgNow = new Date().getTime() / 1000;
+    let timeDif = Math.floor(sgNow - sgOld);
+    let stResult = '';
+    //console.log('TIme dif start', timeDif);
+    //Seg de diferencia hasta 59sg
+    if((timeDif >= 0) && (timeDif <= 59)){
+        //seg
+        if(timeDif <= 0){
+            stResult = 'Hace instantes';
+        }else{
+            stResult = 'Hace ' + Math.floor(timeDif) + ' seg';
+        }
+        
+    }else{
+        timeDif = Math.floor(timeDif / 60);
+        //console.log('TIme dif min', timeDif);
+        //Min de diferencia hasta 59
+        if((timeDif >= 1) && (timeDif <= 59)){
+            //Min
+            if(timeDif == 1){
+                stResult = 'Hace 1 min';
+            }else{
+                stResult = 'Hace ' + Math.floor(timeDif) + ' mins';
+            }
+        }else{
+            timeDif = Math.floor(timeDif / 60);
+           // console.log('TIme dif hrs', timeDif);
+            //Hr diferencia hasta 23
+            if((timeDif >= 1) && (timeDif <= 23)){
+                //hrs
+                if(timeDif == 1){
+                    stResult = 'Hace 1 hr';
+                }else{
+                    stResult = 'Hace ' + Math.floor(timeDif) + ' hrs';
+                }
+            }else{
+                timeDif = Math.floor(timeDif / 24);
+                //console.log('TIme dif days', timeDif);
+                //Dias diferencia
+                if((timeDif >= 1) && (timeDif <= 29)){
+                    //dias
+                    if(timeDif == 1){
+                        stResult = 'Hace un dia';
+                    }else{
+                        stResult = 'Hace ' + Math.floor(timeDif) + ' dias';
+                    }
+                }else{
+                    timeDif = Math.floor(timeDif / 30);
+                    //console.log('TIme dif mes', timeDif);
+                    //Meses de diferencia
+                    if((timeDif >= 1) && (timeDif <= 11)){
+                        //month
+                        if(timeDif == 1){
+                            stResult = 'Hace un mes';
+                        }else{
+                            stResult = 'Hace ' + Math.floor(timeDif) + ' meses';
+                        }
+                    }else{
+                        //Anos diferencia
+                        timeDif = Math.floor(timeDif / 12);
+                        //console.log('TIme dif ano', timeDif);
+                        if((timeDif >= 1) && (timeDif <= 11)){
+                            //years
+                            if(timeDif == 1){
+                                stResult = 'Hace un año';
+                            }else{
+                                stResult = 'Hace ' + Math.floor(timeDif) + ' años';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return stResult;
+}
+
 function genCardNotis() {
     getNotificaciones().then(docs => {
         if (docs)
             docs.forEach(doc => {
                 let noti = doc.data();
-                console.log("DOC: ", doc.data());
+                //console.log("DOC: ", doc.data());
 
                 let divMain = document.createElement("div");
                 divMain.setAttribute("class", "card");
@@ -567,17 +647,16 @@ function genCardNotis() {
                 }
 
                 //Time TO-DO
-                /*
                 let pTime = document.createElement("p");
                 pTime.setAttribute("class", "card-text time-update");
                 
                 let spTime = document.createElement("span");
                 spTime.setAttribute("class", "text-muted"); 
-                spTime.innerText = "";
+                spTime.innerText = timeAgoGen(noti.fecha.seconds);
 
                 pTime.appendChild(spTime);
                 divBody.appendChild(pTime);
-               */
+            
 
                 divMain.appendChild(divBody);
 
