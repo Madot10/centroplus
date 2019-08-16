@@ -59,6 +59,7 @@ function checkAccess() {
                 isRegister().then((status)=>{
                     if(status){
                         //Registrado en DB ucab => TODO OK
+                        console.log("All ok");
                         setVisibility(true);
                         setLoader(false);
                         resolve(true);
@@ -73,6 +74,7 @@ function checkAccess() {
                         //NoDB por 1er vez
                         if(window.location.pathname.includes('/')){
                             //Estamos en menu
+                            console.log("NoDB 1er");
                             setVisibility(true);
                             setLoader(false);
                             resolve('first');
