@@ -425,14 +425,37 @@ function genSalones() {
 
 //#region ARCHIVOS
 function loadArchivos() {
-    getDataSheetJSON('archivos').then((response) => {
-        console.log(response.feed.entry);
-        genCardFile(response.feed.entry);
-        hideLoadingCard();
+     //Revisamos DataSave y tiempo pasado
+     getSaveData('archivos').then(data => {
+        if (data && ((data.time.getTime() + timeLimit > new Date().getTime() ) || !navigator.onLine)) {
+            //Data guarda y tiempo No pasado o Data guarda y offline
+            console.log("Usando data salvada");
+            genCardFile(data.data);
+            hideLoadingCard();
 
-    }, (error) => {
-        console.log(error);
+        } else {
+            //Obtenemos la data json
+            getDataSheetJSON('archivos').then((response) => {
+                if(data){
+                    //Tiempo paso y online => Actualizamos
+                    console.log("Updating Data profe");
+                    manageCaseData('update', 'archivos', new Date(), response.feed.entry);
+                }else{
+                     //No hay data guardada => Traemos y salvamos para la prox
+                     console.log("Guardando Data profe");
+                     manageCaseData('save', 'archivos', new Date(), response.feed.entry);
+                }
+               
+                genCardFile(response.feed.entry);
+                hideLoadingCard();
+
+            }).catch((error) => {
+                //Internet error => usar data 
+                console.log("ERROR: cathc ",error);
+            })
+        }
     })
+
 }
 
 function iconByUrl(url) {
