@@ -1,6 +1,7 @@
 const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = '/media/default.png';
 const adminEmail = 'migueldeolim1@gmail.com'; // ;)
+const timeLimit = 2 * 60 * 1000; //2min
 
 //checkAccess();
 
@@ -27,7 +28,7 @@ function loadview() {
                 case 'salones':
                     loadSalones();
                     break;
-                
+
                 case 'eventos':
                     loadNotificacion();
                     break;
@@ -41,7 +42,7 @@ function loadview() {
 
                 case '':
                     document.getElementById("mainbtn").classList.add("active-opt");
-                    if(rest == "adminMode"){
+                    if (rest == "adminMode") {
                         document.getElementById("card-admin").style.display = "block";
                     }
 
@@ -74,10 +75,10 @@ function msgSnack(mesg) {
 }
 
 function setLoader(stato) {
-    if (  document.getElementById('loader') != null && stato) {
+    if (document.getElementById('loader') != null && stato) {
         //mostrar
         document.getElementById('loader').style.display = 'inline-block';
-    } else if(document.getElementById('loader') != null){
+    } else if (document.getElementById('loader') != null) {
         //ocultar
         document.getElementById('loader').style.display = 'none';
     }
@@ -190,15 +191,44 @@ function hideLoadingCard() {
 
 //#region PROFESORES 
 function loadProfesores() {
-    //Obtenemos la data json
-    getDataSheetJSON('profesores').then((response) => {
-        //console.log(response.feed.entry);
-        genCardProf(response.feed.entry);
-        hideLoadingCard();
+    //Revisamos DataSave y tiempo pasado
+    getSaveData('profesores').then(data => {
+        if (data && ((data.time.getTime() + timeLimit > new Date().getTime() ) || !navigator.onLine)) {
+            //Data guarda y tiempo No pasado o Data guarda y offline
+            console.log("Usando data salvada");
+            genCardProf(data.data);
+            hideLoadingCard();
 
-    }, (error) => {
-        console.log(error);
+        }else if(data){
+            //Tiempo paso y online => Actualizamos
+             //Obtenemos la data json
+             getDataSheetJSON('profesores').then((response) => {
+                console.log("Updating Data profe");
+                updateSavedData('profesores', new Date(), response.feed.entry);
+                genCardProf(response.feed.entry);
+                hideLoadingCard();
+
+            }).catch((error) => {
+                //Internet error => usar data 
+                console.log("ERROR: cathc ",error);
+            })
+        } else {
+            //No hay data guardada => Traemos y salvamos para la prox
+
+            //Obtenemos la data json
+            getDataSheetJSON('profesores').then((response) => {
+                console.log("Guardando Data profe");
+                saveData('profesores', new Date(), response.feed.entry);
+                genCardProf(response.feed.entry);
+                hideLoadingCard();
+
+            }).catch((error) => {
+                //Internet error => usar data 
+                console.log("ERROR: cathc ",error);
+            })
+        }
     })
+
 
 }
 
@@ -481,7 +511,7 @@ function genCardFile(jfiles) {
 let docsNotiReq = null;
 const limitNoti = 10;
 
-function loadNotificacion(){
+function loadNotificacion() {
     genCardNotis();
 }
 
@@ -517,73 +547,73 @@ function getNotificaciones() {
 
 }
 
-function timeAgoGen(sgOld){
+function timeAgoGen(sgOld) {
     let sgNow = new Date().getTime() / 1000;
     let timeDif = Math.floor(sgNow - sgOld);
     let stResult = '';
     //console.log('TIme dif start', timeDif);
     //Seg de diferencia hasta 59sg
-    if((timeDif >= 0) && (timeDif <= 59)){
+    if ((timeDif >= 0) && (timeDif <= 59)) {
         //seg
-        if(timeDif <= 0){
+        if (timeDif <= 0) {
             stResult = 'Hace instantes';
-        }else{
+        } else {
             stResult = 'Hace ' + Math.floor(timeDif) + ' seg';
         }
-        
-    }else{
+
+    } else {
         timeDif = Math.floor(timeDif / 60);
         //console.log('TIme dif min', timeDif);
         //Min de diferencia hasta 59
-        if((timeDif >= 1) && (timeDif <= 59)){
+        if ((timeDif >= 1) && (timeDif <= 59)) {
             //Min
-            if(timeDif == 1){
+            if (timeDif == 1) {
                 stResult = 'Hace 1 min';
-            }else{
+            } else {
                 stResult = 'Hace ' + Math.floor(timeDif) + ' mins';
             }
-        }else{
+        } else {
             timeDif = Math.floor(timeDif / 60);
-           // console.log('TIme dif hrs', timeDif);
+            // console.log('TIme dif hrs', timeDif);
             //Hr diferencia hasta 23
-            if((timeDif >= 1) && (timeDif <= 23)){
+            if ((timeDif >= 1) && (timeDif <= 23)) {
                 //hrs
-                if(timeDif == 1){
+                if (timeDif == 1) {
                     stResult = 'Hace 1 hr';
-                }else{
+                } else {
                     stResult = 'Hace ' + Math.floor(timeDif) + ' hrs';
                 }
-            }else{
+            } else {
                 timeDif = Math.floor(timeDif / 24);
                 //console.log('TIme dif days', timeDif);
                 //Dias diferencia
-                if((timeDif >= 1) && (timeDif <= 29)){
+                if ((timeDif >= 1) && (timeDif <= 29)) {
                     //dias
-                    if(timeDif == 1){
+                    if (timeDif == 1) {
                         stResult = 'Hace un dia';
-                    }else{
+                    } else {
                         stResult = 'Hace ' + Math.floor(timeDif) + ' dias';
                     }
-                }else{
+                } else {
                     timeDif = Math.floor(timeDif / 30);
                     //console.log('TIme dif mes', timeDif);
                     //Meses de diferencia
-                    if((timeDif >= 1) && (timeDif <= 11)){
+                    if ((timeDif >= 1) && (timeDif <= 11)) {
                         //month
-                        if(timeDif == 1){
+                        if (timeDif == 1) {
                             stResult = 'Hace un mes';
-                        }else{
+                        } else {
                             stResult = 'Hace ' + Math.floor(timeDif) + ' meses';
                         }
-                    }else{
+                    } else {
                         //Anos diferencia
                         timeDif = Math.floor(timeDif / 12);
                         //console.log('TIme dif ano', timeDif);
-                        if((timeDif >= 1) && (timeDif <= 11)){
+                        if ((timeDif >= 1) && (timeDif <= 11)) {
                             //years
-                            if(timeDif == 1){
+                            if (timeDif == 1) {
                                 stResult = 'Hace un año';
-                            }else{
+                            } else {
                                 stResult = 'Hace ' + Math.floor(timeDif) + ' años';
                             }
                         }
@@ -645,21 +675,21 @@ function genCardNotis() {
                 //Time TO-DO
                 let pTime = document.createElement("p");
                 pTime.setAttribute("class", "card-text time-update");
-                
+
                 let spTime = document.createElement("span");
-                spTime.setAttribute("class", "text-muted"); 
+                spTime.setAttribute("class", "text-muted");
                 spTime.innerText = timeAgoGen(noti.fecha.seconds);
 
                 pTime.appendChild(spTime);
                 divBody.appendChild(pTime);
-            
+
 
                 divMain.appendChild(divBody);
 
                 document.getElementById("notis").appendChild(divMain);
             })
 
-            hideLoadingCard();
+        hideLoadingCard();
     })
 }
 
