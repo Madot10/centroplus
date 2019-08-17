@@ -1,20 +1,12 @@
 const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = '/media/default.png';
+const adminEmail = 'migueldeolim1@gmail.com'; // ;)
 
 //checkAccess();
 
 
 window.onload = () => {
-    //Carga de nav
-    /*fetch(document.location.origin + appName + 'nav.html')
-        .then(data => data.text())
-        .then(html => document.getElementById('nav').innerHTML = html);*/
 
-    //Footer
-    /*fetch(document.location.origin + appName + 'footer.html')
-        .then(data => data.text())
-        .then(html => document.getElementsByTagName('footer')[0].innerHTML = html);
-    */
     loadview();
 }
 
@@ -49,6 +41,10 @@ function loadview() {
 
                 case '':
                     document.getElementById("mainbtn").classList.add("active-opt");
+                    if(rest == "adminMode"){
+                        document.getElementById("card-admin").style.display = "block";
+                    }
+
                     if (rest == 'first') {
                         console.log("Menu 1er vez");
                         SaveRegToDB();
@@ -78,10 +74,10 @@ function msgSnack(mesg) {
 }
 
 function setLoader(stato) {
-    if (stato) {
+    if (  document.getElementById('loader') != null && stato) {
         //mostrar
         document.getElementById('loader').style.display = 'inline-block';
-    } else {
+    } else if(document.getElementById('loader') != null){
         //ocultar
         document.getElementById('loader').style.display = 'none';
     }

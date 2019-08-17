@@ -3,7 +3,7 @@ function logIn() {
     FB_AUTH.signInWithPopup(provider).then(function (result) {
         let user = result.user;
 
-        if (true || user.email.includes('ucab.edu.ve')) {
+        if (true || user.email.includes('ucab.edu.ve') || user.email === adminEmail) {
             //yes
             console.log("LogIn UCAB", user);
             isRegister().then(resp =>{
@@ -21,7 +21,7 @@ function logIn() {
             });
            
 
-        } else {
+        }else {
             //no 
             console.log("NoUCAB => desLogin");
             msgSnack("¡Debe utlizar correo UCAB! <br> Plataforma <b>SOLO</b> para Ucabistas")
@@ -59,10 +59,16 @@ function checkAccess() {
                 isRegister().then((status)=>{
                     if(status){
                         //Registrado en DB ucab => TODO OK
+
+                        if(window.location.pathname.includes('/admin') && user.email != adminEmail){
+                            //No-admin intentando => menu
+                            window.location.replace('/');
+                        }
                         console.log("All ok");
                         setVisibility(true);
                         setLoader(false);
-                        resolve(true);
+
+                        user.email == adminEmail ? resolve('adminMode') : resolve(true);
 
                     }else if(user.email.includes('ucab.edu.ve')){
                         //NoDB por noUCAB
@@ -137,7 +143,7 @@ function isRegister(){
 
     return new Promise((resolve, reject) =>{
         let uemail = FB_AUTH.currentUser.email;
-        if(true || uemail.includes('ucab.edu.ve')){
+        if(true || uemail.includes('ucab.edu.ve') || user.email === adminEmail){
             //CorreUCAB
             FB_DB.collection("users").doc(uemail).get()
             .then(doc =>{
