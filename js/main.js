@@ -199,26 +199,19 @@ function loadProfesores() {
             genCardProf(data.data);
             hideLoadingCard();
 
-        }else if(data){
-            //Tiempo paso y online => Actualizamos
-             //Obtenemos la data json
-             getDataSheetJSON('profesores').then((response) => {
-                console.log("Updating Data profe");
-                updateSavedData('profesores', new Date(), response.feed.entry);
-                genCardProf(response.feed.entry);
-                hideLoadingCard();
-
-            }).catch((error) => {
-                //Internet error => usar data 
-                console.log("ERROR: cathc ",error);
-            })
         } else {
-            //No hay data guardada => Traemos y salvamos para la prox
-
             //Obtenemos la data json
             getDataSheetJSON('profesores').then((response) => {
-                console.log("Guardando Data profe");
-                saveData('profesores', new Date(), response.feed.entry);
+                if(data){
+                    //Tiempo paso y online => Actualizamos
+                    console.log("Updating Data profe");
+                    manageCaseData('update', 'profesores', new Date(), response.feed.entry);
+                }else{
+                     //No hay data guardada => Traemos y salvamos para la prox
+                     console.log("Guardando Data profe");
+                     manageCaseData('save', 'profesores', new Date(), response.feed.entry);
+                }
+               
                 genCardProf(response.feed.entry);
                 hideLoadingCard();
 

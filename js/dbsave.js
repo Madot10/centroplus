@@ -103,3 +103,15 @@ function updateSavedData(nameData, time, objData) {
         };
     }
 }
+
+function manageCaseData(caso, nameData, time, objData){
+    switch (caso) {
+        case "update":
+            updateSavedData(nameData, time, objData);
+            break;
+    
+        case "save":
+            saveData(nameData, time, objData);
+            break;
+    }
+}
