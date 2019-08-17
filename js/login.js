@@ -3,7 +3,7 @@ function logIn() {
     FB_AUTH.signInWithPopup(provider).then(function (result) {
         let user = result.user;
 
-        if (true || user.email.includes('ucab.edu.ve') || user.email === adminEmail) {
+        if (user.email.includes('ucab.edu.ve') || user.email === adminEmail) {
             //yes
             console.log("LogIn UCAB", user);
             isRegister().then(resp =>{
@@ -70,7 +70,7 @@ function checkAccess() {
 
                         user.email == adminEmail ? resolve('adminMode') : resolve(true);
 
-                    }else if(user.email.includes('ucab.edu.ve')){
+                    }else if(!user.email.includes('ucab.edu.ve')){
                         //NoDB por noUCAB
                         //Rebotar/Pedir login
                         console.log("NoDB NoUCab", false, user);
@@ -143,7 +143,8 @@ function isRegister(){
 
     return new Promise((resolve, reject) =>{
         let uemail = FB_AUTH.currentUser.email;
-        if(true || uemail.includes('ucab.edu.ve') || user.email === adminEmail){
+        console.log("CUrrente Email", uemail);
+        if(uemail.includes('ucab.edu.ve') || uemail === adminEmail){
             //CorreUCAB
             FB_DB.collection("users").doc(uemail).get()
             .then(doc =>{
@@ -158,7 +159,7 @@ function isRegister(){
                 }
             }).catch(function(error) {
                 console.log("Error getting document:", error);
-                reject(false);
+                resolve(false);
             });
         }else{
             resolve(false);

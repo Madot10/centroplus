@@ -234,7 +234,8 @@ function setFormTopic(){
             let topics = userData.topics;
 
             for(let ntopic in topics){
-                document.getElementById(ntopic).checked = topics[ntopic];
+                if(ntopic != 'ucab')
+                    document.getElementById(ntopic).checked = topics[ntopic];
             }
 
             //SusState
