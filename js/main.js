@@ -305,16 +305,37 @@ function genCardProf(jdata) {
 let salonesData = [];
 
 function loadSalones() {
-    //Obtenemos la data json
-    getDataSheetJSON('salones').then((response) => {
-        console.log(response.feed.entry);
-        buildData(response.feed.entry);
-        genSalones();
-        hideLoadingCard();
+    getSaveData('salones').then(data => {
+        if (data && ((data.time.getTime() + timeLimit > new Date().getTime() ) || !navigator.onLine)) {
+            //Data guarda y tiempo No pasado o Data guarda y offline
+            console.log("Usando data salvada");
+            buildData(data.data);
+            genSalones();
+            hideLoadingCard();
 
-    }, (error) => {
-        console.log(error);
-    })
+        } else {
+            //Obtenemos la data json
+            getDataSheetJSON('salones').then((response) => {
+                if(data){
+                    //Tiempo paso y online => Actualizamos
+                    console.log("Updating Data salones");
+                    manageCaseData('update', 'salones', new Date(), response.feed.entry);
+                }else{
+                     //No hay data guardada => Traemos y salvamos para la prox
+                     console.log("Guardando Data salones");
+                     manageCaseData('save', 'salones', new Date(), response.feed.entry);
+                }
+               
+                buildData(response.feed.entry);
+                genSalones();
+                hideLoadingCard();
+
+            }).catch((error) => {
+                //Internet error => usar data 
+                console.log("ERROR: cathc ",error);
+            })
+        }
+    });
 }
 
 function ordeByKey(arr, campo) {
