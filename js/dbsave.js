@@ -105,6 +105,7 @@ function updateSavedData(nameData, time, objData) {
 }
 
 function manageCaseData(caso, nameData, time, objData){
+    console.log("data recibida: ",objData);
     switch (caso) {
         case "update":
             updateSavedData(nameData, time, objData);

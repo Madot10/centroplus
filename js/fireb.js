@@ -18,6 +18,7 @@ const FB_DB = firebase.firestore();
 
 const FB_CM = firebase.messaging();
 
+let perf = firebase.performance();
 
 //#region msg
 function suscribirse() {

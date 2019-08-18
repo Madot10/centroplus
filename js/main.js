@@ -2,6 +2,7 @@ const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = '/media/default.png';
 const adminEmail = 'migueldeolim1@gmail.com'; // ;)
 const timeLimit = 2 * 60 * 1000; //2min
+const timeNotiLimit = 2 * 60 * 1000;
 
 //checkAccess();
 
@@ -10,6 +11,18 @@ window.onload = () => {
 
     loadview();
 }
+
+window.onscroll = function (e) {
+    if (location.pathname.includes("eventos")) {
+        let _windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+            _scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+        if ((_windowHeight + _scrollPos) >= document.body.offsetHeight) {
+            console.log("At the bottom of CodingRepo.com page!");
+        }
+    }
+
+};
 
 function loadview() {
     checkAccess().then((rest) => {
@@ -193,7 +206,7 @@ function hideLoadingCard() {
 function loadProfesores() {
     //Revisamos DataSave y tiempo pasado
     getSaveData('profesores').then(data => {
-        if (data && ((data.time.getTime() + timeLimit > new Date().getTime() ) || !navigator.onLine)) {
+        if (data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
             //Data guarda y tiempo No pasado o Data guarda y offline
             console.log("Usando data salvada");
             genCardProf(data.data);
@@ -202,22 +215,22 @@ function loadProfesores() {
         } else {
             //Obtenemos la data json
             getDataSheetJSON('profesores').then((response) => {
-                if(data){
+                if (data) {
                     //Tiempo paso y online => Actualizamos
                     console.log("Updating Data profe");
                     manageCaseData('update', 'profesores', new Date(), response.feed.entry);
-                }else{
-                     //No hay data guardada => Traemos y salvamos para la prox
-                     console.log("Guardando Data profe");
-                     manageCaseData('save', 'profesores', new Date(), response.feed.entry);
+                } else {
+                    //No hay data guardada => Traemos y salvamos para la prox
+                    console.log("Guardando Data profe");
+                    manageCaseData('save', 'profesores', new Date(), response.feed.entry);
                 }
-               
+
                 genCardProf(response.feed.entry);
                 hideLoadingCard();
 
             }).catch((error) => {
                 //Internet error => usar data 
-                console.log("ERROR: cathc ",error);
+                console.log("ERROR: cathc ", error);
             })
         }
     })
@@ -306,7 +319,7 @@ let salonesData = [];
 
 function loadSalones() {
     getSaveData('salones').then(data => {
-        if (data && ((data.time.getTime() + timeLimit > new Date().getTime() ) || !navigator.onLine)) {
+        if (data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
             //Data guarda y tiempo No pasado o Data guarda y offline
             console.log("Usando data salvada");
             buildData(data.data);
@@ -316,23 +329,23 @@ function loadSalones() {
         } else {
             //Obtenemos la data json
             getDataSheetJSON('salones').then((response) => {
-                if(data){
+                if (data) {
                     //Tiempo paso y online => Actualizamos
                     console.log("Updating Data salones");
                     manageCaseData('update', 'salones', new Date(), response.feed.entry);
-                }else{
-                     //No hay data guardada => Traemos y salvamos para la prox
-                     console.log("Guardando Data salones");
-                     manageCaseData('save', 'salones', new Date(), response.feed.entry);
+                } else {
+                    //No hay data guardada => Traemos y salvamos para la prox
+                    console.log("Guardando Data salones");
+                    manageCaseData('save', 'salones', new Date(), response.feed.entry);
                 }
-               
+
                 buildData(response.feed.entry);
                 genSalones();
                 hideLoadingCard();
 
             }).catch((error) => {
                 //Internet error => usar data 
-                console.log("ERROR: cathc ",error);
+                console.log("ERROR: cathc ", error);
             })
         }
     });
@@ -425,9 +438,9 @@ function genSalones() {
 
 //#region ARCHIVOS
 function loadArchivos() {
-     //Revisamos DataSave y tiempo pasado
-     getSaveData('archivos').then(data => {
-        if (data && ((data.time.getTime() + timeLimit > new Date().getTime() ) || !navigator.onLine)) {
+    //Revisamos DataSave y tiempo pasado
+    getSaveData('archivos').then(data => {
+        if (data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
             //Data guarda y tiempo No pasado o Data guarda y offline
             console.log("Usando data salvada");
             genCardFile(data.data);
@@ -436,22 +449,22 @@ function loadArchivos() {
         } else {
             //Obtenemos la data json
             getDataSheetJSON('archivos').then((response) => {
-                if(data){
+                if (data) {
                     //Tiempo paso y online => Actualizamos
                     console.log("Updating Data profe");
                     manageCaseData('update', 'archivos', new Date(), response.feed.entry);
-                }else{
-                     //No hay data guardada => Traemos y salvamos para la prox
-                     console.log("Guardando Data profe");
-                     manageCaseData('save', 'archivos', new Date(), response.feed.entry);
+                } else {
+                    //No hay data guardada => Traemos y salvamos para la prox
+                    console.log("Guardando Data profe");
+                    manageCaseData('save', 'archivos', new Date(), response.feed.entry);
                 }
-               
+
                 genCardFile(response.feed.entry);
                 hideLoadingCard();
 
             }).catch((error) => {
                 //Internet error => usar data 
-                console.log("ERROR: cathc ",error);
+                console.log("ERROR: cathc ", error);
             })
         }
     })
@@ -553,31 +566,68 @@ function loadNotificacion() {
 }
 
 function getNotificaciones() {
-    //TO-DO orderBy
     return new Promise((resolve, reject) => {
         if (!docsNotiReq) {
             docsNotiReq = FB_DB.collection("notification").orderBy("fecha", "desc").limit(limitNoti);
         }
-        docsNotiReq.get().then(function (documentSnapshots) {
-            // Get the last visible document
-            let lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-            //console.log("last", lastVisible);
 
 
-            // Construct a new query starting at this document,
-            if (lastVisible) {
-                //Hay mas doc
-                docsNotiReq = FB_DB.collection("notification")
-                    .orderBy("fecha", "desc")
-                    .startAfter(lastVisible)
-                    .limit(limitNoti);
+        //Revisamos DataSave y tiempo pasado
+        getSaveData('notificacion').then(data => {
+            if (data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
+                //Data guarda y tiempo No pasado o Data guarda y offline
+                console.log("Usando data salvada");
+                resolve(data.data);
 
-                resolve(documentSnapshots);
             } else {
-                resolve(false);
-                console.log("No mas docs!")
+
+                docsNotiReq.get().then(function (documentSnapshots) {
+                    // Get the last visible document
+                    let lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+                    //console.log("last", lastVisible);
+
+                    //construimos array de notificaciones
+                    let notis = [];
+                    documentSnapshots.forEach(doc => {
+                        notis.push(doc.data());
+                    });
+
+                    if (data) {
+                        //Tiempo paso y online => Actualizamos
+                        console.log("Updating Data notificacion");
+                        manageCaseData('update', 'notificacion', new Date(), notis);
+                    } else {
+                        //No hay data guardada => Traemos y salvamos para la prox
+                        console.log("Guardando Data notificacion", notis);
+                        manageCaseData('save', 'notificacion', new Date(), notis);
+                    }
+
+
+                    // Construct a new query starting at this document,
+                    if (lastVisible) {
+                        //Hay mas doc
+                        docsNotiReq = FB_DB.collection("notification")
+                            .orderBy("fecha", "desc")
+                            .startAfter(lastVisible)
+                            .limit(limitNoti);
+                        console.log("documentSnapshots:", notis);
+                        resolve(notis);
+
+                    } else {
+                        resolve(false);
+                        console.log("No mas docs!")
+                    }
+                })
+
+
+
+
             }
         })
+
+
+
+
 
 
     })
@@ -667,7 +717,7 @@ function genCardNotis() {
     getNotificaciones().then(docs => {
         if (docs)
             docs.forEach(doc => {
-                let noti = doc.data();
+                let noti = doc;
                 //console.log("DOC: ", doc.data());
 
                 let divMain = document.createElement("div");
