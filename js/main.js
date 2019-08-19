@@ -2,6 +2,7 @@ const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = '/media/default.png';
 const urlApp = 'localhost/';
 const adminEmail = 'migueldeolim1@gmail.com'; // ;)
+
 const timeLimit = 2 * 60 * 1000; //2min
 const timeNotiLimit = 2 * 60 * 1000;
 
@@ -834,15 +835,5 @@ function genCardNotis(mode) {
 
         hideLoadingCard();
     })
-}
-
-function shareWApi(data){
-
-    if (navigator.share) {
-
-        navigator.share(data)
-          .then(() => console.log('Successful share'))
-          .catch((error) => console.log('Error sharing', error));
-      }
 }
 //#endregion
