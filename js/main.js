@@ -1,5 +1,6 @@
 const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = '/media/default.png';
+const urlApp = 'localhost/';
 const adminEmail = 'migueldeolim1@gmail.com'; // ;)
 const timeLimit = 2 * 60 * 1000; //2min
 const timeNotiLimit = 2 * 60 * 1000;
@@ -775,19 +776,7 @@ function genCardNotis(mode) {
                 pText.innerText = noti.webpush.notification.body;
                 divBody.appendChild(pText);
 
-                //link action
-                if (noti.webpush.notification.click_action) {
-                    let divLink = document.createElement("div");
-                    divLink.setAttribute("class", "text-center");
-
-                    let aLink = document.createElement("a");
-                    aLink.setAttribute("class", "btn btn-block btn-outline-info stretched-link");
-                    aLink.setAttribute("href", noti.webpush.notification.click_action);
-                    aLink.innerHTML = '<i class="fas fa-angle-double-right"></i>';
-
-                    divLink.appendChild(aLink);
-                    divBody.appendChild(divLink);
-                }
+                
 
                 //Time TO-DO
                 let pTime = document.createElement("p");
@@ -803,6 +792,43 @@ function genCardNotis(mode) {
 
                 divMain.appendChild(divBody);
 
+                //Footer => Buttons
+                let divFooter = document.createElement("div");
+                divFooter.setAttribute("class", "card-footer");
+
+                let divButton = document.createElement("div");
+                divButton.setAttribute("class", "btn-group btn-block");
+                divButton.setAttribute("role", "group");
+
+                //link action
+                if (noti.webpush.notification.click_action) {
+
+                    let aLink = document.createElement("a");
+                    aLink.setAttribute("class", "btn btn-outline-info");
+                    aLink.setAttribute("role", "button");
+                    aLink.setAttribute("href", noti.webpush.notification.click_action);
+                    aLink.innerHTML = '<i class="fas fa-link"></i>';
+
+                    divButton.appendChild(aLink);
+                }
+
+                let btnShare = document.createElement("button");
+                    btnShare.setAttribute("class", "btn btn-outline-info");
+                    btnShare.setAttribute("type", "button");
+                    let daat = JSON
+                        .stringify(
+                            {"title": noti.webpush.notification.title,
+                            "text" : noti.webpush.notification.body,
+                            "url" : noti.webpush.notification.click_action ? noti.webpush.notification.click_action : urlApp
+                            });
+                    btnShare.setAttribute("onclick", 'shareWApi('+ daat +');');
+                    btnShare.innerHTML = '<i class="fas fa-share-alt"></i>';
+
+                    divButton.appendChild(btnShare);
+
+                divFooter.appendChild(divButton);
+                divMain.appendChild(divFooter);
+
                 document.getElementById("notis").appendChild(divMain);
             })
 
@@ -810,4 +836,13 @@ function genCardNotis(mode) {
     })
 }
 
+function shareWApi(data){
+
+    if (navigator.share) {
+
+        navigator.share(data)
+          .then(() => console.log('Successful share'))
+          .catch((error) => console.log('Error sharing', error));
+      }
+}
 //#endregion
