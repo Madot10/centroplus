@@ -46,11 +46,11 @@ function generateLink(redS) {
 
         case 'wp':
             //What
-            let WHcont = '*'+ toShare.title + '*' + ' \n ' + toShare.text + ' \n ' + 'Link: ' + toShare.url + ' \n ' + '*Centro+* ' + urlApp;
+            let WHcont = '*'+ toShare.title + '*' + ' \n ' + toShare.text + ' \n ' + 'Link: ' + toShare.url + ' \n ' + '*Centro* ' + urlApp;
             encodeCont = encodeURI(WHcont);
             let a = document.createElement('a');
             a.style = { position: 'absolute', left: '-9999px' };
-            a.href = "https://wa.me/whatsappphonenumber/?text=" + encodeCont;
+            a.href = "https://wa.me/?text=" + encodeCont;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -72,8 +72,8 @@ function generateLink(redS) {
 
 function copyStringToClipboard(str) {
     // Create new element
-    console.log("run")
-    let el = document.createElement('textarea');
+    let el = document.createElement('input');
+    el.setAttribute("type", "text");
     // Set value (string to be copied)
     el.value = str;
     // Set non-editable to avoid focus and move outside of view
