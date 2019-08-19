@@ -543,7 +543,7 @@ p.indent{
 }
 
 .card-columns.noti-card{
-    /*column-count: 1 ;*/
+    column-count: 1 ;
 }
 
 

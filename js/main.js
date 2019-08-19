@@ -18,7 +18,8 @@ window.onscroll = function (e) {
             _scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
         if ((_windowHeight + _scrollPos) >= document.body.offsetHeight) {
-            console.log("At the bottom of CodingRepo.com page!");
+            //console.log("At the bottom of CodingRepo.com page!");
+            loadNotificacion("more");
         }
     }
 
@@ -559,22 +560,38 @@ function genCardFile(jfiles) {
 
 //#region NOTIFICACIONES
 let docsNotiReq = null;
+let notiStatus = true;
 const limitNoti = 10;
 
-function loadNotificacion() {
-    genCardNotis();
+
+
+function loadNotificacion(mode = '') {
+    //Optimizacion => Cuando ya no haya mas hacia abajo!
+    if(notiStatus){
+        if(mode == "more"){
+            //animation button
+            document.getElementById('spin-load').style.display = "inline-block";
+            document.getElementById('down-load').style.display = "none";
+    
+            setTimeout(()=>{
+                document.getElementById('spin-load').style.display = "none";
+                document.getElementById('down-load').style.display = "block";    
+            },2000)
+        }
+        genCardNotis(mode);
+    }
+    
 }
 
-function getNotificaciones() {
+function getNotificaciones(mode) {
     return new Promise((resolve, reject) => {
         if (!docsNotiReq) {
             docsNotiReq = FB_DB.collection("notification").orderBy("fecha", "desc").limit(limitNoti);
         }
 
-
         //Revisamos DataSave y tiempo pasado
         getSaveData('notificacion').then(data => {
-            if (data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
+            if ((mode != "more") && data && ((data.time.getTime() + timeLimit > new Date().getTime()) && !navigator.onLine)) {
                 //Data guarda y tiempo No pasado o Data guarda y offline
                 console.log("Usando data salvada");
                 resolve(data.data);
@@ -584,18 +601,30 @@ function getNotificaciones() {
                 docsNotiReq.get().then(function (documentSnapshots) {
                     // Get the last visible document
                     let lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
                     //console.log("last", lastVisible);
+                    console.log("REAL documentSnapshots", documentSnapshots);
 
                     //construimos array de notificaciones
                     let notis = [];
                     documentSnapshots.forEach(doc => {
+                        if (mode == "more") {
+                            data.data.push(doc.data());
+                        }
                         notis.push(doc.data());
+
                     });
 
-                    if (data) {
+                    if (data && (mode != "more")) {
                         //Tiempo paso y online => Actualizamos
                         console.log("Updating Data notificacion");
                         manageCaseData('update', 'notificacion', new Date(), notis);
+
+                    } else if (mode == "more") {
+                        //Tiempo paso y online + Carga mas => Actualizamos
+                        console.log("Updating Data MORE notificacion");
+                        manageCaseData('update', 'notificacion', new Date(), data.data);
+
                     } else {
                         //No hay data guardada => Traemos y salvamos para la prox
                         console.log("Guardando Data notificacion", notis);
@@ -610,10 +639,11 @@ function getNotificaciones() {
                             .orderBy("fecha", "desc")
                             .startAfter(lastVisible)
                             .limit(limitNoti);
-                        console.log("documentSnapshots:", notis);
+                        console.log("Nottis :", notis);
                         resolve(notis);
 
                     } else {
+                        notiStatus = false;
                         resolve(false);
                         console.log("No mas docs!")
                     }
@@ -713,8 +743,8 @@ function timeAgoGen(sgOld) {
     return stResult;
 }
 
-function genCardNotis() {
-    getNotificaciones().then(docs => {
+function genCardNotis(mode) {
+    getNotificaciones(mode).then(docs => {
         if (docs)
             docs.forEach(doc => {
                 let noti = doc;
