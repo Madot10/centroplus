@@ -119,9 +119,9 @@ function setVisibility(turnto) {
     }
 }
 
-function setWarnEmpty(state){
+function setWarnEmpty(state) {
     let warn = document.getElementById("empty-warn");
-    if(state){
+    if (state) {
         warn.style.display = "block";
     }
 }
@@ -216,13 +216,13 @@ function hideLoadingCard() {
 function loadProfesores() {
     //Revisamos DataSave y tiempo pasado
     getSaveData('profesores').then(data => {
-        if (data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
+        if (data.data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
             //Data guarda y tiempo No pasado o Data guarda y offline
             console.log("Usando data salvada");
             genCardProf(data.data);
             hideLoadingCard();
 
-        } else {
+        } else if(navigator.onLine){
             //Obtenemos la data json
             getDataSheetJSON('profesores').then((response) => {
                 if (data) {
@@ -242,6 +242,9 @@ function loadProfesores() {
                 //Internet error => usar data 
                 console.log("ERROR: cathc ", error);
             })
+        }else{
+            setWarnEmpty(true);
+            hideLoadingCard();
         }
     })
 
@@ -260,65 +263,69 @@ function linkSrcDrive(urlshare) {
 }
 
 function genCardProf(jdata) {
+    if (jdata) {
+        jdata.forEach(e => {
+            console.log(e);
+            let dCard = document.createElement('div');
+            dCard.setAttribute('class', 'card shadow');
 
-    jdata.forEach(e => {
-        console.log(e);
-        let dCard = document.createElement('div');
-        dCard.setAttribute('class', 'card shadow');
+            let foto = document.createElement('img');
+            //En caso de no tener foto
+            if (e['gsx$linkfoto']['$t'] != "") {
+                foto.setAttribute('src', linkSrcDrive(e['gsx$linkfoto']['$t']));
+            } else {
+                foto.setAttribute('src', imgDefault);
+            }
+            foto.setAttribute('class', 'card-img-top');
+            foto.setAttribute('alt', 'Foto de ' + e['gsx$nombre']['$t']);
 
-        let foto = document.createElement('img');
-        //En caso de no tener foto
-        if (e['gsx$linkfoto']['$t'] != "") {
-            foto.setAttribute('src', linkSrcDrive(e['gsx$linkfoto']['$t']));
-        } else {
-            foto.setAttribute('src', imgDefault);
-        }
-        foto.setAttribute('class', 'card-img-top');
-        foto.setAttribute('alt', 'Foto de ' + e['gsx$nombre']['$t']);
+            dCard.appendChild(foto);
 
-        dCard.appendChild(foto);
+            let dBody = document.createElement('div');
+            dBody.setAttribute('class', 'card-body');
 
-        let dBody = document.createElement('div');
-        dBody.setAttribute('class', 'card-body');
+            let cTitle = document.createElement('h5');
+            cTitle.setAttribute('class', 'card-title');
+            cTitle.innerText = e['gsx$nombre']['$t'];
+            dBody.appendChild(cTitle);
 
-        let cTitle = document.createElement('h5');
-        cTitle.setAttribute('class', 'card-title');
-        cTitle.innerText = e['gsx$nombre']['$t'];
-        dBody.appendChild(cTitle);
+            let cSub = document.createElement('h6');
+            cSub.setAttribute('class', 'card-subtitle mb-2 text-muted');
+            cSub.innerText = e['gsx$materia']['$t'];
+            dBody.appendChild(cSub);
 
-        let cSub = document.createElement('h6');
-        cSub.setAttribute('class', 'card-subtitle mb-2 text-muted');
-        cSub.innerText = e['gsx$materia']['$t'];
-        dBody.appendChild(cSub);
+            if (e['gsx$quehace']['$t'] != "") {
+                cDo = document.createElement('p');
+                cDo.setAttribute('class', 'card-text');
+                cDo.innerText = e['gsx$quehace']['$t'];
+                dBody.appendChild(cDo);
+            }
 
-        if (e['gsx$quehace']['$t'] != "") {
-            cDo = document.createElement('p');
-            cDo.setAttribute('class', 'card-text');
-            cDo.innerText = e['gsx$quehace']['$t'];
-            dBody.appendChild(cDo);
-        }
+            let cText = document.createElement('p');
+            cText.setAttribute('class', 'card-text');
+            cText.innerText = "Estudios:";
+            dBody.appendChild(cText);
 
-        let cText = document.createElement('p');
-        cText.setAttribute('class', 'card-text');
-        cText.innerText = "Estudios:";
-        dBody.appendChild(cText);
+            dCard.append(dBody);
 
-        dCard.append(dBody);
+            let ul = document.createElement('ul');
+            ul.setAttribute('class', 'list-group list-group-flush');
 
-        let ul = document.createElement('ul');
-        ul.setAttribute('class', 'list-group list-group-flush');
+            e['gsx$estudios']['$t'].split(',').forEach(est => {
+                let li = document.createElement('li');
+                li.setAttribute('class', 'list-group-item');
+                li.innerText = est;
+                ul.append(li);
+            });
+            dCard.append(ul);
 
-        e['gsx$estudios']['$t'].split(',').forEach(est => {
-            let li = document.createElement('li');
-            li.setAttribute('class', 'list-group-item');
-            li.innerText = est;
-            ul.append(li);
+            //Agregamos al DOM
+            document.getElementById('cardProf').appendChild(dCard);
         });
-        dCard.append(ul);
+    } else {
+        setWarnEmpty(true);
+    }
 
-        //Agregamos al DOM
-        document.getElementById('cardProf').appendChild(dCard);
-    });
 
 
 }
@@ -336,7 +343,7 @@ function loadSalones() {
             genSalones();
             hideLoadingCard();
 
-        } else if(navigator.onLine){
+        } else if (navigator.onLine) {
             //Obtenemos la data json
             getDataSheetJSON('salones').then((response) => {
                 if (data) {
@@ -357,7 +364,7 @@ function loadSalones() {
                 //Internet error => usar data 
                 console.log("ERROR: cathc ", error);
             })
-        }else{
+        } else {
             setWarnEmpty(true);
             hideLoadingCard();
         }
@@ -369,7 +376,7 @@ function ordeByKey(arr, campo) {
 }
 
 function buildData(datos) {
-    if(datos){
+    if (datos) {
         datos.forEach(d => {
             //Chequeamos si existe la materia
             let ref = d['gsx$materia']['$t'];
@@ -385,10 +392,10 @@ function buildData(datos) {
             });
         });
         console.log("salonesData: ", salonesData);
-    }else{
+    } else {
         setWarnEmpty(true);
     }
-   
+
 }
 
 function genSalones() {
@@ -464,7 +471,7 @@ function loadArchivos() {
             genCardFile(data.data);
             hideLoadingCard();
 
-        } else if(navigator.onLine){
+        } else if (navigator.onLine) {
             //Obtenemos la data json
             getDataSheetJSON('archivos').then((response) => {
                 if (data) {
@@ -484,7 +491,7 @@ function loadArchivos() {
                 //Internet error => usar data 
                 console.log("ERROR: cathc ", error);
             })
-        }else{
+        } else {
             hideLoadingCard();
             setWarnEmpty(true);
         }
@@ -536,49 +543,49 @@ function getColor(text) {
 function genCardFile(jfiles) {
     let divM = document.getElementById("cardFile");
 
-    if(jfiles){
-      jfiles.forEach(f => {
-        let divCard = document.createElement('div');
-        divCard.setAttribute('class', 'card');
+    if (jfiles) {
+        jfiles.forEach(f => {
+            let divCard = document.createElement('div');
+            divCard.setAttribute('class', 'card');
 
-        let cBody = document.createElement('div');
-        cBody.setAttribute('class', 'card-body');
+            let cBody = document.createElement('div');
+            cBody.setAttribute('class', 'card-body');
 
-        let title = document.createElement('h5');
-        title.setAttribute('class', 'card-title');
-        title.innerText = f['gsx$titulodematerial']['$t'] + ' ';
-        title.appendChild(iconByUrl(f['gsx$linkmaterial']['$t']));
-        cBody.appendChild(title);
+            let title = document.createElement('h5');
+            title.setAttribute('class', 'card-title');
+            title.innerText = f['gsx$titulodematerial']['$t'] + ' ';
+            title.appendChild(iconByUrl(f['gsx$linkmaterial']['$t']));
+            cBody.appendChild(title);
 
-        let sub = document.createElement('h6');
-        sub.setAttribute('class', 'card-subtitle mb-2 text-muted');
-        if (f['gsx$mensaje']['$t'] != "") {
-            let newAv = document.createElement('span');
-            newAv.setAttribute('class', 'badge ' + getColor(f['gsx$mensaje']['$t']));
-            newAv.innerText = f['gsx$mensaje']['$t'];
-            sub.appendChild(newAv);
-        }
-        cBody.appendChild(sub);
+            let sub = document.createElement('h6');
+            sub.setAttribute('class', 'card-subtitle mb-2 text-muted');
+            if (f['gsx$mensaje']['$t'] != "") {
+                let newAv = document.createElement('span');
+                newAv.setAttribute('class', 'badge ' + getColor(f['gsx$mensaje']['$t']));
+                newAv.innerText = f['gsx$mensaje']['$t'];
+                sub.appendChild(newAv);
+            }
+            cBody.appendChild(sub);
 
-        let txt = document.createElement('p');
-        txt.setAttribute('class', 'card-text');
-        txt.innerText = f['gsx$brevedescripcion']['$t'];
-        cBody.appendChild(txt);
+            let txt = document.createElement('p');
+            txt.setAttribute('class', 'card-text');
+            txt.innerText = f['gsx$brevedescripcion']['$t'];
+            cBody.appendChild(txt);
 
-        let a = document.createElement('a');
-        a.setAttribute('class', 'card-link stretched-link');
-        a.setAttribute('href', f['gsx$linkmaterial']['$t']);
-        a.innerText = "Link";
-        cBody.appendChild(a);
+            let a = document.createElement('a');
+            a.setAttribute('class', 'card-link stretched-link');
+            a.setAttribute('href', f['gsx$linkmaterial']['$t']);
+            a.innerText = "Link";
+            cBody.appendChild(a);
 
-        divCard.appendChild(cBody);
-        divM.appendChild(divCard);
+            divCard.appendChild(cBody);
+            divM.appendChild(divCard);
 
-    });  
-    }else{
+        });
+    } else {
         setWarnEmpty(true);
     }
-    
+
 }
 //#endregion
 
@@ -592,20 +599,20 @@ const limitNoti = 10;
 
 function loadNotificacion(mode = '') {
     //Optimizacion => Cuando ya no haya mas hacia abajo!
-    if(notiStatus){
-        if(mode == "more"){
+    if (notiStatus) {
+        if (mode == "more") {
             //animation button
             document.getElementById('spin-load').style.display = "inline-block";
             document.getElementById('down-load').style.display = "none";
-    
-            setTimeout(()=>{
+
+            setTimeout(() => {
                 document.getElementById('spin-load').style.display = "none";
-                document.getElementById('down-load').style.display = "block";    
-            },2000)
+                document.getElementById('down-load').style.display = "block";
+            }, 2000)
         }
         genCardNotis(mode);
     }
-    
+
 }
 
 function getNotificaciones(mode) {
@@ -800,7 +807,7 @@ function genCardNotis(mode) {
                 pText.innerText = noti.webpush.notification.body;
                 divBody.appendChild(pText);
 
-                
+
 
                 //Time TO-DO
                 let pTime = document.createElement("p");
@@ -837,18 +844,19 @@ function genCardNotis(mode) {
                 }
 
                 let btnShare = document.createElement("button");
-                    btnShare.setAttribute("class", "btn btn-outline-info");
-                    btnShare.setAttribute("type", "button");
-                    let daat = JSON
-                        .stringify(
-                            {"title": noti.webpush.notification.title,
-                            "text" : noti.webpush.notification.body,
-                            "url" : noti.webpush.notification.click_action ? noti.webpush.notification.click_action : urlApp
-                            });
-                    btnShare.setAttribute("onclick", 'shareWApi('+ daat +');');
-                    btnShare.innerHTML = '<i class="fas fa-share-alt"></i>';
+                btnShare.setAttribute("class", "btn btn-outline-info");
+                btnShare.setAttribute("type", "button");
+                let daat = JSON
+                    .stringify(
+                        {
+                            "title": noti.webpush.notification.title,
+                            "text": noti.webpush.notification.body,
+                            "url": noti.webpush.notification.click_action ? noti.webpush.notification.click_action : urlApp
+                        });
+                btnShare.setAttribute("onclick", 'shareWApi(' + daat + ');');
+                btnShare.innerHTML = '<i class="fas fa-share-alt"></i>';
 
-                    divButton.appendChild(btnShare);
+                divButton.appendChild(btnShare);
 
                 divFooter.appendChild(divButton);
                 divMain.appendChild(divFooter);
