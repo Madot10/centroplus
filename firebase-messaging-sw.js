@@ -9,11 +9,12 @@ firebase.initializeApp({messagingSenderId: "818379002482"});
 // messages.
 const FB_CM  = firebase.messaging();
 
-/*
-messaging.setBackgroundMessageHandler(function(payload) {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
-});*/
 
+FB_CM.setBackgroundMessageHandler(function(payload) {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+});
+
+/*
 FB_CM.setBackgroundMessageHandler(function(payload) {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
   // Customize notification here
@@ -24,5 +25,5 @@ FB_CM.setBackgroundMessageHandler(function(payload) {
 
   return self.registration.showNotification(notificationTitle,
     notificationOptions);
-});
+});*/
 

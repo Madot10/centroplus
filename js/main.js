@@ -119,6 +119,13 @@ function setVisibility(turnto) {
     }
 }
 
+function setWarnEmpty(state){
+    let warn = document.getElementById("empty-warn");
+    if(state){
+        warn.style.display = "block";
+    }
+}
+
 //#region NAV
 function descheckNavOption() {
     let navs = document.getElementsByClassName("main-nav");
@@ -443,13 +450,13 @@ function genSalones() {
 function loadArchivos() {
     //Revisamos DataSave y tiempo pasado
     getSaveData('archivos').then(data => {
-        if (data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
+        if (data.data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
             //Data guarda y tiempo No pasado o Data guarda y offline
             console.log("Usando data salvada");
             genCardFile(data.data);
             hideLoadingCard();
 
-        } else {
+        } else if(navigator.onLine){
             //Obtenemos la data json
             getDataSheetJSON('archivos').then((response) => {
                 if (data) {
@@ -469,6 +476,9 @@ function loadArchivos() {
                 //Internet error => usar data 
                 console.log("ERROR: cathc ", error);
             })
+        }else{
+            hideLoadingCard();
+            setWarnEmpty(true);
         }
     })
 
@@ -518,7 +528,8 @@ function getColor(text) {
 function genCardFile(jfiles) {
     let divM = document.getElementById("cardFile");
 
-    jfiles.forEach(f => {
+    if(jfiles){
+      jfiles.forEach(f => {
         let divCard = document.createElement('div');
         divCard.setAttribute('class', 'card');
 
@@ -555,7 +566,11 @@ function genCardFile(jfiles) {
         divCard.appendChild(cBody);
         divM.appendChild(divCard);
 
-    });
+    });  
+    }else{
+        setWarnEmpty(true);
+    }
+    
 }
 //#endregion
 

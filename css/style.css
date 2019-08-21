@@ -54,6 +54,22 @@ h5.womr{
     }
 }
 
+
+/*#region EmptyToShow*/
+.empty-warn .container{
+    visibility: visible;
+}
+
+.empty-warn{
+    background-color: white;
+}
+
+#empty-warn{
+    display: none;
+}
+
+/*#endregion*/
+
 /*#region FONDO*/
     body{
         /*background-color: #2E9CC1;*/
