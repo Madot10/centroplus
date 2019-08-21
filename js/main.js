@@ -623,12 +623,12 @@ function getNotificaciones(mode) {
 
         //Revisamos DataSave y tiempo pasado
         getSaveData('notificacion').then(data => {
-            if ((mode != "more") && data && ((data.time.getTime() + timeLimit > new Date().getTime()) && !navigator.onLine)) {
+            if ((mode != "more") && data.data && !navigator.onLine) {
                 //Data guarda y tiempo No pasado o Data guarda y offline
                 console.log("Usando data salvada");
                 resolve(data.data);
 
-            } else {
+            } else if(navigator.onLine) {
 
                 docsNotiReq.get().then(function (documentSnapshots) {
                     // Get the last visible document
@@ -640,9 +640,9 @@ function getNotificaciones(mode) {
                     //construimos array de notificaciones
                     let notis = [];
                     documentSnapshots.forEach(doc => {
-                        if (mode == "more") {
+                       /* if (mode == "more") {
                             data.data.push(doc.data());
-                        }
+                        }*/
                         notis.push(doc.data());
 
                     });
@@ -654,8 +654,8 @@ function getNotificaciones(mode) {
 
                     } else if (mode == "more") {
                         //Tiempo paso y online + Carga mas => Actualizamos
-                        console.log("Updating Data MORE notificacion");
-                        manageCaseData('update', 'notificacion', new Date(), data.data);
+                        /*console.log("Updating Data MORE notificacion");
+                        manageCaseData('update', 'notificacion', new Date(), data.data);*/
 
                     } else {
                         //No hay data guardada => Traemos y salvamos para la prox
@@ -681,9 +681,9 @@ function getNotificaciones(mode) {
                     }
                 })
 
-
-
-
+            }else{
+                hideLoadingCard();
+                setWarnEmpty(true);
             }
         })
 
@@ -777,8 +777,8 @@ function timeAgoGen(sgOld) {
 
 function genCardNotis(mode) {
     getNotificaciones(mode).then(docs => {
-        if (docs)
-            docs.forEach(doc => {
+        if (docs){
+           docs.forEach(doc => {
                 let noti = doc;
                 //console.log("DOC: ", doc.data());
 
@@ -863,7 +863,11 @@ function genCardNotis(mode) {
 
                 document.getElementById("notis").appendChild(divMain);
             })
+        }else{
 
+        }
+        
+        setWarnEmpty(true);
         hideLoadingCard();
     })
 }
