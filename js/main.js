@@ -329,14 +329,14 @@ let salonesData = [];
 
 function loadSalones() {
     getSaveData('salones').then(data => {
-        if (data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
+        if (data.data && ((data.time.getTime() + timeLimit > new Date().getTime()) || !navigator.onLine)) {
             //Data guarda y tiempo No pasado o Data guarda y offline
             console.log("Usando data salvada");
             buildData(data.data);
             genSalones();
             hideLoadingCard();
 
-        } else {
+        } else if(navigator.onLine){
             //Obtenemos la data json
             getDataSheetJSON('salones').then((response) => {
                 if (data) {
@@ -357,6 +357,9 @@ function loadSalones() {
                 //Internet error => usar data 
                 console.log("ERROR: cathc ", error);
             })
+        }else{
+            setWarnEmpty(true);
+            hideLoadingCard();
         }
     });
 }
@@ -366,21 +369,26 @@ function ordeByKey(arr, campo) {
 }
 
 function buildData(datos) {
-    datos.forEach(d => {
-        //Chequeamos si existe la materia
-        let ref = d['gsx$materia']['$t'];
-        if (salonesData[ref] == null) {
-            //no existe
-            salonesData[ref] = [];
-        }
-        salonesData[ref].push({
-            'prof': d['gsx$profesor']['$t'],
-            'dia': d['gsx$dia']['$t'],
-            'hora': d['gsx$hora']['$t'],
-            'salon': d['gsx$salon']['$t']
+    if(datos){
+        datos.forEach(d => {
+            //Chequeamos si existe la materia
+            let ref = d['gsx$materia']['$t'];
+            if (salonesData[ref] == null) {
+                //no existe
+                salonesData[ref] = [];
+            }
+            salonesData[ref].push({
+                'prof': d['gsx$profesor']['$t'],
+                'dia': d['gsx$dia']['$t'],
+                'hora': d['gsx$hora']['$t'],
+                'salon': d['gsx$salon']['$t']
+            });
         });
-    });
-    console.log("salonesData: ", salonesData);
+        console.log("salonesData: ", salonesData);
+    }else{
+        setWarnEmpty(true);
+    }
+   
 }
 
 function genSalones() {
