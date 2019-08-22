@@ -1,12 +1,14 @@
 //#region AUTH
 function logIn() {
+    
     FB_AUTH.signInWithPopup(provider).then(function (result) {
         let user = result.user;
-
+        console.time("logIn");
         if (user.email.includes('ucab.edu.ve') || user.email === adminEmail) {
             //yes
             console.log("LogIn UCAB", user);
             isRegister().then(resp =>{
+                console.timeEnd("logIn");
                 if(resp){
                     //Hay registro
                     //updateSW
@@ -43,6 +45,7 @@ function logIn() {
 function logOut() {
     FB_AUTH.signOut().then(function () {
         // Sign-out successful.
+        deleteDataUser();
         console.log("BYE BYE OK");
 
     }).catch(function (error) {
@@ -56,7 +59,9 @@ function checkAccess() {
         FB_AUTH.onAuthStateChanged(function (user) {
             if(user){
                 //Hay login
+                console.time("isRegister");
                 isRegister().then((status)=>{
+                    console.timeEnd("isRegister");  
                     if(status){
                         //Registrado en DB ucab => TODO OK
 
@@ -81,8 +86,11 @@ function checkAccess() {
                         if(window.location.pathname.includes('/')){
                             //Estamos en menu
                             console.log("NoDB 1er");
+                            setDataUser(user.email);
+
                             setVisibility(true);
                             setLoader(false);
+
                             resolve('first');
                         }else{
                             //Mandamos a menu
@@ -146,25 +154,67 @@ function isRegister(){
         console.log("CUrrente Email", uemail);
         if(uemail.includes('ucab.edu.ve') || uemail === adminEmail){
             //CorreUCAB
-            FB_DB.collection("users").doc(uemail).get()
-            .then(doc =>{
-                if(doc.exists){
-                    console.log('Have Reg');
-                    resolve(true);
-                    //Hay registro
-                }else{
-                    console.log('havent Reg');
+            let lcdata = getData('@user_data');
+            if(!lcdata || (lcdata.date + timeRegLimit <=  new Date().getTime()) ){
+                //No hay reg en local o tiempo ya paso
+                FB_DB.collection("users").doc(uemail).get()
+                .then(doc =>{
+                    if(doc.exists){
+                        console.log('Have Reg');
+
+                        setDataUser(uemail);
+                        resolve(true);
+                        //Hay registro
+                    }else{
+                        console.log('havent Reg');
+                        deleteDataUser();
+                        resolve(false);
+                        //No hay
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
                     resolve(false);
-                    //No hay
+                });
+            }else{
+                //Hay data => check email
+                if(lcdata.user === uemail){
+                    //CoreoUCab con registro local
+                    resolve(true);
                 }
-            }).catch(function(error) {
-                console.log("Error getting document:", error);
-                resolve(false);
-            });
+            }
+           
         }else{
+            //No ucabCorreo
+            deleteDataUser();
             resolve(false);
         }
     });
 }
 
 //#endregion AUTH
+
+
+//#region Storage
+function setData(id, obj){
+    localStorage.setItem(id, JSON.stringify(obj));
+}
+
+function getData(id){
+    console.log("Getting userData");
+    return JSON.parse(localStorage.getItem(id));
+}
+
+function deleteDataUser(){
+    console.log("Deleting userData");
+    localStorage.removeItem('@user_data');
+}
+
+function setDataUser(uemail){
+    console.log("Setting userData");
+    setData('@user_data', 
+        { user: uemail,
+        date: new Date().getTime()
+    });
+}
+
+//#endregion Storage

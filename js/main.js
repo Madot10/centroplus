@@ -4,13 +4,14 @@ const urlApp = 'localhost/';
 const adminEmail = 'migueldeolim1@gmail.com'; // ;)
 
 const timeLimit = 2 * 60 * 1000; //2min
-const timeNotiLimit = 2 * 60 * 1000;
+const timeNotiLimit = 2 * 60 * 1000; //2min
+const timeRegLimit =  1 * 60 * 60 * 1000; //1h
 
 //checkAccess();
 
 
 window.onload = () => {
-
+    console.time("loadView");
     loadview();
 }
 
@@ -28,10 +29,14 @@ window.onscroll = function (e) {
 };
 
 function loadview() {
+    console.time("checkAccess");
     checkAccess().then((rest) => {
+    console.timeEnd("checkAccess");
         if (rest) {
             let scname = location.pathname.replace('/', '').replace('/', '');
             console.log("Cargando view: ", scname);
+
+            console.timeEnd("loadView");
             switch (scname) {
                 case 'profesores':
                     loadProfesores();
