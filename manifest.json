@@ -1,6 +1,11 @@
 {
-    "short_name": "Centro+",
-    "name": "Centro Plus",
-    "start_url": "index.html",
-    "gcm_sender_id": "103953800507"
-  }
+  "name": "Centro+ Economia",
+  "short_name": "C+ Economia",
+  "description": "Extender funcionalidades de Centro de Estudiantes de la comunidad ucabista",
+  "start_url": "index.html",
+  "display": "standalone",
+  "lang": "Spanish; Castilian",
+  "background_color": "#ffffff",
+  "gcm_sender_id": "103953800507",
+  "icons": []
+}
