@@ -139,7 +139,7 @@ if ("serviceWorker" in navigator) {
     } else {
       // Register the service worker
       navigator.serviceWorker
-        .register("sw-centro.js", {
+        .register("/sw-centro.js", {
           scope: "./"
         })
         .then(function (reg) {
