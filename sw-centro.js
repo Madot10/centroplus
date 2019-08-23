@@ -6,19 +6,19 @@ const precacheFiles = [
   '/navbar.html',
   '/nav.html',
   '/modalnt.html',
-  '/index.html',
+  '/index.html?v=2',
   '/warnempty.html',
   /* PAGES */
-  '/voluntariado/index.html',
-  '/salones/index.html',
-  '/progresa/index.html',
-  '/profesores/index.html',
-  '/mopep/index.html',
-  '/inicio/index.html',
-  '/informacion/index.html',
-  '/eventos/index.html',
-  '/configuracion/index.html',
-  '/archivos/index.html',
+  '/voluntariado/index.html?v=2',
+  '/salones/index.html?v=2',
+  '/progresa/index.html?v=2',
+  '/profesores/index.html?v=2',
+  '/mopep/index.html?v=2',
+  '/inicio/index.html?v=2',
+  '/informacion/index.html?v=2',
+  '/eventos/index.html?v=2',
+  '/configuracion/index.html?v=2',
+  '/archivos/index.html?v=2',
   /* STYLES */
   '/css/conf.css',
   '/css/login.css',
@@ -35,7 +35,17 @@ const precacheFiles = [
   '/js/social.js',
   /* SOME MEDIA */
   '/media/logoCEDEC.png',
-  /* FONT */
+  /* SRC */
+  '/src/firebase/firebase-messaging.min.js',
+  '/src/firebase/firebase-firestore.min.js',
+  '/src/firebase/firebase-auth.min.js',
+  '/src/firebase/firebase-performance.min.js',
+  '/src/firebase/firebase-app.min.js',
+
+  '/src/popper/popper.min.js',
+  '/src/jquery/jquery.min.js',
+  '/src/bootstrap-4.3.1-dist/css/bootstrap.min.css',
+  '/src/bootstrap-4.3.1-dist/js/bootstrap.min.js'
 ];
 
 self.addEventListener("install", function (event) {
