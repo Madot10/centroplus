@@ -34,7 +34,7 @@ const precacheFiles = [
   '/js/notifications.js',
   '/js/social.js',
   /* SOME MEDIA */
-  '/media/logoCEDEC.png',
+  '/media/logoCEDEC.png?v=2',
   /* SRC */
   '/src/firebase/firebase-messaging.min.js',
   '/src/firebase/firebase-firestore.min.js',
