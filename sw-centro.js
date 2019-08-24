@@ -29,14 +29,14 @@ const precacheFiles = [
   '/css/style.css?v=2',
   '/css/snack.css?v=2',
   /* JS */
-  '/js/dbsave.js?v=2',
-  '/js/element.js?v=2',
-  '/js/fireb.js?v=2',
-  '/js/login.js?v=2',
-  '/js/main.js?v=2',
-  '/js/notifications.js?v=2',
-  '/js/router.js?v=2',
-  '/js/social.js?v=2',
+  '/js/dbsave.js?v=3',
+  '/js/element.js?v=3',
+  '/js/fireb.js?v=3',
+  '/js/login.js?v=3',
+  '/js/main.js?v=3',
+  '/js/notifications.js?v=3',
+  '/js/router.js?v=3',
+  '/js/social.js?v=3',
   /* SOME MEDIA */
   '/media/logoCEDEC.png?v=2',
   /* SRC */

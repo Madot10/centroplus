@@ -1,3 +1,7 @@
+.row.conf{
+    margin: 0 !important;
+}
+
 /* The switch - the box around the slider */
 
 .switch {
