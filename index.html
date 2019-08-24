@@ -12,7 +12,7 @@
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="/src/firebase/firebase-app.min.js"></script>
     <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script> -->
-    
+
     <!-- Add Firebase products that you want to use -->
     <script src="/src/firebase/firebase-performance.min.js"></script>
     <!-- <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-performance.js"></script> -->
@@ -30,7 +30,7 @@
     <script src="/js/router.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/dbsave.js"></script>
-    
+
 
 
     <link rel="stylesheet" href="/src/bootstrap-4.3.1-dist/css/bootstrap.min.css">
@@ -82,6 +82,35 @@
     <m-import src="/warnempty.html"></m-import>
 
     <m-import src="/navbar.html"></m-import>
+
+    <!-- Share Modal -->
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">¡Comparte!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="btn-group btn-block  btn-group-lg" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-outline-dark" onclick="generateLink('cy')"><i
+                                class="fas fa-copy"></i></button>
+                        <button type="button" class="btn  btn-outline-primary" onclick="generateLink('tw')"><i
+                                class="fab fa-twitter"></i></button>
+                        <button type="button" class="btn btn-outline-info" onclick="generateLink('fb')"><i
+                                class="fab fa-facebook-f"></i></button>
+                        <button type="button" class="btn btn-outline-success" onclick="generateLink('wp')"><i
+                                class="fab fa-whatsapp"></i></button>
+                        <button type="button" class="btn btn-outline-danger" onclick="generateLink('em')"><i
+                                class="fas fa-envelope"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 
