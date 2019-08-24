@@ -10,6 +10,8 @@ const precacheFiles = [
   /* PAGES */
   '/index.html?v=2',
   '/inicio/index.html?v=2',
+  '/admin/index.html?v=2',
+  '/admin/notificaciones/index.html?v=2',
   /* TEMPLATES */
   '/templates/archivos.html',
   '/templates/configuracion.html',
