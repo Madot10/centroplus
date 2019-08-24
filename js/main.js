@@ -118,9 +118,10 @@ function setVisibility(turnto) {
 
 function setWarnEmpty(state) {
     let warn = document.getElementById("empty-warn");
-    if (state) {
+    console.log("setWarnEmpty ",warn);
+    if (state && warn) {
         warn.style.display = "block";
-    }else{
+    }else if(warn){
         warn.style.display = "none";
     }
 }
