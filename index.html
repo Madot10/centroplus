@@ -27,6 +27,7 @@
     <script src="js/login.js"></script>
     <script src="js/element.js"></script>
     <script src="js/main.js"></script>
+    <script src="/js/router.js"></script>
 
 
     <link rel="stylesheet" href="/src/bootstrap-4.3.1-dist/css/bootstrap.min.css">
@@ -64,7 +65,7 @@
     <div id="loader"></div>
 
     <!-- CONTENIDO -->
-    <div class="container">
+    <div class="container" id="mainContainer">
         <div class="row r-main justify-content-center" id="main">
 
             <div class="card c-menu text-center col-6 col-md-4" style="display: none;" id="card-admin">
@@ -74,7 +75,7 @@
                     <a href="/admin/" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="card c-menu text-center col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-calculator lgmenu"></i>
@@ -83,100 +84,102 @@
                     <a href="https://madot10.github.io/UCalculadora/" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center  col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-user-tie lgmenu"></i>
                     <h5 class="card-title womargin">Profesores </h5>
                     <!-- <p class="card-text">¡Conoce a tus profesores!</p> -->
-                    <a href="/profesores" class="stretched-link card-link"></a>
+                    <a href="#/profesores" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-folder lgmenu"></i>
                     <h5 class="card-title womargin">Archivos</h5>
                     <!-- <p class="card-text">Recopilación de material recomendado para ti.</p> -->
-                    <a href="/archivos" class="stretched-link card-link"></a>
+                    <a href="#/archivos" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center  col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-chalkboard-teacher lgmenu"></i>
                     <h5 class="card-title womargin">Salones</h5>
                     <!-- <p class="card-text">Donde se estará dando clases.</p> -->
-                    <a href="/salones" class="stretched-link card-link"></a>
+                    <a href="#/salones" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center  col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-hands-helping lgmenu"></i>
                     <h5 class="card-title womargin">Voluntariado de Economía</h5>
                     <!-- <p class="card-text">Acciones solidarias de los estudiantes.</p> -->
-                    <a href="/voluntariado" class="stretched-link card-link"></a>
+                    <a href="#/voluntariado" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-calendar-alt lgmenu"></i>
                     <h5 class="card-title womargin">Eventos</h5>
                     <!-- <p class="card-text">¡Descubre lo que la UCAB te ofrece!</p> -->
-                    <a href="/eventos" class="stretched-link card-link"></a>
+                    <a href="#/eventos" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-tint lgmenu"></i>
                     <h5 class="card-title womargin">MOPEP</h5>
                     <!-- <p class="card-text">Modelo de la Organización de Países Exportadores de Petróleo. </p> -->
-                    <a href="/mopep/" class="stretched-link card-link"></a>
+                    <a href="#/mopep" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-brain lgmenu"></i>
                     <h5 class="card-title womargin">Programa Progresa</h5>
                     <!-- <p class="card-text">Herramientas para aprovechar al máximo sus destrezas y facilitar el inicio. </p> -->
-                    <a href="/progresa" class="stretched-link card-link"></a>
+                    <a href="#/progresa" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center  col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-cogs lgmenu"></i>
                     <h5 class="card-title womargin">Configuración</h5>
                     <!-- <p class="card-text">Herramientas para aprovechar al máximo sus destrezas y facilitar el inicio. </p> -->
-                    <a href="/configuracion" class="stretched-link card-link"></a>
+                    <a href="#/configuracion" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-info lgmenu"></i>
                     <h5 class="card-title womargin">Información</h5>
                     <!-- <p class="card-text">Herramientas para aprovechar al máximo sus destrezas y facilitar el inicio. </p> -->
-                    <a href="/informacion" class="stretched-link card-link"></a>
+                    <a href="#/informacion" class="stretched-link card-link"></a>
                 </div>
             </div>
-
+        
             <div class="c-menu card text-center col-6 col-md-4">
                 <div class="card-body">
                     <i class="fas fa-bug lgmenu"></i>
                     <h5 class="card-title womargin">Reportar fallo</h5>
                     <!-- <p class="card-text">Herramientas para aprovechar al máximo sus destrezas y facilitar el inicio. </p> -->
-                    <a href="/informacion" class="stretched-link card-link"></a>
+                    <a href="#/informacion" class="stretched-link card-link"></a>
                 </div>
             </div>
         </div>
     </div>
 
     <br>
+
+    <m-import src="/warnempty.html"></m-import>
 
     <m-import src="/navbar.html"></m-import>
 

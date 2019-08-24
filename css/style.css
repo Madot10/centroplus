@@ -535,8 +535,13 @@ p.indent{
   
   .container{
       visibility: hidden;
-      animation: fadein 1s cubic-bezier(.89, .05, .8, .9) forwards;
+      animation: fadein 600ms cubic-bezier(.89, .05, .8, .9) forwards;
   }
+
+  .row.view{
+    animation: fadein 400ms cubic-bezier(.89, .05, .8, .9) forwards;
+}
+
 
   /*
   m-import{
