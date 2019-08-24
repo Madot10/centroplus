@@ -4,12 +4,23 @@ const precacheFiles = [
   /* TEMPLATES */
   '/',
   '/navbar.html?v=2',
-  '/nav.html?v=2',
+  '/navtop.html?v=2',
   '/modalnt.html?v=2',
-  '/index.html?v=2',
   '/warnempty.html?v=2',
   /* PAGES */
+  '/index.html?v=2',
   '/inicio/index.html?v=2',
+  /* TEMPLATES */
+  '/templates/archivos.html',
+  '/templates/configuracion.html',
+  '/templates/eventos.html',
+  '/templates/informacion.html',
+  '/templates/menu.html',
+  '/templates/mopep.html',
+  '/templates/profesores.html',
+  '/templates/progresa.html',
+  '/templates/salones.html',
+  '/templates/voluntariado.html',
   /* STYLES */
   '/css/conf.css?v=2',
   '/css/login.css?v=2',
@@ -24,6 +35,7 @@ const precacheFiles = [
   '/js/login.js?v=2',
   '/js/main.js?v=2',
   '/js/notifications.js?v=2',
+  '/js/router.js?v=2',
   '/js/social.js?v=2',
   /* SOME MEDIA */
   '/media/logoCEDEC.png?v=2',
@@ -34,10 +46,10 @@ const precacheFiles = [
   '/src/firebase/firebase-performance.min.js',
   '/src/firebase/firebase-app.min.js',
 
-  '/src/popper/popper.min.js?v=1',
-  '/src/jquery/jquery.min.js?v=1',
-  '/src/bootstrap-4.3.1-dist/css/bootstrap.min.css?v=1',
-  '/src/bootstrap-4.3.1-dist/js/bootstrap.min.js?v=1'
+  '/src/popper/popper.min.js',
+  '/src/jquery/jquery.min.js',
+  '/src/bootstrap-4.3.1-dist/css/bootstrap.min.css',
+  '/src/bootstrap-4.3.1-dist/js/bootstrap.min.js'
 ];
 
 self.addEventListener("install", function (event) {
