@@ -1,7 +1,7 @@
 const CACHE = "centroEconomia-precache";
 const precacheFiles = [
   /* Add an array of files to precache for your app */
-  /* TEMPLATES */
+  /* M-IMPORT */
   '/',
   '/navbar.html?v=2',
   '/navtop.html?v=2',
