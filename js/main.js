@@ -85,8 +85,6 @@ function loadview() {
 }
 
 
-
-
 function setLoader(stato) {
     if (document.getElementById('loader') != null && stato) {
         //mostrar
@@ -156,7 +154,6 @@ function descheckNavOption() {
     }
 }
 
-
 function hideAllNav() {
     descheckNavOption();
     let navs = document.getElementsByClassName("nav-op");
@@ -169,16 +166,18 @@ function hideAllNav() {
 function openSubMenu(name, ebutton) {
     //hideAllNav();
     descheckNavOption();
+    let element = document.getElementById(name);
 
-    if (document.getElementById(name).classList.contains("hide-elem")) {
+    if (element.classList.contains("hide-elem")) {
         //Mostramos
         hideAllNav();
         ebutton.classList.add("active-opt");
-        document.getElementById(name).classList.remove("hide-elem");
+        element.classList.remove("hide-elem");
+        element.classList.remove("oculto");
     } else {
         //Ocultamos
         //hideAllNav();
-        document.getElementById(name).classList.add("hide-elem");
+        element.classList.add("hide-elem");
     }
 
 

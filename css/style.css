@@ -426,7 +426,6 @@ a.taboption:hover, a.taboption:active, a.taboption:link{
     
        padding-top: 0.2em;
        /*padding-bottom: 0.3em;*/
-        visibility: hidden;
 
         animation: showMenu 200ms ease-out forwards;
     }
@@ -441,6 +440,10 @@ a.taboption:hover, a.taboption:active, a.taboption:link{
     
     .nav-op .taboption i{
         color: white;
+    }
+
+    .nav-op.oculto{
+        visibility: hidden;
     }
 
     @keyframes hideMenu{
