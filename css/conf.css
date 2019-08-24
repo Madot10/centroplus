@@ -1,3 +1,7 @@
+.row.conf{
+    margin: 0 !important;
+}
+
 /* The switch - the box around the slider */
 
 .switch {
@@ -193,9 +197,7 @@ li.list-group-item {
 }
 
 .btsave{
-    position: fixed;
     width: 100%;
-    bottom: 0;
 }
 
 .btn-outline {

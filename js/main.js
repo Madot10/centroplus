@@ -1,22 +1,22 @@
 const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = '/media/default.png';
 const urlApp = 'localhost/';
-const adminEmail = 'migueldeolim1@gmail.com'; // ;)
 
 const timeLimit = 2 * 60 * 1000; //2min
 const timeNotiLimit = 2 * 60 * 1000; //2min
-const timeRegLimit =  1 * 60 * 60 * 1000; //1h
+const timeRegLimit = 1 * 60 * 60 * 1000; //1h
 
 //checkAccess();
 
 
 window.onload = () => {
     console.time("loadView");
-    loadview();
+    //inithashChanger();
+    loadview()
 }
 
 window.onscroll = function (e) {
-    if (location.pathname.includes("eventos")) {
+    if (actualView == "eventos") {
         let _windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
             _scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
@@ -31,69 +31,63 @@ window.onscroll = function (e) {
 function loadview() {
     console.time("checkAccess");
     checkAccess().then((rest) => {
-    console.timeEnd("checkAccess");
+        console.timeEnd("checkAccess");
         if (rest) {
-            let scname = location.pathname.replace('/', '').replace('/', '');
-            console.log("Cargando view: ", scname);
+            //Access yes
+            actualView = location.hash.replace("#/", "");
+            setViewTemplate(actualView).then(resp => {
+                console.log("Cargando view: actualView:  ", actualView);
 
-            console.timeEnd("loadView");
-            switch (scname) {
-                case 'profesores':
-                    loadProfesores();
-                    break;
+                console.timeEnd("loadView");
+                switch (actualView) {
+                    case 'profesores':
+                        loadProfesores();
+                        break;
 
-                case 'archivos':
-                    loadArchivos();
-                    break;
+                    case 'archivos':
+                        loadArchivos();
+                        break;
 
-                case 'salones':
-                    loadSalones();
-                    break;
+                    case 'salones':
+                        loadSalones();
+                        break;
 
-                case 'eventos':
-                    loadNotificacion();
-                    break;
+                    case 'eventos':
+                        docsNotiReq = null;
+                        notiStatus = true;
+                        loadNotificacion();
+                        break;
 
-                case 'configuracion':
-                    setVisibility(false);
-                    setLoader(true);
+                    case 'configuracion':
+                        setVisibility(false);
+                        setLoader(true);
 
-                    setFormTopic();
-                    break;
+                        setFormTopic();
+                        break;
 
-                case '':
-                    document.getElementById("mainbtn").classList.add("active-opt");
-                    if (rest == "adminMode") {
-                        document.getElementById("card-admin").style.display = "block";
-                    }
+                    case '':
+                        document.getElementById("mainbtn").classList.add("active-opt");
+                        if (rest == "adminMode") {
+                            document.getElementById("card-admin").style.display = "block";
+                        }
 
-                    if (rest == 'first') {
-                        console.log("Menu 1er vez");
-                        SaveRegToDB();
-                        $('#notiModal').modal('show');
-                    }
-                    break;
+                        if (rest == 'first') {
+                            console.log("Menu 1er vez");
+                            SaveRegToDB();
+                            $('#notiModal').modal('show');
+                        }
+                        break;
 
-                default:
-                    break;
-            }
+                    default:
+                        break;
+                }
+            })
+
+
         }
     });
 }
 
-
-function msgSnack(mesg) {
-    // Get the snackbar DIV
-    let x = document.getElementById("snackbar");
-    if (x) {
-        x.innerHTML = mesg;
-        // Add the "show" class to DIV
-        x.className = "show";
-
-        // After 3 seconds, remove the show class from DIV
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-    }
-}
 
 function setLoader(stato) {
     if (document.getElementById('loader') != null && stato) {
@@ -110,24 +104,28 @@ function setVisibility(turnto) {
     if (turnto) {
         //Volvemos visible
         document.getElementsByClassName('container')[0].style.visibility = 'visible';
-        /* for(let i = 0; i < eMport.length; i++){
+        for(let i = 0; i < eMport.length; i++){
              eMport[i].style.visibility = 'visible';
-         }*/
+         }
         //document.body
     } else {
         //Hidden
         //document.body.style.visibility = 'hidden';
         document.getElementsByClassName('container')[0].style.visibility = 'hidden';
-        /* for(let i = 0; i < eMport.length; i++){
+        for(let i = 0; i < eMport.length; i++){
              eMport[i].style.visibility = 'hidden';
-         }*/
+         }
     }
 }
 
+
 function setWarnEmpty(state) {
     let warn = document.getElementById("empty-warn");
-    if (state) {
+    //console.log("setWarnEmpty ",warn);
+    if (state && warn) {
         warn.style.display = "block";
+    } else if (warn) {
+        warn.style.display = "none";
     }
 }
 
@@ -135,29 +133,31 @@ function setWarnEmpty(state) {
 // Check compatibility for the browser we're running this in
 if ("serviceWorker" in navigator) {
     if (navigator.serviceWorker.controller) {
-      console.log("[PWA Builder] active service worker found, no need to register");
+        console.log("[PWA Builder] active service worker found, no need to register");
     } else {
-      // Register the service worker
-      navigator.serviceWorker
-        .register("/sw-centro.js", {
-          scope: "./"
-        })
-        .then(function (reg) {
-          console.log("[PWA Builder] Service worker has been registered for scope: " + reg.scope);
-        });
+        // Register the service worker
+        navigator.serviceWorker
+            .register("/sw-centro.js", {
+                scope: "./"
+            })
+            .then(function (reg) {
+                console.log("[PWA Builder] Service worker has been registered for scope: " + reg.scope);
+            });
     }
-  }
-  
+}
+
 //#endregion
 
 //#region NAV
 function descheckNavOption() {
     let navs = document.getElementsByClassName("main-nav");
     for (let i = 0; i < navs.length; i++) {
-        navs[i].classList.remove("active-opt");
+        if (!navs[i].classList.contains("opt-nav-menu") || !(actualView == "")) {
+            navs[i].classList.remove("active-opt");
+        }
+
     }
 }
-
 
 function hideAllNav() {
     descheckNavOption();
@@ -171,16 +171,18 @@ function hideAllNav() {
 function openSubMenu(name, ebutton) {
     //hideAllNav();
     descheckNavOption();
+    let element = document.getElementById(name);
 
-    if (document.getElementById(name).classList.contains("hide-elem")) {
+    if (element.classList.contains("hide-elem")) {
         //Mostramos
         hideAllNav();
         ebutton.classList.add("active-opt");
-        document.getElementById(name).classList.remove("hide-elem");
+        element.classList.remove("hide-elem");
+        element.classList.remove("oculto");
     } else {
         //Ocultamos
-        hideAllNav();
-        document.getElementById(name).classList.add("hide-elem");
+        //hideAllNav();
+        element.classList.add("hide-elem");
     }
 
 
@@ -246,7 +248,7 @@ function loadProfesores() {
             genCardProf(data.data);
             hideLoadingCard();
 
-        } else if(navigator.onLine){
+        } else if (navigator.onLine) {
             //Obtenemos la data json
             getDataSheetJSON('profesores').then((response) => {
                 if (data) {
@@ -266,7 +268,7 @@ function loadProfesores() {
                 //Internet error => usar data 
                 console.log("ERROR: cathc ", error);
             })
-        }else{
+        } else {
             setWarnEmpty(true);
             hideLoadingCard();
         }
@@ -642,6 +644,7 @@ function loadNotificacion(mode = '') {
 function getNotificaciones(mode) {
     return new Promise((resolve, reject) => {
         if (!docsNotiReq) {
+            console.info("Definiendo docsNotiReq");
             docsNotiReq = FB_DB.collection("notification").orderBy("fecha", "desc").limit(limitNoti);
         }
 
@@ -652,7 +655,7 @@ function getNotificaciones(mode) {
                 console.log("Usando data salvada");
                 resolve(data.data);
 
-            } else if(navigator.onLine) {
+            } else if (navigator.onLine) {
 
                 docsNotiReq.get().then(function (documentSnapshots) {
                     // Get the last visible document
@@ -664,9 +667,9 @@ function getNotificaciones(mode) {
                     //construimos array de notificaciones
                     let notis = [];
                     documentSnapshots.forEach(doc => {
-                       /* if (mode == "more") {
-                            data.data.push(doc.data());
-                        }*/
+                        /* if (mode == "more") {
+                             data.data.push(doc.data());
+                         }*/
                         notis.push(doc.data());
 
                     });
@@ -705,15 +708,11 @@ function getNotificaciones(mode) {
                     }
                 })
 
-            }else{
+            } else {
                 hideLoadingCard();
                 setWarnEmpty(true);
             }
         })
-
-
-
-
 
 
     })
@@ -801,8 +800,8 @@ function timeAgoGen(sgOld) {
 
 function genCardNotis(mode) {
     getNotificaciones(mode).then(docs => {
-        if (docs){
-           docs.forEach(doc => {
+        if (docs) {
+            docs.forEach(doc => {
                 let noti = doc;
                 //console.log("DOC: ", doc.data());
 
@@ -887,11 +886,11 @@ function genCardNotis(mode) {
 
                 document.getElementById("notis").appendChild(divMain);
             })
-        }else{
-
+        } else if (mode != "more") {
+            console.log("else genCard");
+            setWarnEmpty(true);
         }
-        
-        setWarnEmpty(true);
+
         hideLoadingCard();
     })
 }

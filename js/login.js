@@ -1,3 +1,17 @@
+const adminEmail = 'migueldeolim1@gmail.com'; // ;)
+
+function msgSnack(mesg) {
+    // Get the snackbar DIV
+    let x = document.getElementById("snackbar");
+    if (x) {
+        x.innerHTML = mesg;
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
+}
 //#region AUTH
 function logIn() {
     
@@ -7,6 +21,7 @@ function logIn() {
         if (user.email.includes('ucab.edu.ve') || user.email === adminEmail) {
             //yes
             console.log("LogIn UCAB", user);
+            msgSnack('<div class="spinner-border text-light spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div> Cargando...');
             isRegister().then(resp =>{
                 console.timeEnd("logIn");
                 if(resp){

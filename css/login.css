@@ -1,3 +1,8 @@
+*{
+    --main: #329BC9;
+    --mainDark: #154859;
+}
+
 body{
     background-repeat: no-repeat;
 	background-position: center;
