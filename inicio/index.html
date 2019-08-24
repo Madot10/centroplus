@@ -8,10 +8,21 @@
 
     <link rel="manifest" href="/manifest.json">
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQVVW4WPC8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-LQVVW4WPC8');
+    </script>
+
+
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="/src/firebase/firebase-app.min.js"></script>
     <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script> -->
-    
+
     <!-- Add Firebase products that you want to use -->
     <script src="/src/firebase/firebase-performance.min.js"></script>
     <!-- <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-performance.js"></script> -->
@@ -43,7 +54,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script> -->
 
-    
+
 
     <script src="/js/fireb.js"></script>
     <script src="/js/login.js"></script>
@@ -53,7 +64,7 @@
 
 <body>
     <!--Login-->
-    
+
     <div class="container">
         <div class="row justify-content-center d-flex align-items-center login-container slide-top">
             <div id="login-form" class="shadow">
@@ -70,7 +81,8 @@
                     <i class="fab fa-google"></i> Iniciar con correo <strong>UCAB</strong>
                 </button>
                 <hr>
-                <p class="text text-center">Desarrollado por <a href="https://www.instagram.com/miguel_olim/">Miguel De Olim</a></p>
+                <p class="text text-center">Desarrollado por <a href="https://www.instagram.com/miguel_olim/">Miguel De
+                        Olim</a></p>
             </div>
         </div>
     </div>
