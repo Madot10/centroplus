@@ -1,7 +1,6 @@
 const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = '/media/default.png';
 const urlApp = 'localhost/';
-const adminEmail = 'migueldeolim1@gmail.com'; // ;)
 
 const timeLimit = 2 * 60 * 1000; //2min
 const timeNotiLimit = 2 * 60 * 1000; //2min
@@ -86,18 +85,7 @@ function loadview() {
 }
 
 
-function msgSnack(mesg) {
-    // Get the snackbar DIV
-    let x = document.getElementById("snackbar");
-    if (x) {
-        x.innerHTML = mesg;
-        // Add the "show" class to DIV
-        x.className = "show";
 
-        // After 3 seconds, remove the show class from DIV
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-    }
-}
 
 function setLoader(stato) {
     if (document.getElementById('loader') != null && stato) {
@@ -160,7 +148,10 @@ if ("serviceWorker" in navigator) {
 function descheckNavOption() {
     let navs = document.getElementsByClassName("main-nav");
     for (let i = 0; i < navs.length; i++) {
-        navs[i].classList.remove("active-opt");
+        if(!navs[i].classList.contains("opt-nav-menu") || !(actualView == "")){
+            navs[i].classList.remove("active-opt");
+        }
+            
     }
 }
 
@@ -185,7 +176,7 @@ function openSubMenu(name, ebutton) {
         document.getElementById(name).classList.remove("hide-elem");
     } else {
         //Ocultamos
-        hideAllNav();
+        //hideAllNav();
         document.getElementById(name).classList.add("hide-elem");
     }
 

@@ -37,6 +37,7 @@ function setViewTemplate(nameView = ""){
     getTemplate(nameView).then(html =>{
         console.log("Agregando template ", nameView);
         console.time("loadView");
+        hideAllNav();
         loadview();
         mainContainer.innerHTML = html;
         
