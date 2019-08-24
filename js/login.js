@@ -21,6 +21,7 @@ function logIn() {
         if (user.email.includes('ucab.edu.ve') || user.email === adminEmail) {
             //yes
             console.log("LogIn UCAB", user);
+            msgSnack('<div class="spinner-border text-light spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div> Cargando...');
             isRegister().then(resp =>{
                 console.timeEnd("logIn");
                 if(resp){

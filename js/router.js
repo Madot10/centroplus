@@ -7,6 +7,8 @@ window.addEventListener("hashchange", ()=>{
     loadview();
 }, false);
 
+window.addEventListener("load", inithashChanger, false);
+
 function inithashChanger() {
     mainContainer = document.getElementById('mainContainer');
 }

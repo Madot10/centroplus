@@ -11,7 +11,7 @@ const timeRegLimit = 1 * 60 * 60 * 1000; //1h
 
 window.onload = () => {
     console.time("loadView");
-    inithashChanger();
+    //inithashChanger();
     loadview()
 }
 
@@ -104,19 +104,20 @@ function setVisibility(turnto) {
     if (turnto) {
         //Volvemos visible
         document.getElementsByClassName('container')[0].style.visibility = 'visible';
-        /* for(let i = 0; i < eMport.length; i++){
+        for(let i = 0; i < eMport.length; i++){
              eMport[i].style.visibility = 'visible';
-         }*/
+         }
         //document.body
     } else {
         //Hidden
         //document.body.style.visibility = 'hidden';
         document.getElementsByClassName('container')[0].style.visibility = 'hidden';
-        /* for(let i = 0; i < eMport.length; i++){
+        for(let i = 0; i < eMport.length; i++){
              eMport[i].style.visibility = 'hidden';
-         }*/
+         }
     }
 }
+
 
 function setWarnEmpty(state) {
     let warn = document.getElementById("empty-warn");
