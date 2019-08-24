@@ -3,15 +3,15 @@ const precacheFiles = [
   /* Add an array of files to precache for your app */
   /* M-IMPORT */
   '/',
-  '/navbar.html?v=2',
-  '/navtop.html?v=2',
-  '/modalnt.html?v=2',
-  '/warnempty.html?v=2',
+  '/navbar.html?v=4',
+  '/navtop.html?v=4',
+  '/modalnt.html?v=4',
+  '/warnempty.html?v=4',
   /* PAGES */
-  '/index.html?v=2',
-  '/inicio/index.html?v=2',
-  '/admin/index.html?v=2',
-  '/admin/notificaciones/index.html?v=2',
+  '/index.html?v=4',
+  '/inicio/index.html?v=4',
+  '/admin/index.html?v=4',
+  '/admin/notificaciones/index.html?v=4',
   /* TEMPLATES */
   '/templates/archivos.html',
   '/templates/configuracion.html',
@@ -24,12 +24,12 @@ const precacheFiles = [
   '/templates/salones.html',
   '/templates/voluntariado.html',
   /* STYLES */
-  '/css/conf.css?v=2',
-  '/css/login.css?v=2',
-  '/css/place-holder.css?v=2',
-  '/css/prof.css?v=2',
-  '/css/style.css?v=2',
-  '/css/snack.css?v=2',
+  '/css/conf.css?v=4',
+  '/css/login.css?v=4',
+  '/css/place-holder.css?v=4',
+  '/css/prof.css?v=4',
+  '/css/style.css?v=4',
+  '/css/snack.css?v=4',
   /* JS */
   '/js/dbsave.js?v=3',
   '/js/element.js?v=3',
@@ -40,7 +40,7 @@ const precacheFiles = [
   '/js/router.js?v=3',
   '/js/social.js?v=3',
   /* SOME MEDIA */
-  '/media/logoCEDEC.png?v=2',
+  '/media/logoCEDEC.png?v=4',
   /* SRC */
   '/src/firebase/firebase-messaging.min.js',
   '/src/firebase/firebase-firestore.min.js',

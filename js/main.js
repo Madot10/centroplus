@@ -134,7 +134,7 @@ function setWarnEmpty(state) {
 if ("serviceWorker" in navigator) {
     if (navigator.serviceWorker.controller) {
         console.log("[PWA Builder] active service worker found, no need to register");
-    } else {
+    } else if(location.pathname == "/"){
         // Register the service worker
         navigator.serviceWorker
             .register("/sw-centro.js", {
