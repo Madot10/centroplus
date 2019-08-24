@@ -8,20 +8,20 @@
 
     <link rel="manifest" href="/manifest.json">
 
-     <!-- The core Firebase JS SDK is always required and must be listed first -->
-     <script src="/src/firebase/firebase-app.min.js"></script>
-     <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script> -->
-     
-     <!-- Add Firebase products that you want to use -->
-     <script src="/src/firebase/firebase-performance.min.js"></script>
-     <!-- <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-performance.js"></script> -->
-     <script src="/src/firebase/firebase-auth.min.js"></script>
-     <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script> -->
-     <script src="/src/firebase/firebase-firestore.min.js"></script>
-     <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script> -->
-     <script src="/src/firebase/firebase-messaging.min.js"></script>
-     <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-messaging.js"></script> -->
- 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/src/firebase/firebase-app.min.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script> -->
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="/src/firebase/firebase-performance.min.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-performance.js"></script> -->
+    <script src="/src/firebase/firebase-auth.min.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script> -->
+    <script src="/src/firebase/firebase-firestore.min.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script> -->
+    <script src="/src/firebase/firebase-messaging.min.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-messaging.js"></script> -->
+
     <script src="../js/fireb.js"></script>
     <script src="../js/login.js"></script>
     <script src="../js/element.js"></script>
@@ -62,82 +62,93 @@
     <div id="loader"></div>
 
     <div class="container">
-        <div class=".btsave">
-            <button class="btn btn-outline save" onclick="SaveRegToDB('form')"><i class="fas fa-check"></i> Guardar cambios</button>
-        </div>
-        <br>
-        <li class="list-group-item main">
-            Notificaciones
-            <label class="switch ">
-                <input type="checkbox" class="default"  id="notiState" onclick="toggleNoti()">
-                <span class="slider round"></span>
-            </label>
-        </li>
-        <br>
-        <div class="card">
-            <div class="card-header h5"><b>Configuración general</b></div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    Avisos UCAB
+        <div class="row view">
+            <div class="btsave">
+                <button class="btn btn-outline save btn-block" onclick="SaveRegToDB('form')"><i
+                        class="fas fa-check"></i> Guardar cambios</button>
+            </div>
+            <br><br><br>
+
+            <div class="div-w100">
+                <li class="list-group-item main">
+                    Notificaciones
                     <label class="switch ">
-                        <input type="checkbox" class="default opt"  id="avisosU">
+                        <input type="checkbox" class="default" id="notiState" onclick="toggleNoti()">
                         <span class="slider round"></span>
                     </label>
                 </li>
-                <li class="list-group-item">
-                    Eventos
-                    <label class="switch ">
-                        <input type="checkbox" class="default opt"  id="eventosU" >
-                        <span class="slider round"></span>
-                    </label>
-                </li>
-                <li class="list-group-item">
-                        Centro
+            </div>
+
+            <br><br><br>
+
+            <div class="card">
+                <div class="card-header h5"><b>Configuración general</b></div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Avisos UCAB
                         <label class="switch ">
-                            <input type="checkbox" class="default opt"  id="centroEst" >
+                            <input type="checkbox" class="default opt" id="avisosU">
                             <span class="slider round"></span>
                         </label>
                     </li>
-            </ul>
-        </div>
-        <br><br>
-        <div class="card">
-            <div class="card-header h5"><b>Coordinaciones</b></div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    Académico
-                    <label class="switch ">
-                        <input type="checkbox" class="default opt"  id="acadCoor">
-                        <span class="slider round"></span>
-                    </label>
-                </li>
-                <li class="list-group-item">
-                    Finanzas
-                    <label class="switch ">
-                        <input type="checkbox" class="default opt"  id="finCoor">
-                        <span class="slider round"></span>
-                    </label>
-                </li>
-                <li class="list-group-item">
-                    Social
-                    <label class="switch">
-                        <input type="checkbox" class="default opt"  id="socialCoor">
-                        <span class="slider round"></span>
-                    </label>
-                </li>
-                <li class="list-group-item">
-                    Deportes
-                    <label class="switch">
-                        <input type="checkbox" class="default opt"  id="depCoor">
-                        <span class="slider round"></span>
-                    </label>
-                </li>
+                    <li class="list-group-item">
+                        Eventos
+                        <label class="switch ">
+                            <input type="checkbox" class="default opt" id="eventosU">
+                            <span class="slider round"></span>
+                        </label>
+                    </li>
+                    <li class="list-group-item">
+                        Centro
+                        <label class="switch ">
+                            <input type="checkbox" class="default opt" id="centroEst">
+                            <span class="slider round"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <br><br>
+            <div class="card">
+                <div class="card-header h5"><b>Coordinaciones</b></div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Académico
+                        <label class="switch ">
+                            <input type="checkbox" class="default opt" id="acadCoor">
+                            <span class="slider round"></span>
+                        </label>
+                    </li>
+                    <li class="list-group-item">
+                        Finanzas
+                        <label class="switch ">
+                            <input type="checkbox" class="default opt" id="finCoor">
+                            <span class="slider round"></span>
+                        </label>
+                    </li>
+                    <li class="list-group-item">
+                        Social
+                        <label class="switch">
+                            <input type="checkbox" class="default opt" id="socialCoor">
+                            <span class="slider round"></span>
+                        </label>
+                    </li>
+                    <li class="list-group-item">
+                        Deportes
+                        <label class="switch">
+                            <input type="checkbox" class="default opt" id="depCoor">
+                            <span class="slider round"></span>
+                        </label>
+                    </li>
 
-            </ul>
+                </ul>
+            </div>
+
+            <div class="h-nav"></div>
+
         </div>
 
     </div>
-
+    
     <div id="snackbar"></div>
 
     <br>

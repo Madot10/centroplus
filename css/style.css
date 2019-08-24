@@ -23,6 +23,10 @@ img.w100{
     width: 100%
 }
 
+.div-w100{
+    width: 100%;
+}
+
 .hide-elem{
     display: none !important;
 }
@@ -363,6 +367,11 @@ hr.hrwo{
    /*padding-bottom: 0.3em;*/
 }
 
+.h-nav{
+    margin-bottom: 40px;
+    width: 100%;
+}
+
 a.taboption{
     text-align: center;
     text-decoration: none;
@@ -540,7 +549,7 @@ p.indent{
 
   .row.view{
     animation: fadein 400ms cubic-bezier(.89, .05, .8, .9) forwards;
-}
+    }
 
 
   /*

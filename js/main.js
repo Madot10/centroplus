@@ -13,6 +13,7 @@ const timeRegLimit =  1 * 60 * 60 * 1000; //1h
 window.onload = () => {
     console.time("loadView");
     hashChange();
+    //loadview()
 }
 
 window.onscroll = function (e) {
@@ -34,7 +35,7 @@ function loadview() {
     console.timeEnd("checkAccess");
         if (rest) {
             let scname = location.hash.replace("#/", "");
-            //location.pathname.replace('/', '').replace('/', '');
+            //let scname = location.pathname.replace('/', '').replace('/', '');
             console.log("Cargando view: ", scname);
 
             console.timeEnd("loadView");
