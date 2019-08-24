@@ -17,7 +17,7 @@ window.onload = () => {
 }
 
 window.onscroll = function (e) {
-    if (location.pathname.includes("eventos")) {
+    if (actualView == "eventos") {
         let _windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
             _scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
@@ -36,10 +36,10 @@ function loadview() {
         if (rest) {
             let scname = location.hash.replace("#/", "");
             //let scname = location.pathname.replace('/', '').replace('/', '');
-            console.log("Cargando view: ", scname);
+            console.log("Cargando view: actualView:  ", actualView);
 
             console.timeEnd("loadView");
-            switch (scname) {
+            switch (actualView) {
                 case 'profesores':
                     loadProfesores();
                     break;
@@ -53,6 +53,8 @@ function loadview() {
                     break;
 
                 case 'eventos':
+                    docsNotiReq = null;
+                    notiStatus = true;
                     loadNotificacion();
                     break;
 
@@ -646,6 +648,7 @@ function loadNotificacion(mode = '') {
 function getNotificaciones(mode) {
     return new Promise((resolve, reject) => {
         if (!docsNotiReq) {
+            console.info("Definiendo docsNotiReq");
             docsNotiReq = FB_DB.collection("notification").orderBy("fecha", "desc").limit(limitNoti);
         }
 
@@ -714,10 +717,6 @@ function getNotificaciones(mode) {
                 setWarnEmpty(true);
             }
         })
-
-
-
-
 
 
     })
@@ -891,11 +890,11 @@ function genCardNotis(mode) {
 
                 document.getElementById("notis").appendChild(divMain);
             })
-        }else{
-
+        }else if(mode != "more"){
+            console.log("else genCard");
+            setWarnEmpty(true);
         }
         
-        setWarnEmpty(true);
         hideLoadingCard();
     })
 }

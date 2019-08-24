@@ -544,11 +544,11 @@ p.indent{
   
   .container{
       visibility: hidden;
-      animation: fadein 600ms cubic-bezier(.89, .05, .8, .9) forwards;
+      animation: fadein 450ms cubic-bezier(.89, .05, .8, .9) forwards;
   }
 
-  .row.view{
-    animation: fadein 400ms cubic-bezier(.89, .05, .8, .9) forwards;
+  .row.view, .card-columns.view{
+    animation: fadein 300ms cubic-bezier(.89, .05, .8, .9) forwards;
     }
 
 

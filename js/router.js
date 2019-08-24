@@ -1,4 +1,5 @@
 let mainContainer;
+let actualView = '';
 
 
 window.addEventListener("hashchange", hashChange, false);
@@ -6,7 +7,8 @@ window.addEventListener("hashchange", hashChange, false);
 function hashChange() {
     mainContainer = document.getElementById('mainContainer');
     console.info("HASH CAMBIO ", location.hash.replace("#/", ""));
-    setViewTemplate(location.hash.replace("#/", ""));
+    actualView = location.hash.replace("#/", "")
+    setViewTemplate(actualView);
 }
 
 function getTemplate(nameView) {
