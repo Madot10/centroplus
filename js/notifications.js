@@ -68,11 +68,13 @@ function testNotificacion(){
 }
 
 function sendNotification(){
+    msgSnack('<div class="spinner-border text-light spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div> Enviando...');
     FB_DB.collection('notification')
         .add(genObjNoti())
     .then(function (docRef) {
         console.log(genObjNoti());
         console.log("Notificacion enviada: ", docRef.id);
+        msgSnack('¡Enviado! <i class="fas fa-check"></i>');
     })
     .catch(function (error) {
         console.error("Error adding document: ", error);
