@@ -1,24 +1,18 @@
 # Centro+
 
-**TO-DO**
-_Acá va un párrafo que describa lo que es el proyecto_
+Aplicación Web Progresiva (PWA) de Centros de Estudiantes UCAB para extender funcionalidades.
 
-## Comenzando 🚀
-
-**TO-DO**
-_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
-
+Con una visión para conectar al estudiantado y ofrecer utilidades.
 
 ## Construido con 🛠️
 
-**TO-DO**
-_Menciona las herramientas que utilizaste para crear tu proyecto_
+_Herramientas utilizadas para crear Centro+_
 
 * [Bootstrap](https://getbootstrap.com/) - Para estilos y funcionalidades de UI
+* JavaScript - Css - Html
+* [Firebase](https://firebase.google.com) - Funcionalidades Backend
 
-## Autores ✒️
-
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
+## Autor ✒️
 
 * **Miguel De Olim** - *Desarrollador principal* - [madot10](https://github.com/Madot10)
 
