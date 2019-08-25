@@ -2,7 +2,6 @@
   "name": "Centro+ Economia",
   "short_name": "C+ Economia",
   "description": "Extender funcionalidades de Centro de Estudiantes de la comunidad ucabista",
-  "start_url": "index.html",
   "display": "standalone",
   "lang": "Spanish; Castilian",
   "background_color": "#ffffff",
@@ -24,5 +23,6 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#ffffff"
+  "theme_color": "#ffffff",
+  "start_url": "/?utm_source=pwaC&utm_medium=homescreen&utm_campaign=pwaC"
 }
