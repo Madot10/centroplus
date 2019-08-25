@@ -129,6 +129,16 @@ function setWarnEmpty(state) {
     }
 }
 
+function togglerSpiner(turnto){
+    if(turnto){
+        document.getElementById('check-save').style.display = "none";
+        document.getElementById('spiner-save').style.display = "inline-block";
+    }else{
+        document.getElementById('check-save').style.display = "inline-block";
+        document.getElementById('spiner-save').style.display = "none";
+    }
+}
+
 //#region SW
 // Check compatibility for the browser we're running this in
 if ("serviceWorker" in navigator) {

@@ -154,6 +154,7 @@ FB_CM.onTokenRefresh(() => {
 //Generamos doc para guardar en DB
 function SaveRegToDB(mode = '') {
     let dat = {};
+    togglerSpiner(true);
     getTokenUser().then(resp => {
         //Noti aceptadaas
         console.log("RUN SAVE-REG ACEPT");
@@ -167,6 +168,7 @@ function SaveRegToDB(mode = '') {
                     topics: getFormTopic()
                 };
             } else {
+                togglerSpiner(false); //no le toca
                 dat = {
                     susState: true,
                     susDate: new Date(),
@@ -204,6 +206,7 @@ function SaveRegToDB(mode = '') {
         FB_DB.collection('users')
             .doc(FB_AUTH.currentUser.email).set(dat, { merge: true })
             .then(function (docRef) {
+                togglerSpiner(false);
                 console.log("Document written with ID: ", docRef);
                 msgSnack('¡Guardado! <i class="fas fa-check"></i>');
             })
@@ -224,7 +227,8 @@ function getFormTopic() {
         'finCoor': document.getElementById('finCoor').checked,
         'socialCoor': document.getElementById('socialCoor').checked,
         'depCoor': document.getElementById('depCoor').checked,
-        'centroEst': document.getElementById('centroEst').checked
+        'centroEst': document.getElementById('centroEst').checked,
+        'ucab': document.getElementById('notiState').checked
     }
 }
 
