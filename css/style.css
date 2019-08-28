@@ -289,7 +289,7 @@ hr.hrwo{
 
 @media (min-width: 1200px) { 
     .card-columns, .noti-card{
-        column-count: 5 !important;
+        column-count: 3 !important;
     }
 }
 /*#endregion */
@@ -545,6 +545,14 @@ p.indent{
 .card-columns.noti-card{
     column-count: 1 ;
 }
+
+/*#region Notis*/
+
+.btn-outline-info.woborder{
+    border: none !important;
+}
+
+/*#endregion*/
 
 
 /*#region ADMIN */

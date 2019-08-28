@@ -632,7 +632,6 @@ let notiStatus = true;
 const limitNoti = 10;
 
 
-
 function loadNotificacion(mode = '') {
     //Optimizacion => Cuando ya no haya mas hacia abajo!
     if (notiStatus) {
@@ -858,7 +857,7 @@ function genCardNotis(mode) {
 
                 //Footer => Buttons
                 let divFooter = document.createElement("div");
-                divFooter.setAttribute("class", "card-footer");
+                divFooter.setAttribute("class", ".card-footer");
 
                 let divButton = document.createElement("div");
                 divButton.setAttribute("class", "btn-group btn-block");
@@ -868,7 +867,7 @@ function genCardNotis(mode) {
                 if (noti.webpush.notification.click_action) {
 
                     let aLink = document.createElement("a");
-                    aLink.setAttribute("class", "btn btn-outline-info");
+                    aLink.setAttribute("class", "btn btn-outline-info woborder");
                     aLink.setAttribute("role", "button");
                     aLink.setAttribute("href", noti.webpush.notification.click_action);
                     aLink.innerHTML = '<i class="fas fa-link"></i>';
@@ -877,7 +876,7 @@ function genCardNotis(mode) {
                 }
 
                 let btnShare = document.createElement("button");
-                btnShare.setAttribute("class", "btn btn-outline-info");
+                btnShare.setAttribute("class", "btn btn-outline-info woborder");
                 btnShare.setAttribute("type", "button");
                 let daat = JSON
                     .stringify(
