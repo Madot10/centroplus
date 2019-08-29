@@ -294,6 +294,11 @@ function linkSrcDrive(urlshare) {
         let aurl = nurl.split('/');
         console.log('aurl', aurl);
         return "https://docs.google.com/uc?id=" + aurl[3];
+    }else if(urlshare.includes("drive.google.com/open?id=")){
+        let nurl = urlshare.replace('https://', ' ');
+        let aurl = nurl.split('?id=');
+        console.log('aurl', aurl);
+        return "https://docs.google.com/uc?id=" + aurl[1];
     }
     return urlshare
 }

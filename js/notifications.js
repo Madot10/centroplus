@@ -32,7 +32,7 @@ function genObjNoti(){
     //Url imagen
     let urlImg = "";
     if(document.getElementById('ulrImgInput').value != ""){
-        urlImg = document.getElementById('ulrImgInput').value;
+        urlImg = linkSrcDrive(document.getElementById('ulrImgInput').value);
     }
 
     return nOptions = {
