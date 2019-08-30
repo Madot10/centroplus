@@ -65,7 +65,7 @@ function getTokenUser() {
 
                     }).catch(function (err) {
                         console.log('Unable to retrieve refreshed token ', err);
-                        reject(false)
+                        reject('red');
                         //showToken('Unable to retrieve refreshed token ', err);
                     });
             })
@@ -197,14 +197,22 @@ function SaveRegToDB(mode = '') {
 
         }
     }).catch(rejec => {
-        //Notificaciones rechazadas
-        console.log("RUN SAVE-REG RECH/1er");
-        dat = {
-            susState: false,
-            susDate: new Date(),
-            email: FB_AUTH.currentUser.email,
-            uid: FB_AUTH.currentUser.uid
-        };
+
+        if(rejec == "red"){
+            //PROBLEMA DE RED
+            console.log("RUN SAVE-REG RED_Problem => Reintentando");
+            msgSnack('Error de red! <br> Ve a configuración');
+        }else{
+            //Notificaciones rechazadas
+            console.log("RUN SAVE-REG RECH/1er");
+            dat = {
+                susState: false,
+                susDate: new Date(),
+                email: FB_AUTH.currentUser.email,
+                uid: FB_AUTH.currentUser.uid
+            };
+        }
+       
 
     }).finally(() => {
         console.log("DataToSave", dat);
