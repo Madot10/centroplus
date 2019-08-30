@@ -23,6 +23,12 @@ img.w100{
     width: 100%
 }
 
+@media (min-width: 768px){
+    img.w100{
+        width: 50%
+    } 
+}
+
 .div-w100{
     width: 100%;
 }

@@ -22,12 +22,12 @@ const precacheFiles = [
   '/templates/salones.html?v=201',
   '/templates/voluntariado.html?v=201',
   /* STYLES */
-  '/css/conf.css?v=6',
-  '/css/login.css?v=6',
-  '/css/place-holder.css?v=6',
-  '/css/prof.css?v=6',
-  '/css/style.css?v=6',
-  '/css/snack.css?v=6',
+  '/css/conf.css?v=601',
+  '/css/login.css?v=601',
+  '/css/place-holder.css?v=601',
+  '/css/prof.css?v=601',
+  '/css/style.css?v=601',
+  '/css/snack.css?v=601',
   /* JS */
   '/js/dbsave.js?v=105',
   '/js/element.js?v=105',
