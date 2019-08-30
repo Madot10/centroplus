@@ -239,12 +239,16 @@ function setFormTopic(){
             let topics = userData.topics;
 
             for(let ntopic in topics){
-                if(ntopic != 'ucab')
+                if(ntopic != 'ucab'){
                     document.getElementById(ntopic).checked = topics[ntopic];
+                }else if(ntopic == 'ucab'){
+                    document.getElementById('notiState').checked = topics[ntopic];
+                }
+                    
             }
 
             //SusState
-            document.getElementById('notiState').checked = userData.susState;
+            //document.getElementById('notiState').checked = userData.susState;
             setLoader(false);
             setVisibility(true);
         });
