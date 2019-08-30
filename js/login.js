@@ -90,7 +90,7 @@ function checkAccess() {
 
                         user.email == adminEmail ? resolve('adminMode') : resolve(true);
 
-                    }else if(!user.email.includes('ucab.edu.ve')){
+                    }else if(!user.email.includes('ucab.edu.ve') && user.email != adminEmail){
                         //NoDB por noUCAB
                         //Rebotar/Pedir login
                         console.log("NoDB NoUCab", false, user);
