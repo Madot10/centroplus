@@ -1,13 +1,13 @@
 // Your web app's Firebase configuration
-var firebaseConfig = {
-    apiKey: "AIzaSyCEcuzGwlXFZpXnpEi2HuofhfsmwKwA51E",
-    authDomain: "centro-plus.firebaseapp.com",
-    databaseURL: "https://centro-plus.firebaseio.com",
-    projectId: "centro-plus",
-    storageBucket: "",
-    messagingSenderId: "818379002482",
-    appId: "1:818379002482:web:117fdfd2efa6f938"
-};
+const firebaseConfig = {
+    apiKey: "AIzaSyBZXR-1V1nFldVV0oqPkSnls1SkErH0w-8",
+    authDomain: "centro-eco.firebaseapp.com",
+    databaseURL: "https://centro-eco.firebaseio.com",
+    projectId: "centro-eco",
+    storageBucket: "centro-eco.appspot.com",
+    messagingSenderId: "23828139838",
+    appId: "1:23828139838:web:b6626f2f3d76f5ee"
+  };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 var provider = new firebase.auth.GoogleAuthProvider();
