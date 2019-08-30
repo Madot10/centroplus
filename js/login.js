@@ -1,4 +1,4 @@
-const adminEmail = 'centro.economia.ucab@gmail.com'; // ;)
+const adminEmail = 'migueldeolim1@gmail.com'; // ;)
 
 function msgSnack(mesg) {
     // Get the snackbar DIV

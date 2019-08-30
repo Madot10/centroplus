@@ -1,6 +1,6 @@
-const dbId = '10tU4O-yzGQL6SP8c00YtooDCghNTEfieLfy98jjNcfg';
+const dbId = '1eKkBkgUsMM62K6Pyl04z4YOElJQHn5OJ8AevhXR-N_Y';
 const imgDefault = '/media/default.png';
-const urlApp = 'cedeconomia.github.io/';
+const urlApp = 'localhost/';
 
 const timeLimit = 2 * 60 * 1000; //2min
 const timeNotiLimit = 2 * 60 * 1000; //2min
