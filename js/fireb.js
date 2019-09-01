@@ -73,7 +73,7 @@ function getTokenUser() {
             reject(false);
         } else {
             //No se ha preguntado
-            reject(false);
+            reject("ask");
         }
 
     });
@@ -202,6 +202,10 @@ function SaveRegToDB(mode = '') {
             //PROBLEMA DE RED
             console.log("RUN SAVE-REG RED_Problem => Reintentando");
             msgSnack('Error de red! <br> Ve a configuración');
+        }else if(rejec == "ask" && actualView == "configuracion"){
+            //Preguntar notificacioens
+            if(actualView == "configuracion")
+            suscribirse();
         }else{
             //Notificaciones rechazadas
             console.log("RUN SAVE-REG RECH/1er");
@@ -215,9 +219,11 @@ function SaveRegToDB(mode = '') {
        
 
     }).finally(() => {
-        console.log("DataToSave", dat);
+        console.log("DataToSave", dat); 
+        //Si dat no vacio
+        if(!(Object.keys(dat).length === 0 && dat.constructor === Object)){
 
-        FB_DB.collection('users')
+            FB_DB.collection('users')
             .doc(FB_AUTH.currentUser.email).set(dat, { merge: true })
             .then(function (docRef) {
                 if(actualView == "configuracion")
@@ -230,6 +236,8 @@ function SaveRegToDB(mode = '') {
                 console.error("Error adding document: ", error);
                 msgSnack('Error de red, vuelva a intentar');
             })
+        }
+       
     });
 
 
