@@ -4,10 +4,8 @@ const urlApp = 'localhost/';
 
 const timeLimit = 2 * 60 * 1000; //2min
 const timeNotiLimit = 2 * 60 * 1000; //2min
-const timeRegLimit = 1 * 60 * 60 * 1000; //1h
 
 //checkAccess();
-
 
 window.onload = () => {
     console.time("loadView");
