@@ -5,7 +5,37 @@ const urlApp = 'localhost/';
 const timeLimit = 2 * 60 * 1000; //2min
 const timeNotiLimit = 2 * 60 * 1000; //2min
 
-//checkAccess();
+const DEBUG = false;
+
+if (!DEBUG) {
+    // define a new console out DEBUG
+    var console = (function (oldCons) {
+        return {
+            log: function (text) {
+                //DISABLE
+                //oldCons.log(text);
+            },
+            info: function (text) {
+                oldCons.info(text);
+            },
+            warn: function (text) {
+                oldCons.warn(text);
+            },
+            error: function (text) {
+                oldCons.error(text);
+            },
+            time: function(text){
+                //oldCons.time(text);
+            },
+            timeEnd: function(text){
+                //oldCons.timeEnd(text);
+            }
+        };
+    }(window.console));
+
+    window.console = console;
+}
+
 
 window.onload = () => {
     console.time("loadView");
@@ -25,6 +55,10 @@ window.onscroll = function (e) {
     }
 
 };
+
+function isApple() {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+}
 
 function loadview() {
     console.time("checkAccess");
@@ -72,7 +106,8 @@ function loadview() {
                         if (rest == 'first') {
                             console.log("Menu 1er vez");
                             SaveRegToDB();
-                            $('#notiModal').modal('show');
+                            if (!isApple())
+                                $('#notiModal').modal('show');
                         }
                         break;
 
@@ -102,17 +137,17 @@ function setVisibility(turnto) {
     if (turnto) {
         //Volvemos visible
         document.getElementsByClassName('container')[0].style.visibility = 'visible';
-        for(let i = 0; i < eMport.length; i++){
-             eMport[i].style.visibility = 'visible';
-         }
+        for (let i = 0; i < eMport.length; i++) {
+            eMport[i].style.visibility = 'visible';
+        }
         //document.body
     } else {
         //Hidden
         //document.body.style.visibility = 'hidden';
         document.getElementsByClassName('container')[0].style.visibility = 'hidden';
-        for(let i = 0; i < eMport.length; i++){
-             eMport[i].style.visibility = 'hidden';
-         }
+        for (let i = 0; i < eMport.length; i++) {
+            eMport[i].style.visibility = 'hidden';
+        }
     }
 }
 
@@ -127,11 +162,11 @@ function setWarnEmpty(state) {
     }
 }
 
-function togglerSpiner(turnto){
-    if(turnto){
+function togglerSpiner(turnto) {
+    if (turnto) {
         document.getElementById('check-save').style.display = "none";
         document.getElementById('spiner-save').style.display = "inline-block";
-    }else{
+    } else {
         document.getElementById('check-save').style.display = "inline-block";
         document.getElementById('spiner-save').style.display = "none";
     }
@@ -142,7 +177,7 @@ function togglerSpiner(turnto){
 if ("serviceWorker" in navigator) {
     if (navigator.serviceWorker.controller) {
         console.log("[PWA Builder] active service worker found, no need to register");
-    } else if(location.pathname == "/"){
+    } else if (location.pathname == "/") {
         // Register the service worker
         navigator.serviceWorker
             .register("/sw-centro.js", {
@@ -292,7 +327,7 @@ function linkSrcDrive(urlshare) {
         let aurl = nurl.split('/');
         console.log('aurl', aurl);
         return "https://docs.google.com/uc?id=" + aurl[3];
-    }else if(urlshare.includes("drive.google.com/open?id=")){
+    } else if (urlshare.includes("drive.google.com/open?id=")) {
         let nurl = urlshare.replace('https://', ' ');
         let aurl = nurl.split('?id=');
         console.log('aurl', aurl);

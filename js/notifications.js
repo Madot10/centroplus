@@ -19,7 +19,13 @@ function getTargetTopics(){
         }
     }
     console.log(values);
-    return values + ")";
+    if(values != ""){
+        msgSnack('<div class="spinner-border text-light spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div> Enviando...');
+        return values + ")";
+    }else{
+        alert("Debes seleccionar un grupo destino!");
+    }
+       
 }
 
 function genObjNoti(){
@@ -68,7 +74,6 @@ function testNotificacion(){
 }
 
 function sendNotification(){
-    msgSnack('<div class="spinner-border text-light spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div> Enviando...');
     FB_DB.collection('notification')
         .add(genObjNoti())
     .then(function (docRef) {
