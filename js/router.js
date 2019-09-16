@@ -36,6 +36,9 @@ function setViewTemplate(nameView = "") {
     return new Promise((resolve, reject) => {
         //setLoader(true);
         titleChanger();
+        actualView == "" ? OnClickGa('viewLoad', "INICIO") : OnClickGa('viewLoad', actualView.toUpperCase());
+        
+        //console.log("viewLoad ",actualView.toUpperCase())
         setWarnEmpty(false);
         //setVisibility(false);
         getTemplate(nameView).then(html => {
@@ -72,3 +75,20 @@ function titleChanger(){
     }
     
 }
+
+function OnClickGa(act, typeInter , lb){
+    //si existe etiqueta hacer:
+    if(lb){
+        //console.log('enter');
+        gtag('event', act, {
+            'event_category': typeInter,
+            'event_label': lb
+          });
+    }else{
+        //console.log('not enter');
+        gtag('event', act, {
+            'event_category': typeInter 
+          });
+    }
+    
+  }
