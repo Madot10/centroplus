@@ -205,7 +205,6 @@ function isRegister(){
                     console.warn("Error getting document:", error);
 
                     if(error.message.indexOf("client is offline") != -1){
-                        console.warn("Resolviendo por aqui");
                         resolve(400); 
                     }
                     resolve(false);
