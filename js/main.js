@@ -5,7 +5,7 @@ const urlApp = 'localhost/';
 const timeLimit = 2 * 60 * 1000; //2min
 const timeNotiLimit = 2 * 60 * 1000; //2min
 
-const DEBUG = false;
+const DEBUG = true;
 
 if (!DEBUG) {
     // define a new console out DEBUG
@@ -98,6 +98,7 @@ function loadview() {
                         break;
 
                     case '':
+                        updateSWcache();
                         document.getElementById("mainbtn").classList.add("active-opt");
                         if (rest == "adminMode") {
                             document.getElementById("card-admin").style.display = "block";

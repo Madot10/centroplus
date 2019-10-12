@@ -110,7 +110,19 @@ function updateSW() {
             reject('permission def/den');
         }
     })
+}
 
+function updateSWcache(){
+    if ('serviceWorker' in navigator) {
+        //console.log("Updating");
+        navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/firebase-cloud-messaging-push-scope' })
+            .then(function (swReg) {
+                console.log('Updating')
+                swReg.update();
+            });
+    } else {
+        console.log("SW Dont support");
+    }
 }
 
 

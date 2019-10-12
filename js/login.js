@@ -77,7 +77,22 @@ function checkAccess() {
                 console.time("isRegister");
                 isRegister().then((status)=>{
                     console.timeEnd("isRegister");  
-                    if(status){
+                    if(status == 400){
+                        //No conexion y cred no guardada
+                        if(window.location.pathname.includes('/')){
+                            //Estamos en menu
+                           
+                            setDataUser(user.email);
+
+                            setVisibility(true);
+                            setLoader(false);
+
+                            resolve(true);
+                        }else{
+                            //Mandamos a menu
+                            window.location.replace('/');
+                        } 
+                    }else if(status){
                         //Registrado en DB ucab => TODO OK
 
                         if(window.location.pathname.includes('/admin') && user.email != adminEmail){
@@ -100,7 +115,7 @@ function checkAccess() {
                         //NoDB por 1er vez
                         if(window.location.pathname.includes('/')){
                             //Estamos en menu
-                            console.log("NoDB 1er");
+                            console.log("NoDB 1er ", cod);
                             setDataUser(user.email);
 
                             setVisibility(true);
@@ -187,7 +202,12 @@ function isRegister(){
                         //No hay
                     }
                 }).catch(function(error) {
-                    console.log("Error getting document:", error);
+                    console.warn("Error getting document:", error);
+
+                    if(error.message.indexOf("client is offline") != -1){
+                        console.warn("Resolviendo por aqui");
+                        resolve(400); 
+                    }
                     resolve(false);
                 });
             }else{
