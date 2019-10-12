@@ -5,7 +5,7 @@ const urlApp = 'localhost/';
 const timeLimit = 2 * 60 * 1000; //2min
 const timeNotiLimit = 2 * 60 * 1000; //2min
 
-const DEBUG = true;
+const DEBUG = false;
 
 if (!DEBUG) {
     // define a new console out DEBUG
