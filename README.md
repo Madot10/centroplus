@@ -4,6 +4,7 @@ Aplicación Web Progresiva (PWA) de Centros de Estudiantes UCAB para extender fu
 Con una visión para conectar al estudiantado y ofrecer utilidades.
 
 Link a [Centro+ (VUE)](https://ceingenieria.github.io/)
+
 Link a [Repositorio V. VUE](https://github.com/ceingenieria/ceingenieria.github.io)
 
 ## Construido con 🛠️
