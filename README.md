@@ -1,4 +1,4 @@
-# Centro+
+# Centro+ (Vanilla)
 
 Aplicación Web Progresiva (PWA) de Centros de Estudiantes UCAB para extender funcionalidades.
 
